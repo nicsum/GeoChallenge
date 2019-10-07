@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/start_game_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textSize="35sp"
+        android:layout_gravity="center"
+        android:text="@string/start_game"
+
+        />
+
+</FrameLayout>
