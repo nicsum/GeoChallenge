@@ -7,7 +7,8 @@ import com.example.geochallenge.R
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    fun getLayout(): Int = R.layout.ac_base
+    @Override
+    open fun getLayout(): Int = R.layout.ac_menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

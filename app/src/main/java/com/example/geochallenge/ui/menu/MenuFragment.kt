@@ -1,5 +1,6 @@
 package com.example.geochallenge.ui.menu
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.geochallenge.R
+import com.example.geochallenge.ui.game.GameActivity
 
 class MenuFragment : Fragment() {
 
@@ -24,7 +26,8 @@ class MenuFragment : Fragment() {
     }
 
     fun startGame(){
-        Toast.makeText(context, "start game", Toast.LENGTH_SHORT).show()
+        val intent = Intent(context, GameActivity::class.java)
+        activity?.startActivity(intent)
     }
 
 

@@ -1,10 +1,22 @@
 package com.example.geochallenge.ui.game
 
-import androidx.fragment.app.Fragment
-import com.example.geochallenge.common.BaseActivity
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.example.geochallenge.R
 
-class GameActivity : BaseActivity() {
-    override fun getStartFragment(): Fragment {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+class GameActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.ac_game)
+
     }
+
+
+//    fun changeFragmant(newFragment: Fragment){
+//        supportFragmentManager
+//            .beginTransaction()
+//            .add(R.id.map_container, newFragment)
+//            .commit()
+//    }
 }
