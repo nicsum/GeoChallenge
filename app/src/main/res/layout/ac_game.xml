@@ -14,7 +14,7 @@
         />
 
     <FrameLayout
-        android:id="@+id/info_game_container"
+        android:id="@+id/game_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

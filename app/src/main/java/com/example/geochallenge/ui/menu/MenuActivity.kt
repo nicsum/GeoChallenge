@@ -17,12 +17,12 @@ class MenuActivity : AppCompatActivity(){
 
         if(fragment == null){
             fragment = MenuFragment()
-            changeFragmant(fragment)
+            changeFragment(fragment)
         }
 
     }
 
-    fun changeFragmant(newFragment: Fragment){
+    private fun changeFragment(newFragment: Fragment){
         supportFragmentManager
             .beginTransaction()
             .add(R.id.container, newFragment)
