@@ -46,8 +46,6 @@ class GameViewModel: ViewModel() {
 
     }
 
-
-
     fun newTask(){
         var task = taskService.nextTask()
         if(task == null){

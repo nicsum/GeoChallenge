@@ -1,26 +1,23 @@
 package com.example.geochallenge.ui.game
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.geochallenge.game.Task
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlin.reflect.KFunction0
+import java.util.ArrayList
+
 
 class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     var map: GoogleMap? = null
+    var positionsMarkets : ArrayList<LatLng> = ArrayList()
     lateinit var viewModel: GameViewModel
 
     override fun onCreate(p0: Bundle?) {
@@ -41,8 +38,17 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
         viewModel.clickedPositions.observe(this, Observer {it?.let { addMarks(it.first, it.second) }
         })
         viewModel.taskCompeted.observe(this, Observer {
-            if(it) map?.setOnMapClickListener(null)
-            else map?.setOnMapClickListener(this) })
+            if(it) {
+                map?.setOnMapClickListener(null)
+                map?.setOnMarkerClickListener { false}
+                viewModel.currentTask.value?.let{showAnswer(it)}
+            }
+            else {
+                map?.setOnMapClickListener(this)
+                map?.setOnMarkerClickListener { true}
+                positionsMarkets.clear()
+                showStartPosition()
+            }  })
     }
 
     override fun onMapReady(map: GoogleMap?) {
@@ -60,8 +66,47 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
     }
 
     fun addMarks(position: LatLng?, distance: String?){
-        map?.addMarker(position?.let { MarkerOptions().position(it).title(distance) })
+        map?.addMarker(position?.let {
+            positionsMarkets.add(it)
+            MarkerOptions().position(it).title(distance)
+        })
 
+    }
+    private fun showStartPosition(){
+        val defaultPosition = LatLng(0.0, 0.0)
+        val location = CameraUpdateFactory.newLatLngZoom(defaultPosition, 1.0f) // вынести переменную
+        map?.animateCamera(location)
+    }
+
+    private fun showAnswer(task: Task){
+        val answerPosition = LatLng(task.latitude, task.longitude)
+        val answerMarket = MarkerOptions()
+            .position(answerPosition)
+            .title(task.name)
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+
+        map?.let{
+            it.addMarker(answerMarket)
+            positionsMarkets.add(answerPosition)
+            zoomMarkets(positionsMarkets)
+        }
+//        zoomMarkets(positionsMarkets)
+//        val location = CameraUpdateFactory.newLatLngZoom(answerPosition, 3.0f) //вынести переменную
+
+
+    }
+
+    private fun zoomMarkets(positionsMarkets : List<LatLng>){
+
+        if(positionsMarkets.size == 1){
+            map?.moveCamera(CameraUpdateFactory.newLatLngZoom(positionsMarkets[0], 3.0f))
+        }else{
+            val builder = LatLngBounds.Builder()
+            positionsMarkets.forEach{ builder.include(it) }
+            val padding = 200
+            val cu =  CameraUpdateFactory.newLatLngBounds(builder.build(), padding)
+            map?.animateCamera(cu)
+        }
     }
 
 }
