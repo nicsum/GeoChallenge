@@ -20,7 +20,9 @@ class MenuFragment : Fragment() {
         val view = inflater.inflate(R.layout.fr_menu, container, false)
         startGameButton = view.findViewById(R.id.start_game_btn)
         startGameButton.setOnClickListener { startGame()}
-
+        val i = 1
+        val j = 2
+        i.compareTo(j)
         return view
     }
 

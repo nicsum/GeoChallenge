@@ -1,43 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:layout_margin="15dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Надите Москву"
-
-        android:textSize="20sp"/>
+    android:layout_margin="8dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
         >
 
         <TextView
-
+            android:id="@+id/currentPointsText"
             android:layout_width="wrap_content"
-            android:text="До Москвы: "
             android:layout_height="wrap_content"
-            android:textSize="20sp"/>
+            tools:text="За это задание у вас 200000 очков"
+            android:textSize="18sp"
+            />
 
         <TextView
-            android:id="@+id/distance"
+            android:id="@+id/gamePointsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:textSize="20sp"
-            android:layout_marginStart="4dp" />
+            tools:text="Всего у вас 10000000 очков"
+            android:textSize="18sp"
+            />
+
     </LinearLayout>
 
 
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
 
+        <TextView
+            android:id="@+id/cityNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Надите Москву"
+
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/distanceText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textSize="18sp"
+            tools:text="До города: "
+             />
+        <TextView
+            android:id="@+id/timerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textSize="18sp"
+            tools:text="у вас осталось 5 сек.: "
+            />
+
+        <Button
+            android:id="@+id/nextCityBtn"
+            android:text="Следующий город"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
 
 
 </LinearLayout>
