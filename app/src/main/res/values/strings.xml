@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">GeoChallenge</string>
     <string name="start_game">Играть</string>
+    <string name="table_records">Таблица рекордов</string>
 </resources>

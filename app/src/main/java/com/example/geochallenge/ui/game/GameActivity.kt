@@ -1,16 +1,14 @@
 package com.example.geochallenge.ui.game
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.geochallenge.R
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.maps.android.SphericalUtil
+import com.example.geochallenge.ui.records.RecordsActivity
+
 
 class GameActivity : AppCompatActivity() {
 
@@ -22,6 +20,15 @@ class GameActivity : AppCompatActivity() {
         setContentView(R.layout.ac_game)
 
         isFirstStartActivity = savedInstanceState == null
+
+        val viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
+        viewModel.gameFinished.observe(this , Observer {
+            if(it){
+                Toast.makeText(this, "Игра окончена", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, RecordsActivity::class.java))
+                finish()
+            }
+        })
 //        if (savedInstanceState == null){
 //            val mapFragment: SupportMapFragment = supportFragmentManager
 //                .findFragmentById(R.id.map) as SupportMapFragment
@@ -39,7 +46,18 @@ class GameActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if(isFirstStartActivity)  ViewModelProviders.of(this).get(GameViewModel::class.java).newGame()
+        if(isFirstStartActivity)
+            ViewModelProviders.of(this).get(GameViewModel::class.java).newGame()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        isFirstStartActivity = false
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        ViewModelProviders.of(this).get(GameViewModel::class.java).finishGame()
     }
 
     //OnMapReadyCallback

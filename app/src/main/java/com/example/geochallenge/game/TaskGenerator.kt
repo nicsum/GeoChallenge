@@ -18,7 +18,7 @@ class TaskGenerator :TaskService{
             .addTask("Тунис", 36.81897, 10.16579)
 
 
-        iterator =  tasks.iterator()
+        iterator = tasks.iterator()
 
     }
 

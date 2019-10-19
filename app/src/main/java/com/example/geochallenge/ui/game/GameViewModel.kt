@@ -2,6 +2,8 @@ package com.example.geochallenge.ui.game
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.geochallenge.AppDelegate
+import com.example.geochallenge.game.Record
 import com.example.geochallenge.game.Task
 import com.example.geochallenge.game.TaskGenerator
 import com.example.geochallenge.game.TaskService
@@ -17,10 +19,12 @@ import java.util.concurrent.TimeUnit
 class GameViewModel: ViewModel() {
 
     companion object {
-        const val COUNT_TIMER : Long = 10
+        const val COUNT_TIMER : Long = 3
     }
 
-    var taskService : TaskService = TaskGenerator()
+    private var taskService : TaskService = TaskGenerator()
+
+    var isMapClear: MutableLiveData<Boolean> = MutableLiveData()
 
     var currentTask : MutableLiveData<Task> = MutableLiveData()
     var currentTaskPoints : MutableLiveData<Int> = MutableLiveData()
@@ -37,7 +41,7 @@ class GameViewModel: ViewModel() {
     lateinit var timerDisposable: Disposable
 
     fun onClickPosition(position: LatLng){
-
+        isMapClear.postValue(false)
         val newDistance = calculateDistance(position)
         distance.postValue(newDistance)
 
@@ -47,12 +51,12 @@ class GameViewModel: ViewModel() {
     }
 
     fun newTask(){
-        var task = taskService.nextTask()
+        isMapClear.postValue(true)
+        val task = taskService.nextTask()
         if(task == null){
-            taskService = TaskGenerator()
-            task = taskService.nextTask()
+           finishGame()
+            return
         }
-
         currentTask.postValue(task)
         currentTaskPoints.postValue(0)
         distance.postValue(null)
@@ -74,7 +78,6 @@ class GameViewModel: ViewModel() {
         currentTaskPoints.postValue(0)
         clickedPositions.postValue(null)
         distance.postValue(null)
-        taskCompeted.postValue(false)
         gamePoints.postValue(0)
         newTask()
     }
@@ -88,12 +91,17 @@ class GameViewModel: ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .doOnComplete(this::taskComplected)
             .subscribe{timerText.postValue( "$it сек.")}
-
     }
 
     fun finishGame(){
         taskComplected()
         gameFinished.postValue(true)
+
+        gamePoints.value?.let {
+            AppDelegate.recordsStorage.insertRecord(Record(points = it))
+        }
+
+
     }
 
     private fun calculateDistance(position: LatLng):Int?{
@@ -105,7 +113,6 @@ class GameViewModel: ViewModel() {
     }
 
     private fun calculatePoints(distance: Int?): Int{
-
         return  if(distance != null) max(0, 1000 - distance) else 0
     }
 

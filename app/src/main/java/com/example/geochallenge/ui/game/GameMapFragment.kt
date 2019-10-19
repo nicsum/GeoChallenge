@@ -17,7 +17,7 @@ import java.util.ArrayList
 class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     var map: GoogleMap? = null
-    var positionsMarkets : ArrayList<LatLng> = ArrayList()
+    var positionsMarkets : ArrayList<LatLng> = ArrayList() //TODO вынеси во вьюмодел. вообще следует переработать логику, вью модель не должна работать с гуглмаповскими объектами
     lateinit var viewModel: GameViewModel
 
     override fun onCreate(p0: Bundle?) {
@@ -29,24 +29,31 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
     //api 23?
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        viewModel = ViewModelProviders.of(context as FragmentActivity).get(GameViewModel::class.java)
+        viewModel = ViewModelProviders.of(context as GameActivity).get(GameViewModel::class.java)
     }
 
     override fun onActivityCreated(p0: Bundle?) {
         super.onActivityCreated(p0)
-        viewModel.currentTask.observe(this, Observer { clearMap() } )
+        viewModel.isMapClear.observe(this, Observer {
+            if(it){
+                map?.clear()
+
+            }
+        })
         viewModel.clickedPositions.observe(this, Observer {it?.let { addMarks(it.first, it.second) }
         })
         viewModel.taskCompeted.observe(this, Observer {
             if(it) {
                 map?.setOnMapClickListener(null)
                 map?.setOnMarkerClickListener { false}
-                viewModel.currentTask.value?.let{showAnswer(it)}
+                viewModel.currentTask.value?.let{
+                    showAnswer(it)
+                    positionsMarkets.clear()
+                }
             }
             else {
                 map?.setOnMapClickListener(this)
                 map?.setOnMarkerClickListener { true}
-                positionsMarkets.clear()
                 showStartPosition()
             }  })
     }
@@ -61,9 +68,7 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
             viewModel.onClickPosition(position)
         }
     }
-    fun clearMap(){
-        map?.clear()
-    }
+
 
     fun addMarks(position: LatLng?, distance: String?){
         map?.addMarker(position?.let {
@@ -87,8 +92,9 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
 
         map?.let{
             it.addMarker(answerMarket)
-            positionsMarkets.add(answerPosition)
-            zoomMarkets(positionsMarkets)
+            val markets = ArrayList(positionsMarkets)
+            markets.add(answerPosition)
+            zoomMarkets(markets)
         }
 //        zoomMarkets(positionsMarkets)
 //        val location = CameraUpdateFactory.newLatLngZoom(answerPosition, 3.0f) //вынести переменную

@@ -7,7 +7,6 @@ import com.example.geochallenge.R
 
 class MenuActivity : AppCompatActivity(){
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -19,7 +18,6 @@ class MenuActivity : AppCompatActivity(){
             fragment = MenuFragment()
             changeFragment(fragment)
         }
-
     }
 
     private fun changeFragment(newFragment: Fragment){
@@ -28,7 +26,6 @@ class MenuActivity : AppCompatActivity(){
             .add(R.id.container, newFragment)
             .commit()
     }
-
 
 
 }
