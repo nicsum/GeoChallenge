@@ -15,18 +15,18 @@
         >
 
         <TextView
-            android:id="@+id/currentPointsText"
+            android:id="@+id/stillHaveDistanceText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="За это задание у вас 200000 очков"
+            tools:text="У вас осталось 20000 км"
             android:textSize="18sp"
             />
 
         <TextView
-            android:id="@+id/gamePointsText"
+            android:id="@+id/taskCounterText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Всего у вас 10000000 очков"
+            tools:text="Кол-во городов: 1"
             android:textSize="18sp"
             />
 
@@ -57,7 +57,7 @@
             tools:text="До города: "
              />
         <TextView
-            android:id="@+id/timerText"
+            android:id="@+id/stillHaveTimeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 

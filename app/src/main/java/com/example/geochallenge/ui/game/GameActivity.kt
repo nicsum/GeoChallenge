@@ -8,46 +8,53 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.geochallenge.R
 import com.example.geochallenge.ui.records.RecordsActivity
+import kotlin.reflect.KClass
 
 
 class GameActivity : AppCompatActivity() {
 
+    companion object{
+
+        const val TYPE_GAME_KEY = "TYPE_GAME_KEY"
+
+        const val DEFAULT_TYPE_GAME = "DEFAULT_TYPE_GAME"
+        const val DISTANCE_LIMIT_TYPE_GAME = "DISTANCE_LIMIT_TYPE_GAME"
+        const val TIME_LIMIT_TYPE_GAME = "TIME_LIMIT_TYPE_GAME"
+    }
 
     var isFirstStartActivity: Boolean = false
+
+    lateinit var viewModelClass :  KClass<out SimpleGameViewModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ac_game)
-
         isFirstStartActivity = savedInstanceState == null
 
-        val viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
-        viewModel.gameFinished.observe(this , Observer {
+        val typeGame = intent.extras?.getString(TYPE_GAME_KEY) ?: DEFAULT_TYPE_GAME
+
+        viewModelClass = when(typeGame){
+            DEFAULT_TYPE_GAME -> SimpleGameViewModel::class
+            DISTANCE_LIMIT_TYPE_GAME -> DistanceLimitGameViewModel::class
+            TIME_LIMIT_TYPE_GAME  -> TimeLimitGameViewModel::class
+            else -> SimpleGameViewModel::class
+        }
+
+        val viewModel = ViewModelProviders.of(this).get(viewModelClass.java)
+        viewModel.isGameFinished.observe(this , Observer {
             if(it){
                 Toast.makeText(this, "Игра окончена", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, RecordsActivity::class.java))
                 finish()
             }
         })
-//        if (savedInstanceState == null){
-//            val mapFragment: SupportMapFragment = supportFragmentManager
-//                .findFragmentById(R.id.map) as SupportMapFragment
-//
-//            mapFragment.retainInstance = true
-//
-//            supportFragmentManager
-//                .beginTransaction()
-//                .replace(R.id.game_info_container, GameInfoFragment())
-//                .commit()
-//
-//        }
 
     }
 
     override fun onResume() {
         super.onResume()
         if(isFirstStartActivity)
-            ViewModelProviders.of(this).get(GameViewModel::class.java).newGame()
+            ViewModelProviders.of(this).get(viewModelClass.java).newGame()
     }
 
     override fun onPause() {
@@ -57,42 +64,8 @@ class GameActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        ViewModelProviders.of(this).get(GameViewModel::class.java).finishGame()
+        ViewModelProviders.of(this).get(viewModelClass.java).finishGame()
     }
 
-    //OnMapReadyCallback
-//    override fun onMapReady(googleMap: GoogleMap) {
-//        map = googleMap
-//        initMap()
-//
-//    }
 
-//    fun initMap(){
-//        map.setOnMapClickListener {
-//            map.clear()
-//            map.addMarker(MarkerOptions()
-//                .position(it))
-//            updateDistantion(it)
-//        }
-//    }
-
-//    fun updateDistantion(position: LatLng){
-//         val fragment = supportFragmentManager
-//             .findFragmentById(R.id.game_info_container) as GameInfoFragment
-//
-//
-//
-//        fragment.setDistance(distance.toInt()/1000)
-//    }
-
-
-
-
-
-//    fun changeFragmant(newFragment: Fragment){
-//        supportFragmentManager
-//            .beginTransaction()
-//            .add(R.id.map_container, newFragment)
-//            .commit()
-//    }
 }

@@ -3,7 +3,7 @@ package com.example.geochallenge
 import android.app.Application
 import androidx.room.Room
 import com.example.geochallenge.data.GeoChallengeDataBase
-import com.example.geochallenge.records.RecordsStorage
+import com.example.geochallenge.data.records.RecordsStorage
 
 class AppDelegate : Application() {
 

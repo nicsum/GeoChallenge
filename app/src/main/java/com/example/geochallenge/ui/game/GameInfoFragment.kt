@@ -11,66 +11,72 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.geochallenge.R
+import kotlin.reflect.KClass
 
 class GameInfoFragment : Fragment() {
 
-    var viewModel: GameViewModel? = null
     lateinit var distanceTv: TextView
     lateinit var cityNameTv: TextView
-    lateinit var timerTv: TextView
-    lateinit var currentPointsTv: TextView
-    lateinit var gamePointsTv: TextView
+    lateinit var stillHaveTimeTv: TextView
+    lateinit var stillHaveDistanceTv: TextView
+    lateinit var taskCounterTv: TextView
     lateinit var nextCityButton: Button
 
+    lateinit var viewModelClass :  KClass<out SimpleGameViewModel>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
-
         val v = inflater.inflate(R.layout.fr_gameinfo, container, false)
         distanceTv = v.findViewById(R.id.distanceText)
         cityNameTv = v.findViewById(R.id.cityNameText)
-        timerTv = v.findViewById(R.id.timerText)
-        currentPointsTv = v.findViewById(R.id.currentPointsText)
-        gamePointsTv = v.findViewById(R.id.gamePointsText)
+        stillHaveTimeTv = v.findViewById(R.id.stillHaveTimeText)
+        stillHaveDistanceTv = v.findViewById(R.id.stillHaveDistanceText)
+        taskCounterTv = v.findViewById(R.id.taskCounterText)
         nextCityButton = v.findViewById(R.id.nextCityBtn)
 
-        nextCityButton.setOnClickListener{viewModel?.newTask()}
+        val viewModel =  ViewModelProviders.of(context as GameActivity).get(viewModelClass.java)
+
+        nextCityButton.setOnClickListener{ viewModel.nextTask() }
         return v
     }
 
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        viewModel =  ViewModelProviders.of(context as GameActivity).get(GameViewModel::class.java)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel =  ViewModelProviders.of(context as GameActivity).get(GameViewModel::class.java)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        viewModel = null
+        val typeGame = activity?.intent?.getStringExtra(GameActivity.TYPE_GAME_KEY) ?: GameActivity.DEFAULT_TYPE_GAME
+        viewModelClass = when(typeGame){
+            GameActivity.DEFAULT_TYPE_GAME -> SimpleGameViewModel::class
+            GameActivity.DISTANCE_LIMIT_TYPE_GAME -> DistanceLimitGameViewModel::class
+            GameActivity.TIME_LIMIT_TYPE_GAME -> TimeLimitGameViewModel::class
+            else -> SimpleGameViewModel::class
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        val viewModel =  ViewModelProviders.of(context as GameActivity).get(viewModelClass.java)
 
+            viewModel.distance.observe(this,
+                Observer { distanceTv.text = if(it == null) "" else "$it км." })
+            viewModel.currentTask.observe(this,
+                Observer { cityNameTv.text = if(it== null)"" else "Найдите город ${it.name}" })
+            viewModel.isTaskCompleted.observe(this,
+                Observer { nextCityButton.visibility = if(it) View.VISIBLE else View.GONE })
+            viewModel.taskCounter.observe(this,
+                Observer { taskCounterTv.text = "Кол-во городов: $it" })
 
-        viewModel?.let {
-            it.distance.observe(this, Observer { distanceTv.text = if(it == null) "" else "$it км." })
-            it.currentTask.observe(this , Observer { cityNameTv.text = if(it== null)"" else "Найдите город ${it.name}" })
-            it.timerText.observe(this, Observer { timerTv.text = it })
-            it.currentTaskPoints.observe(this, Observer { currentPointsTv.text = "Счет за уровень: ${it ?: 0} очков" })
-            it.gamePoints.observe(this, Observer { gamePointsTv.text = "Итого: ${it?:0} очков" })
-            it.taskCompeted.observe(this, Observer { nextCityButton.visibility = if(it) View.VISIBLE else View.GONE })
+        if (viewModel is DistanceLimitGameViewModel){
+           viewModel.stillHaveDistance.observe(this,
+               Observer { stillHaveDistanceTv.text = "У вас осталось $it км"})
+
         }
 
+        if(viewModel is TimeLimitGameViewModel){
+            viewModel.stillHaveTime.observe(this,
+                Observer { stillHaveTimeTv.text = "У вас осталось $it сек." }
+                )
+        }
 
     }
-
-
 }

@@ -1,10 +1,8 @@
-package com.example.geochallenge.records
+package com.example.geochallenge.data.records
 
 import android.util.Log
 import com.example.geochallenge.data.GeoChallengeDao
 import com.example.geochallenge.game.Record
-import io.reactivex.Completable
-import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

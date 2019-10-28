@@ -1,4 +1,4 @@
-package com.example.geochallenge.records
+package com.example.geochallenge.data.records
 
 import com.example.geochallenge.game.Record
 import io.reactivex.Single
