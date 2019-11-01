@@ -20,6 +20,7 @@ class GameInfoFragment : Fragment() {
     lateinit var stillHaveTimeTv: TextView
     lateinit var stillHaveDistanceTv: TextView
     lateinit var taskCounterTv: TextView
+    lateinit var currentLevelTv: TextView
     lateinit var nextCityButton: Button
 
     lateinit var viewModelClass :  KClass<out SimpleGameViewModel>
@@ -34,6 +35,7 @@ class GameInfoFragment : Fragment() {
         stillHaveTimeTv = v.findViewById(R.id.stillHaveTimeText)
         stillHaveDistanceTv = v.findViewById(R.id.stillHaveDistanceText)
         taskCounterTv = v.findViewById(R.id.taskCounterText)
+        currentLevelTv = v.findViewById(R.id.currentLevelText)
         nextCityButton = v.findViewById(R.id.nextCityBtn)
 
         val viewModel =  ViewModelProviders.of(context as GameActivity).get(viewModelClass.java)
@@ -57,14 +59,16 @@ class GameInfoFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val viewModel =  ViewModelProviders.of(context as GameActivity).get(viewModelClass.java)
 
-            viewModel.distance.observe(this,
+        viewModel.distance.observe(this,
                 Observer { distanceTv.text = if(it == null) "" else "$it км." })
-            viewModel.currentTask.observe(this,
-                Observer { cityNameTv.text = if(it== null)"" else "Найдите город ${it.name}" })
-            viewModel.isTaskCompleted.observe(this,
+        viewModel.currentTask.observe(this,
+                Observer { cityNameTv.text = if(it== null)"" else "Найдите город ${it.city}" })
+        viewModel.isTaskCompleted.observe(this,
                 Observer { nextCityButton.visibility = if(it) View.VISIBLE else View.GONE })
-            viewModel.taskCounter.observe(this,
+        viewModel.taskCounter.observe(this,
                 Observer { taskCounterTv.text = "Кол-во городов: $it" })
+        viewModel.taskLevel.observe(this,
+                Observer {currentLevelTv.text = "Уровень: $it"  })
 
         if (viewModel is DistanceLimitGameViewModel){
            viewModel.stillHaveDistance.observe(this,
@@ -77,6 +81,5 @@ class GameInfoFragment : Fragment() {
                 Observer { stillHaveTimeTv.text = "У вас осталось $it сек." }
                 )
         }
-
     }
 }

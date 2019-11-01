@@ -1,7 +1,6 @@
 package com.example.geochallenge.ui.records
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.geochallenge.R
 

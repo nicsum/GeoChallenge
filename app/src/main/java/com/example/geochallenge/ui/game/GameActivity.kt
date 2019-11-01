@@ -20,6 +20,7 @@ class GameActivity : AppCompatActivity() {
         const val DEFAULT_TYPE_GAME = "DEFAULT_TYPE_GAME"
         const val DISTANCE_LIMIT_TYPE_GAME = "DISTANCE_LIMIT_TYPE_GAME"
         const val TIME_LIMIT_TYPE_GAME = "TIME_LIMIT_TYPE_GAME"
+        const val MULTIPLAYER_TYPE_GAME = "MULTIPLAYER_TYPE_GAME"
     }
 
     var isFirstStartActivity: Boolean = false
@@ -37,6 +38,7 @@ class GameActivity : AppCompatActivity() {
             DEFAULT_TYPE_GAME -> SimpleGameViewModel::class
             DISTANCE_LIMIT_TYPE_GAME -> DistanceLimitGameViewModel::class
             TIME_LIMIT_TYPE_GAME  -> TimeLimitGameViewModel::class
+            MULTIPLAYER_TYPE_GAME  -> MultiplayerViewModel::class
             else -> SimpleGameViewModel::class
         }
 

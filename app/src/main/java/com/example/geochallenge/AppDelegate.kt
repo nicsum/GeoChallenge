@@ -1,17 +1,23 @@
 package com.example.geochallenge
 
-import android.app.Application
+
+import android.content.Context
+import androidx.multidex.MultiDex
+import androidx.multidex.MultiDexApplication
 import androidx.room.Room
 import com.example.geochallenge.data.GeoChallengeDataBase
 import com.example.geochallenge.data.records.RecordsStorage
 
-class AppDelegate : Application() {
+class AppDelegate : MultiDexApplication()  {
 
     companion object{
         lateinit var recordsStorage: RecordsStorage
     }
 
-
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
+    }
 
     override fun onCreate() {
         super.onCreate()

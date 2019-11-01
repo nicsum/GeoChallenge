@@ -6,11 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.geochallenge.game.Task
 import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MarkerOptions
-import java.util.ArrayList
+import com.google.android.gms.maps.model.*
 
 import kotlin.reflect.KClass
 
@@ -35,6 +31,7 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
             GameActivity.DEFAULT_TYPE_GAME -> SimpleGameViewModel::class
             GameActivity.DISTANCE_LIMIT_TYPE_GAME -> DistanceLimitGameViewModel::class
             GameActivity.TIME_LIMIT_TYPE_GAME -> TimeLimitGameViewModel::class
+            GameActivity.MULTIPLAYER_TYPE_GAME -> MultiplayerViewModel::class
             else -> SimpleGameViewModel::class
         }
     }
@@ -102,10 +99,12 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
     }
 
     private fun showAnswer(task: Task, clickedPosition: LatLng){
-        val answerPosition = LatLng(task.latitude, task.longitude)
+        val answerLat = task.Lat ?: return
+        val answerLon = task.lng ?: return
+        val answerPosition = LatLng(answerLat, answerLon)
         val answerMarket = MarkerOptions()
             .position(answerPosition)
-            .title(task.name)
+            .title(task.city)
             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
 
         map?.let{

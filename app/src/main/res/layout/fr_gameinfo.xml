@@ -29,6 +29,14 @@
             tools:text="Кол-во городов: 1"
             android:textSize="18sp"
             />
+        <TextView
+            android:id="@+id/currentLevelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            tools:text="Уровень: 1"
+            android:textSize="18sp"
+            />
 
     </LinearLayout>
 

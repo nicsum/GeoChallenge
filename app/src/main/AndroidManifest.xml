@@ -25,6 +25,8 @@
         </activity>
         <activity android:name=".ui.game.GameActivity" />
         <activity android:name=".ui.records.RecordsActivity" />
+
+        <service android:name=".game.multiplayer.MultiplayerService" />
     </application>
 
 </manifest>

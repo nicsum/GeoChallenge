@@ -3,13 +3,15 @@ package com.example.geochallenge.ui.game
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.geochallenge.game.Task
-import com.example.geochallenge.game.TaskGenerator
+import com.example.geochallenge.game.TaskRepository
 import com.example.geochallenge.game.TaskService
 import com.example.geochallenge.utils.CalculateUtils
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 open class SimpleGameViewModel(val isOneAttemp : Boolean = true)  : ViewModel() {
 
-    private val taskService : TaskService = TaskGenerator()
+    private val taskService : TaskService = TaskRepository()
 
     val isDefaultMapState : MutableLiveData<Boolean> = MutableLiveData()
     val isTaskCompleted: MutableLiveData<Boolean> = MutableLiveData()
@@ -18,6 +20,7 @@ open class SimpleGameViewModel(val isOneAttemp : Boolean = true)  : ViewModel() 
     val currentTask : MutableLiveData<Task> = MutableLiveData()
     val distance : MutableLiveData<Int> = MutableLiveData()
     val taskCounter : MutableLiveData<Int> = MutableLiveData()
+    val taskLevel : MutableLiveData<Int> = MutableLiveData()
 
     init{
         currentTask.observeForever{
@@ -26,23 +29,37 @@ open class SimpleGameViewModel(val isOneAttemp : Boolean = true)  : ViewModel() 
         }
     }
 
-    open fun newGame(){
-        isDefaultMapState.postValue(true)
-        isTaskCompleted.postValue(false)
 
-        val task = taskService.nextTask()
-        if(task == null) finishGame()
-        else currentTask.postValue(task)
+    open fun newGame(){
+            taskService.nextTask()
+            .observeOn(Schedulers.io())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                isDefaultMapState.postValue(true)
+            }
+            .subscribe({
+                currentTask.postValue(it)
+                isTaskCompleted.postValue(false)
+                taskLevel.postValue(it?.level)
+            },{})
+
     }
 
 
     open fun nextTask(){
-        isDefaultMapState.postValue(true)
-        isTaskCompleted.postValue(false)
-        clickedPosition.postValue(null)
-        val task = taskService.nextTask()
-        if(task == null) finishGame()
-        else {currentTask.postValue(task)}
+        taskService.nextTask()
+            .observeOn(Schedulers.io())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                isDefaultMapState.postValue(true)
+                clickedPosition.postValue(null)
+            }
+            .subscribe({
+                currentTask.postValue(it)
+                isTaskCompleted.postValue(false)
+                taskLevel.postValue(it?.level)
+            },{})
+
     }
 
     open fun finishGame(){
@@ -52,13 +69,11 @@ open class SimpleGameViewModel(val isOneAttemp : Boolean = true)  : ViewModel() 
 
     open fun clickedPosition( latitude: Double, longitude: Double){
         isDefaultMapState.postValue(false)
-
-        val task = currentTask.value ?: return
-
+        val currentTaskLat = currentTask.value?.Lat ?: return
+        val currentTaskLon =  currentTask.value?.lng ?: return
         val d = CalculateUtils.calculateDistance(
             Pair(latitude, longitude),
-            Pair(task.latitude, task.longitude)).toInt() / 1000 // m to km
-
+            Pair(currentTaskLat, currentTaskLon)).toInt() / 1000 // m to km
         distance.postValue( d)
         clickedPosition.postValue(Pair(latitude, longitude))
 

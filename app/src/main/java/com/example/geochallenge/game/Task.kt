@@ -1,6 +1,10 @@
 package com.example.geochallenge.game
 
-data class Task(val name:String,
-                val latitude: Double,
-                val longitude: Double
+
+import com.google.firebase.database.PropertyName
+
+data class Task(@PropertyName("city") var city:String? = "",
+                @PropertyName("Lat") var Lat: Double? = 0.0,
+                @PropertyName("lng") var lng: Double? = 0.0,
+                @PropertyName("level") var level: Int? = 0
                 )

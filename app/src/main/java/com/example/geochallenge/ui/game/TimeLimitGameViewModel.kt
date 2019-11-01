@@ -1,15 +1,13 @@
 package com.example.geochallenge.ui.game
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.atomic.AtomicLong
 
-class TimeLimitGameViewModel : SimpleGameViewModel() {
+ class TimeLimitGameViewModel : SimpleGameViewModel() {
 
         companion object {
         const val COUNT_TIMER : Long = 30
@@ -26,10 +24,8 @@ class TimeLimitGameViewModel : SimpleGameViewModel() {
         distance.observeForever{
             val timeBonus = getTimeBonus(it)
             startTimerFromCount(stillHaveTimeLong + timeBonus)
-
         }
     }
-
 
 
     fun startTimerFromCount(count : Long ){
@@ -50,7 +46,6 @@ class TimeLimitGameViewModel : SimpleGameViewModel() {
 
 
     private fun getTimeBonus(distance: Int) = when {
-
 
         distance <= 100 -> 30
         distance <= 200 -> 20
