@@ -1,26 +1,33 @@
 package com.example.geochallenge.ui.game
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.geochallenge.game.Task
-import com.example.geochallenge.game.TaskRepository
-import com.example.geochallenge.game.TaskService
+import com.example.geochallenge.AppDelegate
+import com.example.geochallenge.game.CityTask
+import com.example.geochallenge.data.tasks.TaskService
 import com.example.geochallenge.utils.CalculateUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 open class SimpleGameViewModel(val isOneAttemp : Boolean = true)  : ViewModel() {
 
-    private val taskService : TaskService = TaskRepository()
+    companion object{
+        const val MINIMUM_COUNT_TASKS_FOR_ONE_LEVEL = 8
+    }
+
+    private val taskService : TaskService = AppDelegate.taskStorage
 
     val isDefaultMapState : MutableLiveData<Boolean> = MutableLiveData()
     val isTaskCompleted: MutableLiveData<Boolean> = MutableLiveData()
     val isGameFinished: MutableLiveData<Boolean> = MutableLiveData()
     val clickedPosition: MutableLiveData<Pair<Double, Double>> = MutableLiveData()
-    val currentTask : MutableLiveData<Task> = MutableLiveData()
+    val currentTask : MutableLiveData<CityTask> = MutableLiveData()
     val distance : MutableLiveData<Int> = MutableLiveData()
     val taskCounter : MutableLiveData<Int> = MutableLiveData()
-    val taskLevel : MutableLiveData<Int> = MutableLiveData()
+    val currentLevel : MutableLiveData<Int> = MutableLiveData()
+
+    lateinit var iteratorTasksForCurrentLevel: Iterator<CityTask>
 
     init{
         currentTask.observeForever{
@@ -29,48 +36,48 @@ open class SimpleGameViewModel(val isOneAttemp : Boolean = true)  : ViewModel() 
         }
     }
 
-
     open fun newGame(){
-            taskService.nextTask()
-            .observeOn(Schedulers.io())
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
-                isDefaultMapState.postValue(true)
-            }
+        newLevel()
+    }
+    fun newLevel(){
+        val level = currentLevel.value ?:0
+        val newLevel = if(level == 0) 1 else level + 1
+        taskService.getRandomCityTasksByLevel(newLevel,
+            MINIMUM_COUNT_TASKS_FOR_ONE_LEVEL )
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                currentTask.postValue(it)
-                isTaskCompleted.postValue(false)
-                taskLevel.postValue(it?.level)
-            },{})
-
+                iteratorTasksForCurrentLevel = it.iterator()
+                currentLevel.postValue(newLevel)
+                nextTask()
+            },{
+                Log.e("SimpleGameViewModel",it.message)
+            })
     }
 
-
     open fun nextTask(){
-        taskService.nextTask()
-            .observeOn(Schedulers.io())
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
-                isDefaultMapState.postValue(true)
-                clickedPosition.postValue(null)
-            }
-            .subscribe({
-                currentTask.postValue(it)
-                isTaskCompleted.postValue(false)
-                taskLevel.postValue(it?.level)
-            },{})
 
+        isDefaultMapState.postValue(true)
+        clickedPosition.postValue(null)
+        if(!iteratorTasksForCurrentLevel.hasNext()){
+            newLevel()
+            return
+            TODO("а если уровни закончились??")
+        }
+
+        val task = iteratorTasksForCurrentLevel.next()
+        currentTask.postValue(task)
+        isTaskCompleted.postValue(false)
     }
 
     open fun finishGame(){
         isGameFinished.postValue(true)
-
     }
 
     open fun clickedPosition( latitude: Double, longitude: Double){
         isDefaultMapState.postValue(false)
-        val currentTaskLat = currentTask.value?.Lat ?: return
-        val currentTaskLon =  currentTask.value?.lng ?: return
+        val currentTaskLat = currentTask.value?.latitude ?: return
+        val currentTaskLon =  currentTask.value?.longitude ?: return
         val d = CalculateUtils.calculateDistance(
             Pair(latitude, longitude),
             Pair(currentTaskLat, currentTaskLon)).toInt() / 1000 // m to km
@@ -78,7 +85,6 @@ open class SimpleGameViewModel(val isOneAttemp : Boolean = true)  : ViewModel() 
         clickedPosition.postValue(Pair(latitude, longitude))
 
         if(isOneAttemp) isTaskCompleted.postValue(true)
-
     }
 
     fun cameraMoved(){

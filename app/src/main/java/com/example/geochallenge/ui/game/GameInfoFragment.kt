@@ -67,7 +67,7 @@ class GameInfoFragment : Fragment() {
                 Observer { nextCityButton.visibility = if(it) View.VISIBLE else View.GONE })
         viewModel.taskCounter.observe(this,
                 Observer { taskCounterTv.text = "Кол-во городов: $it" })
-        viewModel.taskLevel.observe(this,
+        viewModel.currentLevel.observe(this,
                 Observer {currentLevelTv.text = "Уровень: $it"  })
 
         if (viewModel is DistanceLimitGameViewModel){

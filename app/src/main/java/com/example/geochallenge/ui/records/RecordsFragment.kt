@@ -27,12 +27,12 @@ class RecordsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(v.context)
         val adapter = RecordsAdapterView()
         recyclerView.adapter = adapter
-        AppDelegate.recordsStorage.getRecords()
-            .subscribe({
-            adapter.add(it, true)
-        },{
-                Log.d("fragment", it.message)
-            })
+//        AppDelegate.recordsStorage.getRecords()
+//            .subscribe({
+//            adapter.add(it, true)
+//        },{
+//                Log.d("fragment", it.message)
+//            })
 
 
         return v

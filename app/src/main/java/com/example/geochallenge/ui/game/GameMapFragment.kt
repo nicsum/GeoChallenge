@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.geochallenge.game.Task
+import com.example.geochallenge.game.CityTask
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
 
@@ -98,9 +98,9 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
         map?.animateCamera(location)
     }
 
-    private fun showAnswer(task: Task, clickedPosition: LatLng){
-        val answerLat = task.Lat ?: return
-        val answerLon = task.lng ?: return
+    private fun showAnswer(task: CityTask, clickedPosition: LatLng){
+        val answerLat = task.latitude ?: return
+        val answerLon = task.longitude ?: return
         val answerPosition = LatLng(answerLat, answerLon)
         val answerMarket = MarkerOptions()
             .position(answerPosition)

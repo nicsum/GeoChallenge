@@ -49,6 +49,18 @@
         android:layout_centerHorizontal="true"
         />
 
+    <Button
+        android:id="@+id/multiplayer_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/records_btn"
+
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:text="@string/multiplayer"
+        android:layout_centerHorizontal="true"
+        />
+
 
 
 

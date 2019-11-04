@@ -1,19 +1,24 @@
 package com.example.geochallenge.game.multiplayer
 
-import com.google.firebase.database.FirebaseDatabase
+
+import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.Completable
 
 class MultiplayerControler {
 
+    val database = FirebaseFirestore.getInstance()
 
 
-    val database = FirebaseDatabase.getInstance()
-    val reference = database.getReference("sessions")
+    fun startGame() : Completable?{
 
-
-    fun startGame() : Completable{
-
-        TODO()
+        database
+            .collection("sessions")
+            .whereEqualTo("status", 0)
+            .get()
+            .addOnCompleteListener {
+            it.isSuccessful
+        }
+        return null
     }
 
 }
