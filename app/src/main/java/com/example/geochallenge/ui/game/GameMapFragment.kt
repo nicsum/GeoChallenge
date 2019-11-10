@@ -88,7 +88,7 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
 
     fun addMarks(position: LatLng?, distance: Int?){
         map?.addMarker(position?.let {
-            MarkerOptions().position(it).title(distance.toString()+ " км.")
+            MarkerOptions().position(it).title(distance.toString())
         })
 
     }

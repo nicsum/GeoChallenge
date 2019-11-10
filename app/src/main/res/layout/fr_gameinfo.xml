@@ -1,86 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    android:orientation="horizontal">
 
-    android:layout_margin="8dp">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/scoreTableLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        card_view:cardCornerRadius="4dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/cardview_list_title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:paddingBottom="4dp"
+                android:text="Stats:"
+                android:textSize="@dimen/text_caption" />
+
+            <TextView
+                android:id="@+id/distanceText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cardview_list_title1"
+                android:layout_marginTop="0dp"
+                android:paddingBottom="4dp"
+                android:textColor="#1F1F1F"
+                android:text="2530"
+                android:textSize="@dimen/text_h4" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/distanceText"
+                android:layout_toRightOf="@+id/distanceText"
+                android:layout_below="@+id/cardview_list_title1"
+                android:layout_marginTop="0dp"
+                android:paddingBottom="4dp"
+                android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:text="KM"
+                android:textSize="@dimen/text_h6"
+                 />
+
+
+            <TextView
+                android:id="@+id/short_description1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/distanceText"
+                android:text="Location 700 pt"
+                android:textColor="#8b8b8b" />
+
+            <TextView
+                android:id="@+id/short_description2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/short_description1"
+                android:text="Level 3860 pt"
+                android:textColor="#8b8b8b" />
+
+            <TextView
+                android:id="@+id/short_description3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/short_description2"
+                android:text="Total 14700 pt"
+                android:textColor="#8b8b8b" />
+
+            <TextView
+                android:id="@+id/levelText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/short_description3"
+                android:textColor="#8b8b8b"
+                android:text="Уровень " />
+
+            <TextView
+                android:id="@+id/currentLevelText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/short_description3"
+                android:layout_toEndOf="@+id/levelText"
+                android:layout_toRightOf="@+id/levelText"
+                android:textColor="#1F1F1F"
+                tools:text="@string/level_d_text"
+                 />
+
+            <TextView
+                android:id="@+id/taskCounterText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/short_description3"
+                android:layout_toEndOf="@+id/currentLevelText"
+                android:layout_toRightOf="@+id/currentLevelText"
+                android:textColor="#1F1F1F"
+                tools:text="@string/location_d_text"
+                />
+
+
+            <Button
+                android:id="@+id/nextCityBtn"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/taskCounterText"
+                android:text="Next" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:orientation="vertical"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/stillHaveDistanceText"
-            android:layout_width="wrap_content"
+        <!--52/250-->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="У вас осталось 20000 км"
-            android:textSize="18sp"
+            android:max="100"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:progress="100"
+            android:scaleY="8"
             />
 
-        <TextView
-            android:id="@+id/taskCounterText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Кол-во городов: 1"
-            android:textSize="18sp"
-            />
-        <TextView
-            android:id="@+id/currentLevelText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            tools:text="Уровень: 1"
-            android:textSize="18sp"
-            />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        >
 
         <TextView
             android:id="@+id/cityNameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Надите Москву"
+            android:layout_alignStart="@id/progressBar"
+            android:layout_alignLeft="@id/progressBar"
+            android:layout_alignTop="@id/progressBar"
+            android:layout_alignEnd="@id/progressBar"
+            android:layout_alignRight="@id/progressBar"
+            android:layout_alignBottom="@id/progressBar"
+            android:gravity="center"
+            android:textColor="#1F1F1F"
+            android:text="Country, City"
+            android:textSize="@dimen/text_h5" />
 
-            android:textSize="18sp"/>
-
-        <TextView
-            android:id="@+id/distanceText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:textSize="18sp"
-            tools:text="До города: "
-             />
-        <TextView
-            android:id="@+id/stillHaveTimeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:textSize="18sp"
-            tools:text="у вас осталось 5 сек.: "
-            />
-
-        <Button
-            android:id="@+id/nextCityBtn"
-            android:text="Следующий город"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/stillHaveTimeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_body"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="у вас осталось 5 сек.: " />
+
+    <TextView
+        android:id="@+id/stillHaveDistanceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_body"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/stillHaveTimeText"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="У вас осталось 20000 км" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

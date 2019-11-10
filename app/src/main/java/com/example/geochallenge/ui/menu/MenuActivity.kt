@@ -88,6 +88,7 @@ class MenuActivity : AppCompatActivity(){
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
+                .setLogo(R.drawable.ic_menu_single)
                 .build(),
             RC_SIGN_IN
         )

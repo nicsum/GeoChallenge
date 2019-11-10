@@ -16,27 +16,19 @@ class MenuFragment : Fragment() {
 
     lateinit var startGameButton: Button
     lateinit var startLimitTimeGameButton: Button
-    lateinit var startLimitDistanceGameButton: Button
     lateinit var showRecordsButton: Button
-    lateinit var multiplayerButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,container: ViewGroup?, savedInstanceState: Bundle?  ): View? {
         val view = inflater.inflate(R.layout.fr_menu, container, false)
         startGameButton = view.findViewById(R.id.start_simple_game_btn)
-        startLimitTimeGameButton = view.findViewById(R.id.start_limit_time_game_btn)
-        startLimitDistanceGameButton = view.findViewById(R.id.start_limit_distance_game)
-        multiplayerButton = view.findViewById(R.id.multiplayer_btn)
-
+        startLimitTimeGameButton = view.findViewById(R.id.time_trial_btn)
 
         startGameButton.setOnClickListener { startGame(GameActivity.DEFAULT_TYPE_GAME)}
         startLimitTimeGameButton.setOnClickListener{startGame(GameActivity.TIME_LIMIT_TYPE_GAME)}
-        startLimitDistanceGameButton.setOnClickListener{startGame(GameActivity.DISTANCE_LIMIT_TYPE_GAME)}
-        multiplayerButton.setOnClickListener{startGame(GameActivity.MULTIPLAYER_TYPE_GAME)}
 
         showRecordsButton = view.findViewById(R.id.records_btn)
         showRecordsButton.setOnClickListener{showTableOfRecords() }
-
         return view
     }
 
