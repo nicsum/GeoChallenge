@@ -1,6 +1,5 @@
 package com.example.geochallenge.ui.game
 
-import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.os.Bundle
@@ -9,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
-import android.view.animation.LinearInterpolator
 import android.widget.Button
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
@@ -29,11 +26,11 @@ class GameInfoFragment : Fragment() {
     lateinit var taskCounterTv: TextView
     lateinit var currentLevelTv: TextView
     lateinit var nextCityButton: Button
-    lateinit var progressBar: ProgressBar
+    lateinit var progressBar: FillProgressLayout
     lateinit var counterTv: TextView
     lateinit var tableTv: CardView
 
-    lateinit var viewModelClass :  KClass<out SimpleGameViewModel>
+    lateinit var viewModelClass: KClass<out SimpleGameViewModel>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -61,34 +58,12 @@ class GameInfoFragment : Fragment() {
         tableAnimator.fillAfter = true
         tableTv.startAnimation(tableAnimator)
 
-//Another way to animate score table
-//        val set = AnimatorInflater.loadAnimator(context, R.animator.flip) as AnimatorSet
-//        set.setTarget(tableTv)
-//        set.start()
-
-
         val scoreAnimator = ValueAnimator.ofInt(0, 2357)
         scoreAnimator.setDuration(3000)
         scoreAnimator.addUpdateListener { animation ->
             counterTv.setText(animation.getAnimatedValue().toString())
         }
         scoreAnimator.start()
-
-
-        val progressBarAnimation = ObjectAnimator.ofInt(progressBar, "progress", 100, 0)
-        progressBarAnimation.duration = 13000
-        progressBarAnimation.interpolator = LinearInterpolator()
-
-/*        //bug: after close map on countdown and open again - crash
-        progressBarAnimation.addUpdateListener{ anim ->
-            val progress = anim.animatedValue as Int
-            if (progress == 50 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    progressBar.setProgressTintList(ColorStateList.valueOf(resources.getColor(R.color.colorAccentYellow)))
-                } else if (progress == 21 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    progressBar.setProgressTintList(ColorStateList.valueOf(resources.getColor(R.color.Red)))
-                }
-            }*/
-        progressBarAnimation.start()
 
         return v
     }
@@ -116,9 +91,9 @@ class GameInfoFragment : Fragment() {
         viewModel.isTaskCompleted.observe(this,
             Observer { nextCityButton.visibility = if (it) View.VISIBLE else View.GONE })
         viewModel.taskCounter.observe(this,
-            Observer { taskCounterTv.text = getString((R.string.location_d_text),it) })
+            Observer { taskCounterTv.text = getString((R.string.location_d_text), it) })
         viewModel.currentLevel.observe(this,
-            Observer { currentLevelTv.text =  getString((R.string.level_d_text),it)})
+            Observer { currentLevelTv.text = getString((R.string.level_d_text), it) })
 
 
         if (viewModel is DistanceLimitGameViewModel) {

@@ -9,6 +9,52 @@
     android:orientation="horizontal">
 
 
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <com.example.geochallenge.ui.game.FillProgressLayout
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:fpl_backgroundColor="@color/colorAccent"
+            app:fpl_isRounded="false"
+            app:fpl_progress="100"
+            app:fpl_progressColor="@color/colorPrimary"
+            app:fpl_progressDirection="right_to_left"
+            app:fpl_progressDuration="13000"
+            app:fpl_shouldRestart="false"/>
+
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:id="@+id/cityNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/progressBar"
+            android:layout_alignLeft="@id/progressBar"
+            android:layout_alignTop="@id/progressBar"
+            android:layout_alignEnd="@id/progressBar"
+            android:layout_alignRight="@id/progressBar"
+            android:layout_alignBottom="@id/progressBar"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:text="Country, City"
+           />
+
+    </RelativeLayout>
+
+
     <androidx.cardview.widget.CardView
         android:id="@+id/scoreTableLayout"
         android:layout_width="wrap_content"
@@ -99,7 +145,7 @@
                 android:layout_below="@+id/short_description3"
                 android:layout_toEndOf="@+id/levelText"
                 android:layout_toRightOf="@+id/levelText"
-                android:textColor="#1F1F1F"
+                android:textColor="#8b8b8b"
                 tools:text="@string/level_d_text"
                  />
 
@@ -110,7 +156,7 @@
                 android:layout_below="@+id/short_description3"
                 android:layout_toEndOf="@+id/currentLevelText"
                 android:layout_toRightOf="@+id/currentLevelText"
-                android:textColor="#1F1F1F"
+                android:textColor="#8b8b8b"
                 tools:text="@string/location_d_text"
                 />
 
@@ -126,51 +172,6 @@
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <!--52/250-->
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="100"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:progress="100"
-            android:scaleY="8"
-            />
-
-
-        <TextView
-            android:id="@+id/cityNameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@id/progressBar"
-            android:layout_alignLeft="@id/progressBar"
-            android:layout_alignTop="@id/progressBar"
-            android:layout_alignEnd="@id/progressBar"
-            android:layout_alignRight="@id/progressBar"
-            android:layout_alignBottom="@id/progressBar"
-            android:gravity="center"
-            android:textColor="#1F1F1F"
-            android:text="Country, City"
-            android:textSize="@dimen/text_h5" />
-
-    </RelativeLayout>
-
 
     <TextView
         android:id="@+id/stillHaveTimeText"
