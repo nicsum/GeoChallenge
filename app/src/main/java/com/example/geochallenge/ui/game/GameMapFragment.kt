@@ -5,9 +5,14 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.geochallenge.game.CityTask
-import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.*
-
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MarkerOptions
 import kotlin.reflect.KClass
 
 
@@ -88,7 +93,7 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
 
     fun addMarks(position: LatLng?, distance: Int?){
         map?.addMarker(position?.let {
-            MarkerOptions().position(it).title(distance.toString()+ " км.")
+            MarkerOptions().position(it).title(distance.toString())
         })
 
     }
