@@ -1,18 +1,24 @@
 package com.example.geochallenge.ui.menu
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
+import androidx.annotation.UiThread
 import androidx.fragment.app.Fragment
 import com.example.geochallenge.R
 import com.example.geochallenge.ui.game.GameActivity
 import com.example.geochallenge.ui.records.RecordsActivity
+import okhttp3.*
+import java.io.IOException
+import java.net.URI
 
 class MenuFragment : Fragment() {
-
 
     lateinit var startGameButton: Button
     lateinit var startLimitTimeGameButton: Button
@@ -40,13 +46,13 @@ class MenuFragment : Fragment() {
         return view
     }
 
-
     private fun startGame(type : String){
         val intent = Intent(context, GameActivity::class.java)
         intent.putExtra(GameActivity.TYPE_GAME_KEY, type)
 
         activity?.startActivity(intent)
     }
+
 
     fun showTableOfRecords(){
         val intent = Intent(context, RecordsActivity::class.java)

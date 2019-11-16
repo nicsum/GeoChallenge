@@ -1,6 +1,7 @@
 package com.example.geochallenge.game.multiplayer
 
-class GameState(var id: Int,
+class GameState(var id: String,
                 var status: Int,
                 var tasks: List<Int>,
-                var progress: Map<String, Int>)
+                var answers: Map<String, Int>)
+
