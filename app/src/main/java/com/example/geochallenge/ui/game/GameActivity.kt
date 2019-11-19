@@ -16,7 +16,6 @@ class GameActivity : AppCompatActivity() {
     companion object{
 
         const val TYPE_GAME_KEY = "TYPE_GAME_KEY"
-
         const val DEFAULT_TYPE_GAME = "DEFAULT_TYPE_GAME"
         const val DISTANCE_LIMIT_TYPE_GAME = "DISTANCE_LIMIT_TYPE_GAME"
         const val TIME_LIMIT_TYPE_GAME = "TIME_LIMIT_TYPE_GAME"

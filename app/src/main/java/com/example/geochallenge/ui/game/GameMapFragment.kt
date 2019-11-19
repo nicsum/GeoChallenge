@@ -56,11 +56,19 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
             if(it) {
                 map?.setOnMapClickListener(null)
                 map?.setOnMarkerClickListener { false}
+                //TODO вынести формирование ответа во вьюмодел
                 viewModel.currentTask.value?.let{ task ->
                     val clickedPosition = LatLng(
                         viewModel.clickedPosition.value?.first ?: 0.0,
                         viewModel.clickedPosition.value?.second ?: 0.0)
-                    showAnswer(task , clickedPosition)
+
+                    val playersAnswer = (viewModel as? MultiplayerViewModel)?.playersAnswer
+                        ?.value
+                        ?.values
+                        ?.filterNotNull()
+                        ?.map { coordinates -> LatLng(coordinates.first, coordinates.second) }
+
+                    showAnswer(task, clickedPosition, playersAnswer)
                 }
             }
             else {
@@ -72,6 +80,10 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
         viewModel.isDefaultMapState.observe(this, Observer {
             if(it)
                 showStartPosition() })
+
+        if (viewModel is MultiplayerViewModel) {
+            viewModel.playersAnswer.observe(this, Observer { showPlayersAnswer(it) })
+        }
     }
 
     override fun onMapReady(map: GoogleMap?) {
@@ -103,7 +115,11 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
         map?.animateCamera(location)
     }
 
-    private fun showAnswer(task: CityTask, clickedPosition: LatLng){
+    private fun showAnswer(
+        task: CityTask,
+        clickedPosition: LatLng,
+        playersAnswers: List<LatLng>? = null
+    ) {
         val answerLat = task.latitude ?: return
         val answerLon = task.longitude ?: return
         val answerPosition = LatLng(answerLat, answerLon)
@@ -114,13 +130,23 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
 
         map?.let{
             it.addMarker(answerMarket)
-            zoomMarkets(listOf(answerPosition, clickedPosition))
+            zoomMarkets(listOf(answerPosition, clickedPosition) + playersAnswers)
         }
+    }
 
+    private fun showPlayersAnswer(playersAnswer: Map<String, Pair<Double, Double>?>) {
+        playersAnswer
+            .filterValues { it != null }
+            .forEach {
+                map?.addMarker(
+                    MarkerOptions()
+                        .position(LatLng(it.value!!.first, it.value!!.second))
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
+                )
+            }
     }
 
     private fun zoomMarkets(positionsMarkets : List<LatLng>){
-
         if(positionsMarkets.size == 1){
             map?.moveCamera(CameraUpdateFactory.newLatLngZoom(positionsMarkets[0], 3.0f))
         }else{
@@ -132,5 +158,12 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
         }
     }
 
+}
+
+operator fun List<LatLng>.plus(list: List<LatLng>?): List<LatLng> {
+    list?.let {
+        return this + it
+    }
+    return this
 }
 

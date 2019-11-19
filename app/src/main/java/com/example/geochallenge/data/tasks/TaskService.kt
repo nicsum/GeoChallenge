@@ -5,7 +5,9 @@ import io.reactivex.Single
 
 interface TaskService {
 
-    fun getAllCityTasksByLevel(level: Int): Single<MutableList<CityTask>>
+    fun getAllCityTasksByLevel(level: Int): Single<List<CityTask>>
 
-    fun getRandomCityTasksByLevel(level: Int, count: Int ): Single<MutableList<CityTask>>
+    fun getRandomCityTasksByLevel(level: Int, count: Int): Single<List<CityTask>>
+
+    fun getCityTaskById(id: Int): Single<CityTask>
 }

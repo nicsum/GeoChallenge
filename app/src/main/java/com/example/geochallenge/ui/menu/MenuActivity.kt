@@ -41,8 +41,6 @@ class MenuActivity : AppCompatActivity(){
         return true
     }
 
-
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if(item.itemId == R.id.logout){

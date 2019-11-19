@@ -76,6 +76,7 @@ class GameInfoFragment : Fragment() {
             GameActivity.DEFAULT_TYPE_GAME -> SimpleGameViewModel::class
             GameActivity.DISTANCE_LIMIT_TYPE_GAME -> DistanceLimitGameViewModel::class
             GameActivity.TIME_LIMIT_TYPE_GAME -> TimeLimitGameViewModel::class
+            GameActivity.MULTIPLAYER_TYPE_GAME -> MultiplayerViewModel::class
             else -> SimpleGameViewModel::class
         }
     }

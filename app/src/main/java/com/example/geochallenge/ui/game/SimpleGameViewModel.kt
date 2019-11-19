@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.geochallenge.AppDelegate
-import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.data.tasks.TaskService
+import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.utils.CalculateUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -16,7 +16,7 @@ open class SimpleGameViewModel(val isOneAttemp : Boolean = true)  : ViewModel() 
         const val MINIMUM_COUNT_TASKS_FOR_ONE_LEVEL = 8
     }
 
-    private val taskService : TaskService = AppDelegate.taskStorage
+    protected val taskService: TaskService = AppDelegate.taskStorage
 
     val isDefaultMapState : MutableLiveData<Boolean> = MutableLiveData()
     val isTaskCompleted: MutableLiveData<Boolean> = MutableLiveData()
@@ -39,7 +39,8 @@ open class SimpleGameViewModel(val isOneAttemp : Boolean = true)  : ViewModel() 
     open fun newGame(){
         newLevel()
     }
-    fun newLevel(){
+
+    protected open fun newLevel() {
         val level = currentLevel.value ?:0
         val newLevel = if(level == 0) 1 else level + 1
         taskService.getRandomCityTasksByLevel(newLevel,
