@@ -130,7 +130,7 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
 
         map?.let{
             it.addMarker(answerMarket)
-            zoomMarkets(listOf(answerPosition, clickedPosition) + playersAnswers)
+            zoomMarkets(listOf(answerPosition, clickedPosition) + (playersAnswers ?: ArrayList()))
         }
     }
 
@@ -160,10 +160,10 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
 
 }
 
-operator fun List<LatLng>.plus(list: List<LatLng>?): List<LatLng> {
-    list?.let {
-        return this + it
-    }
-    return this
-}
+//operator fun List<LatLng>.plus(list: List<LatLng>?) : List<LatLng>{
+//    list?.let{
+//        return this + it
+//    }
+//    return this
+//}
 
