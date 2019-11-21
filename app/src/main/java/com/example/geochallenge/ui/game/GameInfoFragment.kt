@@ -48,7 +48,7 @@ class GameInfoFragment : Fragment() {
         timerTv = v.findViewById(R.id.timerTv)
         tableTv = v.findViewById(R.id.scoreTableLayout)
         distance = v.findViewById(R.id.distanceTv)
-//        progressBar = v.findViewById(R.id.progressBar)
+        progressBar = v.findViewById(R.id.progressBar)
         val viewModel = ViewModelProviders.of(context as GameActivity).get(viewModelClass.java)
 
         nextCityButton.setOnClickListener { viewModel.nextTask() }
@@ -97,6 +97,7 @@ class GameInfoFragment : Fragment() {
         if (viewModel is ClassicGameViewModel) {
             viewModel.secondsPassed.observe(this,
                 Observer {
+                    progressBar.setProgress(it.toInt() * 100 / (13000 / 1000))
                     timerTv.text = if (it == null) "" else
                         getString(
                             R.string.timer_info,

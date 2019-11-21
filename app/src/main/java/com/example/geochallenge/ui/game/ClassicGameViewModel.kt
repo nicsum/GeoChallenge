@@ -57,7 +57,7 @@ class ClassicGameViewModel : SimpleGameViewModel() {
         timerDisposable?.dispose()
 
         timerDisposable = Observable
-            .intervalRange(1, count + 1, 1, 1, TimeUnit.SECONDS)
+            .intervalRange(0, count + 1, 1, 1, TimeUnit.SECONDS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnComplete(this::finishTask)
