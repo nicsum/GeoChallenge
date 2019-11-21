@@ -16,8 +16,10 @@ class GameActivity : AppCompatActivity() {
     companion object{
 
         const val TYPE_GAME_KEY = "TYPE_GAME_KEY"
+        const val START_LOCATION_KEY = "START_LOCATION_KEY"
+
         const val DEFAULT_TYPE_GAME = "DEFAULT_TYPE_GAME"
-        const val DISTANCE_LIMIT_TYPE_GAME = "DISTANCE_LIMIT_TYPE_GAME"
+        const val CLASSIC_TYPE_GAME = "CLASSIC_TYPE_GAME"
         const val TIME_LIMIT_TYPE_GAME = "TIME_LIMIT_TYPE_GAME"
         const val MULTIPLAYER_TYPE_GAME = "MULTIPLAYER_TYPE_GAME"
     }
@@ -35,7 +37,7 @@ class GameActivity : AppCompatActivity() {
 
         viewModelClass = when(typeGame){
             DEFAULT_TYPE_GAME -> SimpleGameViewModel::class
-            DISTANCE_LIMIT_TYPE_GAME -> DistanceLimitGameViewModel::class
+            CLASSIC_TYPE_GAME -> ClassicGameViewModel::class
             TIME_LIMIT_TYPE_GAME  -> TimeLimitGameViewModel::class
             MULTIPLAYER_TYPE_GAME  -> MultiplayerViewModel::class
             else -> SimpleGameViewModel::class

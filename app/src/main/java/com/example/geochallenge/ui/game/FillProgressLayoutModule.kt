@@ -116,9 +116,9 @@ class FillProgressLayout : LinearLayout {
                     array.getInt(R.styleable.FillProgressLayout_fpl_progressDirection, defDirection)
                 setDirection(direction)
 
-                val progress =
-                    array.getInt(R.styleable.FillProgressLayout_fpl_progress, currentProgress)
-                setProgress(progress)
+//                val progress =
+//                    array.getInt(R.styleable.FillProgressLayout_fpl_progress, currentProgress)
+//                setProgress(progress)
             }
             array.recycle()
         }

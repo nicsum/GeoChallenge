@@ -19,7 +19,8 @@ import kotlin.reflect.KClass
 
 class GameInfoFragment : Fragment() {
 
-    lateinit var distanceTv: TextView
+    lateinit var pointsTv: TextView
+    lateinit var distance: TextView
     lateinit var cityNameTv: TextView
     lateinit var stillHaveTimeTv: TextView
     lateinit var stillHaveDistanceTv: TextView
@@ -27,7 +28,7 @@ class GameInfoFragment : Fragment() {
     lateinit var currentLevelTv: TextView
     lateinit var nextCityButton: Button
     lateinit var progressBar: FillProgressLayout
-    lateinit var counterTv: TextView
+    lateinit var timerTv: TextView
     lateinit var tableTv: CardView
 
     lateinit var viewModelClass: KClass<out SimpleGameViewModel>
@@ -37,16 +38,17 @@ class GameInfoFragment : Fragment() {
     ): View? {
 
         val v = inflater.inflate(R.layout.fr_gameinfo, container, false)
-        distanceTv = v.findViewById(R.id.distanceText)
+        pointsTv = v.findViewById(R.id.pointsText)
         cityNameTv = v.findViewById(R.id.cityNameText)
         stillHaveTimeTv = v.findViewById(R.id.stillHaveTimeText)
         stillHaveDistanceTv = v.findViewById(R.id.stillHaveDistanceText)
         taskCounterTv = v.findViewById(R.id.taskCounterText)
         currentLevelTv = v.findViewById(R.id.currentLevelText)
         nextCityButton = v.findViewById(R.id.nextCityBtn)
-        counterTv = v.findViewById(R.id.distanceText)
+        timerTv = v.findViewById(R.id.timerTv)
         tableTv = v.findViewById(R.id.scoreTableLayout)
-        progressBar = v.findViewById(R.id.progressBar)
+        distance = v.findViewById(R.id.distanceTv)
+//        progressBar = v.findViewById(R.id.progressBar)
         val viewModel = ViewModelProviders.of(context as GameActivity).get(viewModelClass.java)
 
         nextCityButton.setOnClickListener { viewModel.nextTask() }
@@ -58,13 +60,6 @@ class GameInfoFragment : Fragment() {
         tableAnimator.fillAfter = true
         tableTv.startAnimation(tableAnimator)
 
-        val scoreAnimator = ValueAnimator.ofInt(0, 2357)
-        scoreAnimator.setDuration(3000)
-        scoreAnimator.addUpdateListener { animation ->
-            counterTv.setText(animation.getAnimatedValue().toString())
-        }
-        scoreAnimator.start()
-
         return v
     }
 
@@ -74,7 +69,7 @@ class GameInfoFragment : Fragment() {
             ?: GameActivity.DEFAULT_TYPE_GAME
         viewModelClass = when (typeGame) {
             GameActivity.DEFAULT_TYPE_GAME -> SimpleGameViewModel::class
-            GameActivity.DISTANCE_LIMIT_TYPE_GAME -> DistanceLimitGameViewModel::class
+            GameActivity.CLASSIC_TYPE_GAME -> ClassicGameViewModel::class
             GameActivity.TIME_LIMIT_TYPE_GAME -> TimeLimitGameViewModel::class
             GameActivity.MULTIPLAYER_TYPE_GAME -> MultiplayerViewModel::class
             else -> SimpleGameViewModel::class
@@ -86,7 +81,9 @@ class GameInfoFragment : Fragment() {
         val viewModel = ViewModelProviders.of(context as GameActivity).get(viewModelClass.java)
 
         viewModel.distance.observe(this,
-            Observer { distanceTv.text = if (it == null) "" else "$it" })
+            Observer {
+                distance.text = if (it == null) "" else getString(R.string.distance_info, it)
+            })
         viewModel.currentTask.observe(this,
             Observer { cityNameTv.text = if (it == null) "" else "${it.countryRU}, ${it.city}" })
         viewModel.isTaskCompleted.observe(this,
@@ -97,9 +94,21 @@ class GameInfoFragment : Fragment() {
             Observer { currentLevelTv.text = getString((R.string.level_d_text), it) })
 
 
-        if (viewModel is DistanceLimitGameViewModel) {
-            viewModel.stillHaveDistance.observe(this,
-                Observer { stillHaveDistanceTv.text = "У вас осталось $it км" })
+        if (viewModel is ClassicGameViewModel) {
+            viewModel.secondsPassed.observe(this,
+                Observer {
+                    timerTv.text = if (it == null) "" else
+                        getString(
+                            R.string.timer_info,
+                            ClassicGameViewModel.SECONDS_FOR_TASK - it
+                        )
+                })
+
+            viewModel.points.observe(this, Observer {
+                addPoints(it ?: 0)
+            })
+//            viewModel.stillHaveDistance.observe(this,
+//                Observer { stillHaveDistanceTv.text = "У вас осталось $it км" })
 
         }
 
@@ -108,5 +117,21 @@ class GameInfoFragment : Fragment() {
                 Observer { stillHaveTimeTv.text = "У вас осталось $it сек." }
             )
         }
+    }
+
+    private fun addPoints(value: Int) {
+
+        val oldValue = try {
+            pointsTv.text.toString().toInt()
+        } catch (e: Exception) {
+            0
+        }
+        val scoreAnimator = ValueAnimator.ofInt(oldValue, value)
+        scoreAnimator.animatedValue
+        scoreAnimator.setDuration(3000)
+        scoreAnimator.addUpdateListener { animation ->
+            pointsTv.setText(animation.getAnimatedValue().toString())
+        }
+        scoreAnimator.start()
     }
 }

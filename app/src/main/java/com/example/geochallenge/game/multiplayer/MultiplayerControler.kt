@@ -129,15 +129,12 @@ class MultiplayerControler(val taskService: TaskService) {
         }
     }
 
-
-
     private fun getTasksForGame(): Single<List<CityTask>> {
         return taskService.getRandomCityTasksByLevel(
             1,
             SimpleGameViewModel.MINIMUM_COUNT_TASKS_FOR_ONE_LEVEL
         )
     }
-
 
     private fun getUserId(): String? {
         return FirebaseAuth.getInstance().currentUser?.uid

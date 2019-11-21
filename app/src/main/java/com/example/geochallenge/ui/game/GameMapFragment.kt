@@ -19,6 +19,7 @@ import kotlin.reflect.KClass
 class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnCameraMoveListener  {
 
     var map: GoogleMap? = null
+    var startLocation: LatLng? = null
 //    var positionsMarkets : ArrayList<LatLng> = ArrayList() //TODO вынеси во вьюмодел. вообще следует переработать логику, вью модель не должна работать с гуглмаповскими объектами
     lateinit var viewModelClass : KClass<out SimpleGameViewModel>
 
@@ -34,11 +35,15 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
         val typeGame = activity?.intent?.getStringExtra(GameActivity.TYPE_GAME_KEY) ?: GameActivity.DEFAULT_TYPE_GAME
         viewModelClass = when(typeGame){
             GameActivity.DEFAULT_TYPE_GAME -> SimpleGameViewModel::class
-            GameActivity.DISTANCE_LIMIT_TYPE_GAME -> DistanceLimitGameViewModel::class
+            GameActivity.CLASSIC_TYPE_GAME -> ClassicGameViewModel::class
             GameActivity.TIME_LIMIT_TYPE_GAME -> TimeLimitGameViewModel::class
             GameActivity.MULTIPLAYER_TYPE_GAME -> MultiplayerViewModel::class
             else -> SimpleGameViewModel::class
         }
+        (activity?.intent?.getSerializableExtra(GameActivity.START_LOCATION_KEY) as Pair<Double, Double>).let {
+            startLocation = LatLng(it.first, it.second)
+        }
+
     }
 
     override fun onActivityCreated(p0: Bundle?) {
@@ -56,7 +61,7 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
             if(it) {
                 map?.setOnMapClickListener(null)
                 map?.setOnMarkerClickListener { false}
-                //TODO вынести формирование ответа во вьюмодел
+                //TODO вынести формирование ответа во вьюмодел или придумай что-нибудь
                 viewModel.currentTask.value?.let{ task ->
                     val clickedPosition = LatLng(
                         viewModel.clickedPosition.value?.first ?: 0.0,
@@ -110,7 +115,7 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
 
     }
     private fun showStartPosition(){
-        val defaultPosition = LatLng(0.0, 0.0)
+        val defaultPosition = getStartPosition()
         val location = CameraUpdateFactory.newLatLngZoom(defaultPosition, 1.0f) // вынести переменную
         map?.animateCamera(location)
     }
@@ -156,6 +161,10 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
             val cu =  CameraUpdateFactory.newLatLngBounds(builder.build(), padding)
             map?.animateCamera(cu)
         }
+    }
+
+    private fun getStartPosition(): LatLng {
+        return startLocation ?: LatLng(0.0, 0.0)
     }
 
 }

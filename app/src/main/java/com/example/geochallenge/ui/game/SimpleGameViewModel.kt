@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers
 open class SimpleGameViewModel(val isOneAttemp : Boolean = true)  : ViewModel() {
 
     companion object{
-        const val MINIMUM_COUNT_TASKS_FOR_ONE_LEVEL = 8
+        const val MINIMUM_COUNT_TASKS_FOR_ONE_LEVEL = 5
     }
 
     protected val taskService: TaskService = AppDelegate.taskStorage
@@ -26,21 +26,16 @@ open class SimpleGameViewModel(val isOneAttemp : Boolean = true)  : ViewModel() 
     val distance : MutableLiveData<Int> = MutableLiveData()
     val taskCounter : MutableLiveData<Int> = MutableLiveData()
     val currentLevel : MutableLiveData<Int> = MutableLiveData()
+    val isLevelFinished: MutableLiveData<Boolean> = MutableLiveData()
 
     lateinit var iteratorTasksForCurrentLevel: Iterator<CityTask>
 
-    init{
-        currentTask.observeForever{
-            val result = taskCounter.value?.plus(1) ?: 0
-            taskCounter.postValue(result)
-        }
-    }
 
     open fun newGame(){
-        newLevel()
+        nextLevel()
     }
 
-    protected open fun newLevel() {
+    protected open fun nextLevel() {
         val level = currentLevel.value ?:0
         val newLevel = if(level == 0) 1 else level + 1
         taskService.getRandomCityTasksByLevel(newLevel,
@@ -50,6 +45,7 @@ open class SimpleGameViewModel(val isOneAttemp : Boolean = true)  : ViewModel() 
             .subscribe({
                 iteratorTasksForCurrentLevel = it.iterator()
                 currentLevel.postValue(newLevel)
+                isLevelFinished.postValue(false)
                 nextTask()
             },{
                 Log.e("SimpleGameViewModel",it.message)
@@ -61,31 +57,43 @@ open class SimpleGameViewModel(val isOneAttemp : Boolean = true)  : ViewModel() 
         isDefaultMapState.postValue(true)
         clickedPosition.postValue(null)
         if(!iteratorTasksForCurrentLevel.hasNext()){
-            newLevel()
+            levelFinished()
             return
-            TODO("а если уровни закончились??")
         }
 
         val task = iteratorTasksForCurrentLevel.next()
         currentTask.postValue(task)
         isTaskCompleted.postValue(false)
+        taskCounter.postValue(taskCounter.value?.plus(1) ?: 0)
     }
 
     open fun finishGame(){
         isGameFinished.postValue(true)
     }
 
-    open fun clickedPosition( latitude: Double, longitude: Double){
-        isDefaultMapState.postValue(false)
+    open fun clickedPosition(latitude: Double, longitude: Double) {
         val currentTaskLat = currentTask.value?.latitude ?: return
         val currentTaskLon =  currentTask.value?.longitude ?: return
         val d = CalculateUtils.calculateDistance(
             Pair(latitude, longitude),
             Pair(currentTaskLat, currentTaskLon)).toInt() / 1000 // m to km
-        distance.postValue( d)
-        clickedPosition.postValue(Pair(latitude, longitude))
 
-        if(isOneAttemp) isTaskCompleted.postValue(true)
+        clickedPosition(latitude, longitude, d)
+
+    }
+
+    protected open fun levelFinished() {
+        isLevelFinished.postValue(true)
+    }
+
+    protected open fun clickedPosition(latitude: Double, longitude: Double, distance: Int) {
+        this.distance.postValue(distance)
+        clickedPosition.postValue(Pair(latitude, longitude))
+        finishTask()
+    }
+
+    protected open fun finishTask() {
+        isTaskCompleted.postValue(true)
     }
 
     fun cameraMoved(){

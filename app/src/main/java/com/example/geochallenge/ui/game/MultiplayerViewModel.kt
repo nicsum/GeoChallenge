@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.multiplayer.MultiplayerControler
-import com.example.geochallenge.utils.CalculateUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -29,17 +28,18 @@ class MultiplayerViewModel : SimpleGameViewModel(), MultiplayerControler.GameSta
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                isDefaultMapState.postValue(false)
-                val currentTaskLat = currentTask.value?.latitude
-                val currentTaskLon = currentTask.value?.longitude
-                if (currentTaskLat != null && currentTaskLon != null) {
-                    val d = CalculateUtils.calculateDistance(
-                        Pair(latitude, longitude),
-                        Pair(currentTaskLat, currentTaskLon)
-                    ).toInt() / 1000 // m to km
-                    distance.postValue(d)
-                }
-                clickedPosition.postValue(Pair(latitude, longitude))
+                //                isDefaultMapState.postValue(false)
+                super.clickedPosition(latitude, longitude)
+//                val currentTaskLat = currentTask.value?.latitude
+//                val currentTaskLon = currentTask.value?.longitude
+//                if (currentTaskLat != null && currentTaskLon != null) {
+//                    val d = CalculateUtils.calculateDistance(
+//                        Pair(latitude, longitude),
+//                        Pair(currentTaskLat, currentTaskLon)
+//                    ).toInt() / 1000 // m to km
+//                    distance.postValue(d)
+//                }
+//                clickedPosition.postValue(Pair(latitude, longitude))
             }, {
 
             })

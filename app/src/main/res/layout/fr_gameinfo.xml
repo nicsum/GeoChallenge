@@ -80,51 +80,51 @@
                 android:textSize="@dimen/text_caption" />
 
             <TextView
-                android:id="@+id/distanceText"
+                android:id="@+id/pointsText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cardview_list_title1"
                 android:layout_marginTop="0dp"
                 android:paddingBottom="4dp"
                 android:textColor="#1F1F1F"
-                android:text="2530"
+                android:text="0"
                 android:textSize="@dimen/text_h4" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/distanceText"
-                android:layout_toRightOf="@+id/distanceText"
+                android:layout_toEndOf="@+id/pointsText"
+                android:layout_toRightOf="@+id/pointsText"
                 android:layout_below="@+id/cardview_list_title1"
                 android:layout_marginTop="0dp"
                 android:paddingBottom="4dp"
                 android:paddingStart="4dp"
                 android:paddingLeft="4dp"
-                android:text="KM"
+                tools:text="KM"
                 android:textSize="@dimen/text_h6" />
 
 
             <TextView
-                android:id="@+id/short_description1"
+                android:id="@+id/distanceTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/distanceText"
-                android:text="Location 700 pt"
+                android:layout_below="@+id/pointsText"
+                android:text="@string/distance_info"
                 android:textColor="#8b8b8b" />
 
             <TextView
-                android:id="@+id/short_description2"
+                android:id="@+id/timerTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/short_description1"
-                android:text="Level 3860 pt"
+                android:layout_below="@+id/distanceTv"
+                tools:text="@string/timer_info"
                 android:textColor="#8b8b8b" />
 
             <TextView
                 android:id="@+id/short_description3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/short_description2"
+                android:layout_below="@+id/timerTv"
                 android:text="Total 14700 pt"
                 android:textColor="#8b8b8b" />
 
