@@ -14,12 +14,15 @@ class MultiplayerViewModel(
 ) : ClassicGameViewModel(), MultiplayerControler.GameStateChangeListener {
 
     var multiplayerControler = MultiplayerControler(taskService)
+
 //    var nextTask: CityTask? = null
 
     var playersAnswer = MutableLiveData<Map<String, Pair<Double, Double>?>>()
+    var waitingPlayers = MutableLiveData<Boolean>()
 
     override fun newGame() {
         super.newGame()
+        waitingPlayers.postValue(true)
         multiplayerControler.startGame(this)
 
     }
@@ -70,6 +73,7 @@ class MultiplayerViewModel(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+                waitingPlayers.postValue(false)
                 currentTask.postValue(it)
                 isTaskCompleted.postValue(false)
                 isDefaultMapState.postValue(true)

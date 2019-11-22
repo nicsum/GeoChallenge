@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
@@ -30,6 +32,8 @@ class GameInfoFragment : Fragment() {
     lateinit var progressBar: FillProgressLayout
     lateinit var timerTv: TextView
     lateinit var tableTv: CardView
+    lateinit var waitingProgressBar: ProgressBar
+    lateinit var gameInfo: RelativeLayout
 
     lateinit var viewModelClass: KClass<out SimpleGameViewModel>
 
@@ -48,6 +52,9 @@ class GameInfoFragment : Fragment() {
         timerTv = v.findViewById(R.id.timerTv)
         tableTv = v.findViewById(R.id.scoreTableLayout)
         distance = v.findViewById(R.id.distanceTv)
+
+        waitingProgressBar = v.findViewById(R.id.waitingProgressBar)
+        gameInfo = v.findViewById(R.id.gameInfoCard)
 //        progressBar = v.findViewById(R.id.progressBar)
         val viewModel = ViewModelProviders.of(context as GameActivity).get(viewModelClass.java)
 
@@ -110,6 +117,18 @@ class GameInfoFragment : Fragment() {
 //            viewModel.stillHaveDistance.observe(this,
 //                Observer { stillHaveDistanceTv.text = "У вас осталось $it км" })
 
+        }
+        if (viewModel is MultiplayerViewModel) {
+            viewModel.waitingPlayers.observe(this,
+                Observer {
+                    if (it) {
+                        waitingProgressBar.visibility = View.VISIBLE
+                        gameInfo.visibility = View.GONE
+                    } else {
+                        waitingProgressBar.visibility = View.GONE
+                        gameInfo.visibility = View.VISIBLE
+                    }
+                })
         }
 
         if (viewModel is TimeLimitGameViewModel) {

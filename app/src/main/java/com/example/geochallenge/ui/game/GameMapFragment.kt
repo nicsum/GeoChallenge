@@ -20,7 +20,9 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
 
     var map: GoogleMap? = null
     var startLocation: LatLng? = null
-//    var positionsMarkets : ArrayList<LatLng> = ArrayList() //TODO вынеси во вьюмодел. вообще следует переработать логику, вью модель не должна работать с гуглмаповскими объектами
+
+
+    //    var positionsMarkets : ArrayList<LatLng> = ArrayList() //TODO вынеси во вьюмодел. вообще следует переработать логику, вью модель не должна работать с гуглмаповскими объектами
     lateinit var viewModelClass : KClass<out SimpleGameViewModel>
 
     override fun onCreate(p0: Bundle?) {

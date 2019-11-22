@@ -2,6 +2,7 @@ package com.example.geochallenge.ui.game
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.geochallenge.game.CityTask
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -24,12 +25,11 @@ open class ClassicGameViewModel : SimpleGameViewModel() {
 
     var timerDisposable: Disposable? = null
 
-
-    override fun nextTask() {
-        super.nextTask()
+    
+    override fun onStartTask(task: CityTask) {
+        super.onStartTask(task)
         startTimerFromCount(SECONDS_FOR_TASK)
         pointsForCurrentLevel.postValue(0)
-
     }
 
     override fun clickedPosition(latitude: Double, longitude: Double, distance: Int) {

@@ -71,8 +71,6 @@ open class SimpleGameViewModel(
 
     open fun nextTask(){
 
-        isDefaultMapState.postValue(true)
-        clickedPosition.postValue(null)
         if (!levelProvider.haveTaskForCurrentLevel()) {
             levelFinished()
             return
@@ -82,13 +80,19 @@ open class SimpleGameViewModel(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                currentTask.postValue(it)
-                isTaskCompleted.postValue(false)
-                taskCounter.postValue(taskCounter.value?.plus(1) ?: 0)
+                onStartTask(it)
             }, {
                 Log.e("SimpleGameViewModel", it.message)
             })
 
+    }
+
+    open fun onStartTask(task: CityTask) {
+        isDefaultMapState.postValue(true)
+        clickedPosition.postValue(null)
+        currentTask.postValue(task)
+        isTaskCompleted.postValue(false)
+        taskCounter.postValue(taskCounter.value?.plus(1) ?: 0)
     }
 
     open fun finishGame(){
