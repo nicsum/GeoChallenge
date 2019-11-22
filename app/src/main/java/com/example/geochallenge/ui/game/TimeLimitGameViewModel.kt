@@ -21,15 +21,28 @@ import java.util.concurrent.TimeUnit
     override fun newGame() {
         super.newGame()
         startTimerFromCount(COUNT_TIMER)
-        distance.observeForever{
-            val timeBonus = getTimeBonus(it)
-            startTimerFromCount(stillHaveTimeLong + timeBonus)
-        }
+
     }
+
+     override fun clickedPosition(latitude: Double, longitude: Double, distance: Int) {
+         super.clickedPosition(latitude, longitude, distance)
+
+         //calculate time
+         val timeBonus = getExtraTime(distance)
+         val resultTime = stillHaveTimeLong + timeBonus
+
+         if (resultTime <= 0) finishGame()
+
+         startTimerFromCount(resultTime)
+     }
+
+     override fun levelFinished() {
+         super.levelFinished()
+         nextLevel()
+     }
 
 
     fun startTimerFromCount(count : Long ){
-
         timerDisposable?.dispose()
 
         timerDisposable = Observable
@@ -45,13 +58,20 @@ import java.util.concurrent.TimeUnit
     }
 
 
-    private fun getTimeBonus(distance: Int) = when {
+     private fun getExtraTime(distance: Int) = when {
 
-        distance <= 100 -> 30
-        distance <= 200 -> 20
-        distance <= 400 -> 10
-        distance <= 800 -> 5
-        else -> 0
+         distance <= 100 -> 9
+         distance <= 200 -> 8
+         distance <= 300 -> 7
+         distance <= 400 -> 6
+         distance <= 500 -> 5
+         distance <= 600 -> 0
+         distance <= 700 -> -2
+         distance <= 800 -> -3
+         distance <= 900 -> -4
+         distance <= 1000 -> -5
+         distance <= 2000 -> -10
+         else -> -10
 
     }
 

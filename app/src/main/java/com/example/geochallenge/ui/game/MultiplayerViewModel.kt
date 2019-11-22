@@ -2,16 +2,19 @@ package com.example.geochallenge.ui.game
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.geochallenge.game.CityTask
+import com.example.geochallenge.game.levels.LevelProvider
+import com.example.geochallenge.game.levels.MultiplayerLevelProvider
 import com.example.geochallenge.game.multiplayer.MultiplayerControler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
-class MultiplayerViewModel : SimpleGameViewModel(), MultiplayerControler.GameStateChangeListener {
+class MultiplayerViewModel(
+    override var levelProvider: LevelProvider = MultiplayerLevelProvider()
+) : ClassicGameViewModel(), MultiplayerControler.GameStateChangeListener {
 
     var multiplayerControler = MultiplayerControler(taskService)
-    var nextTask: CityTask? = null
+//    var nextTask: CityTask? = null
 
     var playersAnswer = MutableLiveData<Map<String, Pair<Double, Double>?>>()
 
@@ -22,47 +25,41 @@ class MultiplayerViewModel : SimpleGameViewModel(), MultiplayerControler.GameSta
     }
 
     override fun clickedPosition(latitude: Double, longitude: Double) {
-//        super.clickedPosition(latitude, longitude)
+
         multiplayerControler
             .postAnswer(Pair(latitude, longitude))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                //                isDefaultMapState.postValue(false)
                 super.clickedPosition(latitude, longitude)
-//                val currentTaskLat = currentTask.value?.latitude
-//                val currentTaskLon = currentTask.value?.longitude
-//                if (currentTaskLat != null && currentTaskLon != null) {
-//                    val d = CalculateUtils.calculateDistance(
-//                        Pair(latitude, longitude),
-//                        Pair(currentTaskLat, currentTaskLon)
-//                    ).toInt() / 1000 // m to km
-//                    distance.postValue(d)
-//                }
-//                clickedPosition.postValue(Pair(latitude, longitude))
             }, {
 
             })
     }
 
-    override fun nextTask() {
-        nextTask?.let {
-            currentTask.postValue(nextTask)
-            nextTask = null
-            isTaskCompleted.postValue(false)
-            isDefaultMapState.postValue(true)
-            clickedPosition.postValue(null)
-        }
-
-    }
+//    override fun nextTask() {
+//        nextTask?.let{
+//
+//        }
+//        nextTask?.let {
+//            currentTask.postValue(nextTask)
+//            nextTask = null
+//            isTaskCompleted.postValue(false)
+//            isDefaultMapState.postValue(true)
+//            clickedPosition.postValue(null)
+//        }
+//
+//    }
 
     override fun onNextTask(taskId: Int) {
         taskService.getCityTaskById(taskId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                nextTask = it
-                isTaskCompleted.postValue(true)
+                (levelProvider as MultiplayerLevelProvider).postTask(it)
+
+//                nextTask = it
+//                isTaskCompleted.postValue(true)
             }, {
                 Log.e("MultiplayerViewModel", it.message)
             })
@@ -88,7 +85,7 @@ class MultiplayerViewModel : SimpleGameViewModel(), MultiplayerControler.GameSta
     }
 
     override fun onFinishGame() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        finishGame()
     }
 
     override fun onFailStartGame(throwable: Throwable) {

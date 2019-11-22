@@ -113,11 +113,35 @@ class GameInfoFragment : Fragment() {
         }
 
         if (viewModel is TimeLimitGameViewModel) {
+//            viewModel.stillHaveTime.observe(this,
+//                Observer { stillHaveTimeTv.text = "У вас осталось $it сек." }
+//            )
+
             viewModel.stillHaveTime.observe(this,
-                Observer { stillHaveTimeTv.text = "У вас осталось $it сек." }
-            )
+                Observer {
+                    timerTv.text = if (it == null) "" else
+                        getString(
+                            R.string.timer_info,
+                            it
+                        )
+                })
         }
     }
+
+//    private fun addTime(seconds : Int){
+//        val oldValue = try {
+//            stillHaveTimeTv.text.toString()
+//        } catch (e: Exception) {
+//            0
+//        }
+//        val scoreAnimator = ValueAnimator.ofInt(oldValue, value)
+//        scoreAnimator.animatedValue
+//        scoreAnimator.setDuration(3000)
+//        scoreAnimator.addUpdateListener { animation ->
+//            pointsTv.setText(animation.getAnimatedValue().toString())
+//        }
+//        scoreAnimator.start()
+//    }
 
     private fun addPoints(value: Int) {
 

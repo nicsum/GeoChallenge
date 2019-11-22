@@ -38,6 +38,8 @@ class MultiplayerControler(val taskService: TaskService) {
 
     var gameStateChangeListener: GameStateChangeListener? = null
 
+    var currentLevel = 1
+
     fun startGame(listener: GameStateChangeListener) {
         gameStateChangeListener = listener
 
@@ -80,10 +82,15 @@ class MultiplayerControler(val taskService: TaskService) {
                     listener.onFailContinueGame(e)
                     return@addSnapshotListener
                 }
+
                 if (snapshot != null && snapshot.exists()) {
                     var gameState: MultiplayGameState? = null
                     try {
                         gameState = getGameState(snapshot)
+                        //TODO bad!
+                        if (gameState.tasks.size == gameState.currentTask) {
+                            badGetTaskForNextLevel(gameState.tasks)
+                        }
                     } catch (e: Throwable) {
                         Log.d("tag", e.message)
                     }
@@ -148,6 +155,24 @@ class MultiplayerControler(val taskService: TaskService) {
     }
 
 
+    private fun badGetTaskForNextLevel(oldTasks: List<Int>): Completable {
+        currentGameState?.id?.let { gameId ->
+            taskService.getRandomCityTasksByLevel(
+                currentLevel + 1,
+                SimpleGameViewModel.MINIMUM_COUNT_TASKS_FOR_ONE_LEVEL
+            )
+                .map { oldTasks + it }
+                .flatMapCompletable {
+                    database.collection("gameState").document(gameId)
+                        .update("tasks", it.toString())
+                    Completable.complete()
+                }
+
+        }
+
+        return Completable.error(Exception("gamestate = null"))
+
+    }
 
 }
 

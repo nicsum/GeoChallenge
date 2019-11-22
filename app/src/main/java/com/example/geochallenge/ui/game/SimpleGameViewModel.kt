@@ -6,17 +6,21 @@ import androidx.lifecycle.ViewModel
 import com.example.geochallenge.AppDelegate
 import com.example.geochallenge.data.tasks.TaskService
 import com.example.geochallenge.game.CityTask
+import com.example.geochallenge.game.levels.LevelProvider
+import com.example.geochallenge.game.levels.SinglePlayerLevelProvider
 import com.example.geochallenge.utils.CalculateUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-open class SimpleGameViewModel(val isOneAttemp : Boolean = true)  : ViewModel() {
+open class SimpleGameViewModel(
+    val taskService: TaskService = AppDelegate.taskStorage,
+    open var levelProvider: LevelProvider =
+        SinglePlayerLevelProvider(taskService, MINIMUM_COUNT_TASKS_FOR_ONE_LEVEL)
+) : ViewModel() {
 
     companion object{
         const val MINIMUM_COUNT_TASKS_FOR_ONE_LEVEL = 5
     }
-
-    protected val taskService: TaskService = AppDelegate.taskStorage
 
     val isDefaultMapState : MutableLiveData<Boolean> = MutableLiveData()
     val isTaskCompleted: MutableLiveData<Boolean> = MutableLiveData()
@@ -28,7 +32,7 @@ open class SimpleGameViewModel(val isOneAttemp : Boolean = true)  : ViewModel() 
     val currentLevel : MutableLiveData<Int> = MutableLiveData()
     val isLevelFinished: MutableLiveData<Boolean> = MutableLiveData()
 
-    lateinit var iteratorTasksForCurrentLevel: Iterator<CityTask>
+//    lateinit var iteratorTasksForCurrentLevel: Iterator<CityTask>
 
 
     open fun newGame(){
@@ -38,33 +42,53 @@ open class SimpleGameViewModel(val isOneAttemp : Boolean = true)  : ViewModel() 
     protected open fun nextLevel() {
         val level = currentLevel.value ?:0
         val newLevel = if(level == 0) 1 else level + 1
-        taskService.getRandomCityTasksByLevel(newLevel,
-            MINIMUM_COUNT_TASKS_FOR_ONE_LEVEL )
+        levelProvider.prepareForLevel(newLevel)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                iteratorTasksForCurrentLevel = it.iterator()
+                //                iteratorTasksForCurrentLevel = it.iterator()
                 currentLevel.postValue(newLevel)
                 isLevelFinished.postValue(false)
                 nextTask()
             },{
                 Log.e("SimpleGameViewModel",it.message)
             })
+
+
+//        taskService.getRandomCityTasksByLevel(newLevel,
+//            MINIMUM_COUNT_TASKS_FOR_ONE_LEVEL )
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                iteratorTasksForCurrentLevel = it.iterator()
+//                currentLevel.postValue(newLevel)
+//                isLevelFinished.postValue(false)
+//                nextTask()
+//            },{
+//                Log.e("SimpleGameViewModel",it.message)
+//            })
     }
 
     open fun nextTask(){
 
         isDefaultMapState.postValue(true)
         clickedPosition.postValue(null)
-        if(!iteratorTasksForCurrentLevel.hasNext()){
+        if (!levelProvider.haveTaskForCurrentLevel()) {
             levelFinished()
             return
         }
 
-        val task = iteratorTasksForCurrentLevel.next()
-        currentTask.postValue(task)
-        isTaskCompleted.postValue(false)
-        taskCounter.postValue(taskCounter.value?.plus(1) ?: 0)
+        levelProvider.getNextTask()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                currentTask.postValue(it)
+                isTaskCompleted.postValue(false)
+                taskCounter.postValue(taskCounter.value?.plus(1) ?: 0)
+            }, {
+                Log.e("SimpleGameViewModel", it.message)
+            })
+
     }
 
     open fun finishGame(){
@@ -91,6 +115,7 @@ open class SimpleGameViewModel(val isOneAttemp : Boolean = true)  : ViewModel() 
         clickedPosition.postValue(Pair(latitude, longitude))
         finishTask()
     }
+
 
     protected open fun finishTask() {
         isTaskCompleted.postValue(true)
