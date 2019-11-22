@@ -60,7 +60,7 @@ class MultiplayerViewModel(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 (levelProvider as MultiplayerLevelProvider).postTask(it)
-
+                nextTask()
 //                nextTask = it
 //                isTaskCompleted.postValue(true)
             }, {

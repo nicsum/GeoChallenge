@@ -93,8 +93,13 @@ class GameInfoFragment : Fragment() {
             })
         viewModel.currentTask.observe(this,
             Observer { cityNameTv.text = if (it == null) "" else "${it.countryRU}, ${it.city}" })
-        viewModel.isTaskCompleted.observe(this,
-            Observer { nextCityButton.visibility = if (it) View.VISIBLE else View.GONE })
+
+        if (viewModel !is MultiplayerViewModel) {
+            viewModel.isTaskCompleted.observe(this,
+                Observer { nextCityButton.visibility = if (it) View.VISIBLE else View.GONE })
+        }
+
+        
         viewModel.taskCounter.observe(this,
             Observer { taskCounterTv.text = getString((R.string.location_d_text), it) })
         viewModel.currentLevel.observe(this,

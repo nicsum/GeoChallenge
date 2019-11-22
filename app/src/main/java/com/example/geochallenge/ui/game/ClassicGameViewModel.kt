@@ -25,7 +25,7 @@ open class ClassicGameViewModel : SimpleGameViewModel() {
 
     var timerDisposable: Disposable? = null
 
-    
+
     override fun onStartTask(task: CityTask) {
         super.onStartTask(task)
         startTimerFromCount(SECONDS_FOR_TASK)
