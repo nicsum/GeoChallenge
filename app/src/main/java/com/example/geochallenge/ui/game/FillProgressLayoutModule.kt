@@ -116,9 +116,9 @@ class FillProgressLayout : LinearLayout {
                     array.getInt(R.styleable.FillProgressLayout_fpl_progressDirection, defDirection)
                 setDirection(direction)
 
-//                val progress =
-//                    array.getInt(R.styleable.FillProgressLayout_fpl_progress, currentProgress)
-//                setProgress(progress)
+                val progress =
+                    array.getInt(R.styleable.FillProgressLayout_fpl_progress, currentProgress)
+                setProgress(progress)
             }
             array.recycle()
         }
@@ -215,17 +215,21 @@ class FillProgressLayout : LinearLayout {
             animator.addUpdateListener { anm ->
                 currentProgress = anm.animatedValue as Int
                 updateRect(rectF = progressRectF)
-                if (currentProgress == 50) {
+                if (currentProgress >= 0) {
+                    setProgressBackgroundColor(R.color.colorAccent)
+                }
+                if (currentProgress >= 50) {
                     setProgressBackgroundColor(R.color.colorAccentYellow)
                 }
-                if (currentProgress == 85) {
+                if (currentProgress >= 75) {
                     setProgressBackgroundColor(R.color.colorMaterialRed500)
                 }
                 ViewCompat.postInvalidateOnAnimation(this)
             }
             animator.doOnEnd { doOnProgressEnd?.invoke(this); if (!isRestart) oldProgress = p }
-            animator.setDuration(((kotlin.math.abs(p - oldProgress)) * mDurationFactor).toLong())
-                .start()
+            animator.setDuration(250).start()
+//            animator.setDuration(((kotlin.math.abs(p - oldProgress)) * mDurationFactor).toLong()).start()
+//
         }
     }
 

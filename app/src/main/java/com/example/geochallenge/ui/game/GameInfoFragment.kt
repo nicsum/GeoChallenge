@@ -52,6 +52,7 @@ class GameInfoFragment : Fragment() {
         timerTv = v.findViewById(R.id.timerTv)
         tableTv = v.findViewById(R.id.scoreTableLayout)
         distance = v.findViewById(R.id.distanceTv)
+        progressBar = v.findViewById(R.id.progressBar)
 
         waitingProgressBar = v.findViewById(R.id.waitingProgressBar)
         gameInfo = v.findViewById(R.id.gameInfoCard)
@@ -99,7 +100,7 @@ class GameInfoFragment : Fragment() {
                 Observer { nextCityButton.visibility = if (it) View.VISIBLE else View.GONE })
         }
 
-        
+
         viewModel.taskCounter.observe(this,
             Observer { taskCounterTv.text = getString((R.string.location_d_text), it) })
         viewModel.currentLevel.observe(this,
@@ -109,6 +110,7 @@ class GameInfoFragment : Fragment() {
         if (viewModel is ClassicGameViewModel) {
             viewModel.secondsPassed.observe(this,
                 Observer {
+                    progressBar.setProgress(it.toInt() * 100 / (13000 / 1000))
                     timerTv.text = if (it == null) "" else
                         getString(
                             R.string.timer_info,
@@ -151,21 +153,6 @@ class GameInfoFragment : Fragment() {
                 })
         }
     }
-
-//    private fun addTime(seconds : Int){
-//        val oldValue = try {
-//            stillHaveTimeTv.text.toString()
-//        } catch (e: Exception) {
-//            0
-//        }
-//        val scoreAnimator = ValueAnimator.ofInt(oldValue, value)
-//        scoreAnimator.animatedValue
-//        scoreAnimator.setDuration(3000)
-//        scoreAnimator.addUpdateListener { animation ->
-//            pointsTv.setText(animation.getAnimatedValue().toString())
-//        }
-//        scoreAnimator.start()
-//    }
 
     private fun addPoints(value: Int) {
 

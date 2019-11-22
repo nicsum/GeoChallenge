@@ -29,10 +29,8 @@
             android:layout_marginRight="8dp"
             app:fpl_backgroundColor="@color/colorAccent"
             app:fpl_isRounded="false"
-            app:fpl_progress="100"
             app:fpl_progressColor="@color/colorPrimary"
-            app:fpl_progressDirection="right_to_left"
-            app:fpl_progressDuration="13000"
+            app:fpl_progressDirection="left_to_right"
             app:fpl_shouldRestart="false" />
 
 
