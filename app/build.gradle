@@ -56,15 +56,15 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.2.1'
     implementation 'com.google.firebase:firebase-database:19.2.0'
     implementation 'com.firebaseui:firebase-ui-auth:4.2.1'
-    implementation 'com.google.firebase:firebase-auth:19.1.0'
+    implementation 'com.google.firebase:firebase-auth:19.2.0'
     implementation 'com.google.firebase:firebase-firestore:21.3.0'
 
     //room
-    implementation "androidx.room:room-runtime:2.2.1"
-    implementation "androidx.room:room-rxjava2:2.2.1"
-    kapt "androidx.room:room-compiler:2.2.1"
+    implementation "androidx.room:room-runtime:2.2.2"
+    implementation "androidx.room:room-rxjava2:2.2.2"
+    kapt "androidx.room:room-compiler:2.2.2"
     //rv
-    implementation "androidx.recyclerview:recyclerview:1.0.0"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.recyclerview:recyclerview-selection:1.0.0"
 
     implementation "android.arch.lifecycle:extensions:1.1.1"
@@ -72,13 +72,17 @@ dependencies {
     kapt "android.arch.lifecycle:compiler:1.1.1"
     implementation "android.arch.lifecycle:reactivestreams:1.1.1"
     //rx
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.7'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-//ui
+    //ui
     implementation 'com.flaviofaria:kenburnsview:1.0.7'
 
     //okhttp
     implementation "com.squareup.okhttp3:okhttp:4.2.1"
+
+    //di
+    kapt "com.google.dagger:dagger-compiler:2.17"
+    implementation "com.google.dagger:dagger:2.17"
 
 }
 apply plugin: 'com.google.gms.google-services'

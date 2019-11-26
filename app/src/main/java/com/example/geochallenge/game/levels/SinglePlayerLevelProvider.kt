@@ -5,7 +5,7 @@ import com.example.geochallenge.game.CityTask
 import io.reactivex.Completable
 import io.reactivex.Single
 
-class SinglePlayerLevelProvider(val taskService: TaskService, val countTaskForLevel: Int) :
+class SinglePlayerLevelProvider(val taskService: TaskService, val countTaskForLevel: Int = 5) :
     LevelProvider {
 
 

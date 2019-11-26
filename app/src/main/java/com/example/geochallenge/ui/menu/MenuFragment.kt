@@ -41,6 +41,7 @@ class MenuFragment : Fragment() {
         val intent = Intent(context, GameActivity::class.java)
         intent.putExtra(GameActivity.TYPE_GAME_KEY, type)
         intent.putExtra(GameActivity.START_LOCATION_KEY, Pair(64.0, 80.0))
+        intent.putExtra(GameActivity.COUNT_TASKS_FOR_LEVEL_KEY, 5)
 
         activity?.startActivity(intent)
     }

@@ -8,7 +8,7 @@ import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
 
-class FirebaseMultiplayerApi :
+class FirebaseMultiplayerApi(val client: OkHttpClient) :
     MultiplayerApi {
 
 
@@ -18,7 +18,6 @@ class FirebaseMultiplayerApi :
         val baseUrlAddAnswer = "https://europe-west1-geochallenge.cloudfunctions.net/addAnswer"
     }
 
-    val client = OkHttpClient()
 
 
     override fun postAnswer(

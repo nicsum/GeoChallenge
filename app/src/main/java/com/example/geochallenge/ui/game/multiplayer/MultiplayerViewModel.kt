@@ -1,21 +1,24 @@
-package com.example.geochallenge.ui.game
+package com.example.geochallenge.ui.game.multiplayer
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.geochallenge.data.tasks.TaskService
 import com.example.geochallenge.game.levels.LevelProvider
 import com.example.geochallenge.game.levels.MultiplayerLevelProvider
-import com.example.geochallenge.game.multiplayer.MultiplayerControler
+import com.example.geochallenge.game.multiplayer.FirebaseMultiplayerControler
+import com.example.geochallenge.game.multiplayer.GameStateChangeListener
+import com.example.geochallenge.ui.game.classic.ClassicGameViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
 class MultiplayerViewModel(
-    override var levelProvider: LevelProvider = MultiplayerLevelProvider()
-) : ClassicGameViewModel(), MultiplayerControler.GameStateChangeListener {
+    levelProvider: LevelProvider,
+    val multiplayerControler: FirebaseMultiplayerControler,
+    val taskService: TaskService,
+    countTasksForLevel: Int
+) : ClassicGameViewModel(levelProvider, countTasksForLevel), GameStateChangeListener {
 
-    var multiplayerControler = MultiplayerControler(taskService)
-
-//    var nextTask: CityTask? = null
 
     var playersAnswer = MutableLiveData<Map<String, Pair<Double, Double>?>>()
     var waitingPlayers = MutableLiveData<Boolean>()
@@ -40,19 +43,6 @@ class MultiplayerViewModel(
             })
     }
 
-//    override fun nextTask() {
-//        nextTask?.let{
-//
-//        }
-//        nextTask?.let {
-//            currentTask.postValue(nextTask)
-//            nextTask = null
-//            isTaskCompleted.postValue(false)
-//            isDefaultMapState.postValue(true)
-//            clickedPosition.postValue(null)
-//        }
-//
-//    }
 
     override fun onNextTask(taskId: Int) {
         taskService.getCityTaskById(taskId)
@@ -74,10 +64,8 @@ class MultiplayerViewModel(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 waitingPlayers.postValue(false)
-                currentTask.postValue(it)
-                isTaskCompleted.postValue(false)
-                isDefaultMapState.postValue(true)
-                clickedPosition.postValue(null)
+                (levelProvider as MultiplayerLevelProvider).postTask(it)
+                nextTask()
             }, {
                 Log.e("MultiplayerViewModel", it.message)
             })

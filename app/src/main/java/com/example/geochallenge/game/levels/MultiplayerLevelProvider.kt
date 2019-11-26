@@ -7,7 +7,6 @@ import io.reactivex.SingleEmitter
 
 class MultiplayerLevelProvider : LevelProvider {
 
-    var cityTask: CityTask? = null
     var haveNextTask = true
 
     lateinit var e: SingleEmitter<CityTask>
