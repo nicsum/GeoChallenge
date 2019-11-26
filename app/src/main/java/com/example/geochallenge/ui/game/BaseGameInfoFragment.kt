@@ -11,17 +11,14 @@ import javax.inject.Inject
 
 abstract class BaseGameInfoFragment : Fragment() {
 
-
     lateinit var distance: TextView
     lateinit var cityNameTv: TextView
     lateinit var taskCounterTv: TextView
     lateinit var currentLevelTv: TextView
     lateinit var gameInfo: RelativeLayout
 
-
     @Inject
     lateinit var viewModel: BaseGameViewModel
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,7 +44,6 @@ abstract class BaseGameInfoFragment : Fragment() {
             Observer { taskCounterTv.text = getString((R.string.location_d_text), it) })
         viewModel.currentLevel.observe(this,
             Observer { currentLevelTv.text = getString((R.string.level_d_text), it) })
-
 
     }
 

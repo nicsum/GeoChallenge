@@ -1,10 +1,10 @@
 package com.example.geochallenge.ui.game.timelimit
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.example.geochallenge.R
@@ -14,6 +14,7 @@ import com.example.geochallenge.ui.game.GameActivity
 class TimeLimitGameInfoFragment : BaseGameInfoFragment() {
 
     lateinit var timerTv: TextView
+    lateinit var nextCityButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,18 +24,15 @@ class TimeLimitGameInfoFragment : BaseGameInfoFragment() {
 
         val v = inflater.inflate(R.layout.fr_gameinfo, container, false)
         timerTv = v.findViewById(R.id.timerTv)
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (activity as GameActivity)
-            .timeComponent
-            .inject(this)
+        nextCityButton = v.findViewById(R.id.nextCityBtn)
+        return v
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+
+        (activity as GameActivity)
+            .timeComponent
+            .inject(this)
         val vm = viewModel as TimeLimitGameViewModel
 
         vm.stillHaveTime.observe(this,
@@ -45,6 +43,9 @@ class TimeLimitGameInfoFragment : BaseGameInfoFragment() {
                         it
                     )
             })
+
+        nextCityButton.setOnClickListener { viewModel.nextTask() }
+        super.onActivityCreated(savedInstanceState)
     }
 
 }
