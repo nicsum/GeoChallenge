@@ -1,9 +1,7 @@
 package com.example.geochallenge.di.app
 
-import androidx.room.Room
 import com.example.geochallenge.AppDelegate
-import com.example.geochallenge.data.GeoChallengeDao
-import com.example.geochallenge.data.GeoChallengeDataBase
+import com.example.geochallenge.data.api.GeochallengeApi
 import com.example.geochallenge.data.tasks.TaskService
 import com.example.geochallenge.data.tasks.TaskStorage
 import dagger.Module
@@ -11,7 +9,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 
-@Module
+@Module(includes = arrayOf(NetworkModule::class))
 class AppModule(private val appDelegate: AppDelegate) {
 
     companion object {
@@ -22,25 +20,26 @@ class AppModule(private val appDelegate: AppDelegate) {
     @Singleton
     fun provideApp() = appDelegate
 
-    @Provides
-    @Singleton
-    fun provideDataBase(): GeoChallengeDataBase {
-        return Room.databaseBuilder(appDelegate, GeoChallengeDataBase::class.java, "tasks")
-            .createFromAsset(DB_NAME)
-            .fallbackToDestructiveMigration()
-            .build()
-    }
+//    @Provides
+//    @Singleton
+//    fun provideDataBase(): GeoChallengeDataBase {
+//        return Room.databaseBuilder(appDelegate, GeoChallengeDataBase::class.java, "tasks")
+//            .createFromAsset(DB_NAME)
+//            .fallbackToDestructiveMigration()
+//            .build()
+//    }
+//
+//    @Provides
+//    @Singleton
+//    fun provideGeoChallengeDao(dataBase: GeoChallengeDataBase): GeoChallengeDao {
+//        return dataBase.getDao()
+//    }
+
 
     @Provides
     @Singleton
-    fun provideGeoChallengeDao(dataBase: GeoChallengeDataBase): GeoChallengeDao {
-        return dataBase.getDao()
-    }
-
-    @Provides
-    @Singleton
-    fun provideStorage(geoChallengeDao: GeoChallengeDao): TaskStorage {
-        return TaskStorage(geoChallengeDao)
+    fun provideStorage(api: GeochallengeApi): TaskStorage {
+        return TaskStorage(api)
     }
 
     @Provides
