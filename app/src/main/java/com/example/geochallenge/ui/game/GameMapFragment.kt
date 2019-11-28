@@ -35,7 +35,7 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
     override fun onActivityCreated(p0: Bundle?) {
         super.onActivityCreated(p0)
 
-        (activity as GameActivity).mapComponent.inject(this)
+        (activity as BaseGameMapActivity).getMapComponent().inject(this)
 
         viewModel.isDefaultMapState.observe(this, Observer {
             if(it){

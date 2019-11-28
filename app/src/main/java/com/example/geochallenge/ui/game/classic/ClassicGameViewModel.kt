@@ -20,10 +20,7 @@ open class ClassicGameViewModel(val levelProvider: LevelProvider, val countTasks
         const val SECONDS_FOR_TASK = 13L
         const val SECONDS_FOR_BONUS = 10L
     }
-
-
     val maxPointsForLevel = countTasksForLevel * (SECONDS_FOR_BONUS.toInt() * 20)
-
 
     val secondsPassed = MutableLiveData<Long>()
     var points = MutableLiveData<Int>()
@@ -83,6 +80,19 @@ open class ClassicGameViewModel(val levelProvider: LevelProvider, val countTasks
         }
     }
 
+    override fun getNextTask(): Single<CityTask> {
+        return levelProvider.getNextTask()
+    }
+
+    override fun prepareNewLevel(newLevel: Int): Completable {
+
+        return levelProvider.prepareForLevel(newLevel)
+    }
+
+    override fun haveTaskForCurrentLevel(): Boolean {
+        return levelProvider.haveTaskForCurrentLevel()
+    }
+
     private fun getTimeBonus(seconds: Long): Long {
         if (seconds > SECONDS_FOR_BONUS) return 0
         return (SECONDS_FOR_BONUS - seconds) * 20
@@ -106,17 +116,6 @@ open class ClassicGameViewModel(val levelProvider: LevelProvider, val countTasks
         return 800 - distance + getTimeBonus(seconds).toInt()
     }
 
-    override fun getNextTask(): Single<CityTask> {
-        return levelProvider.getNextTask()
-    }
 
-    override fun prepareNewLevel(newLevel: Int): Completable {
-
-        return levelProvider.prepareForLevel(newLevel)
-    }
-
-    override fun haveTaskForCurrentLevel(): Boolean {
-        return levelProvider.haveTaskForCurrentLevel()
-    }
 
 }

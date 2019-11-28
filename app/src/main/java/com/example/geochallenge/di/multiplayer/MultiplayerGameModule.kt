@@ -7,8 +7,8 @@ import com.example.geochallenge.game.levels.MultiplayerLevelProvider
 import com.example.geochallenge.game.multiplayer.FirebaseMultiplayerControler
 import com.example.geochallenge.game.multiplayer.MultiplayerApi
 import com.example.geochallenge.game.multiplayer.MultiplayerControler
+import com.example.geochallenge.ui.game.BaseGameMapActivity
 import com.example.geochallenge.ui.game.BaseGameViewModel
-import com.example.geochallenge.ui.game.GameActivity
 import com.example.geochallenge.ui.game.multiplayer.MultiplayerViewModel
 import com.example.geochallenge.ui.game.multiplayer.MultiplayerViewModelFactory
 import dagger.Module
@@ -53,7 +53,7 @@ class MultiplayerGameModule(val countTasksForLevel: Int) {
     @Provides
     @MultiplayerGameScope
     fun provideMultiplayerViewMode(
-        activity: GameActivity,
+        activity: BaseGameMapActivity,
         factory: MultiplayerViewModelFactory
     ): MultiplayerViewModel {
         return ViewModelProviders.of(activity, factory).get(MultiplayerViewModel::class.java)

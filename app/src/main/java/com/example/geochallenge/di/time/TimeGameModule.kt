@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.geochallenge.data.tasks.TaskService
 import com.example.geochallenge.game.levels.LevelProvider
 import com.example.geochallenge.game.levels.SinglePlayerLevelProvider
+import com.example.geochallenge.ui.game.BaseGameMapActivity
 import com.example.geochallenge.ui.game.BaseGameViewModel
-import com.example.geochallenge.ui.game.GameActivity
 import com.example.geochallenge.ui.game.timelimit.TimeLimitGameViewModel
 import com.example.geochallenge.ui.game.timelimit.TimeLimitGameViewModelFactory
 import dagger.Module
@@ -18,7 +18,7 @@ class TimeGameModule(val countTasksForLevel: Int) {
     @Provides
     @TimeGameScope
     fun provideTimeLimitGameViewModule(
-        activity: GameActivity,
+        activity: BaseGameMapActivity,
         factory: TimeLimitGameViewModelFactory
     ): TimeLimitGameViewModel {
         return ViewModelProviders.of(activity, factory).get(TimeLimitGameViewModel::class.java)

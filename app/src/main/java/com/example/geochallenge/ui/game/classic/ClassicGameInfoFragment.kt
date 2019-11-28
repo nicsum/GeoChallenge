@@ -11,33 +11,31 @@ import androidx.lifecycle.Observer
 import com.example.geochallenge.R
 import com.example.geochallenge.ui.game.BaseGameInfoFragment
 import com.example.geochallenge.ui.game.FillProgressLayout
-import com.example.geochallenge.ui.game.GameActivity
 
 
 class ClassicGameInfoFragment : BaseGameInfoFragment() {
 
     lateinit var nextCityButton: Button
-    lateinit var progressBar: FillProgressLayout
-    lateinit var timerTv: TextView
     lateinit var pointsTv: TextView
-    
+    lateinit var timerTv: TextView
+    lateinit var progressBar: FillProgressLayout
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val v = inflater.inflate(R.layout.fr_gameinfo, container, false)
+        nextCityButton = v.findViewById(R.id.nextCityBtn)
         pointsTv = v.findViewById(R.id.pointsText)
         timerTv = v.findViewById(R.id.timerTv)
         progressBar = v.findViewById(R.id.progressBar)
-        nextCityButton = v.findViewById(R.id.nextCityBtn)
         return v
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
 
-        (activity as GameActivity)
+        (activity as ClassicGameActivity)
             .classicComponent
             .inject(this)
 
@@ -45,6 +43,10 @@ class ClassicGameInfoFragment : BaseGameInfoFragment() {
 
         vm.isTaskCompleted.observe(this,
             Observer { nextCityButton.visibility = if (it) View.VISIBLE else View.GONE })
+
+        vm.points.observe(this, Observer {
+            addPoints(it ?: 0)
+        })
 
         vm.secondsPassed.observe(this,
             Observer {
@@ -56,10 +58,8 @@ class ClassicGameInfoFragment : BaseGameInfoFragment() {
                     )
             })
 
-        vm.points.observe(this, Observer {
-            addPoints(it ?: 0)
-        })
         nextCityButton.setOnClickListener { viewModel.nextTask() }
+
         super.onActivityCreated(savedInstanceState)
     }
 

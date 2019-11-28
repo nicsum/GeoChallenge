@@ -14,11 +14,11 @@ class CityTask(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id") var id: Int? = 0,
 
-    @SerializedName("city_name")
+    @SerializedName("name_ru")
     @ColumnInfo(name = "city_name")
     var city: String? = "",
 
-    @ColumnInfo(name = "country") var country: String? = "",
+    @ColumnInfo(name = "country_en") var country: String? = "",
 
     @SerializedName("country_ru")
     @ColumnInfo(name = "country_ru")

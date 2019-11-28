@@ -5,10 +5,8 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 interface LevelProvider {
-
     fun getNextTask(): Single<CityTask>
     fun prepareForLevel(level: Int): Completable
     fun haveTaskForCurrentLevel(): Boolean
-
 
 }

@@ -24,17 +24,6 @@ class SinglePlayerLevelProvider(val taskService: TaskService, val countTaskForLe
                 iteratorTasksForCurrentLevel = it.iterator()
                 Completable.complete()
             }
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-
-//            .subscribe({
-//                iteratorTasksForCurrentLevel = it.iterator()
-//                currentLevel.postValue(newLevel)
-//                isLevelFinished.postValue(false)
-//                nextTask()
-//            },{
-//                Log.e("SimpleGameViewModel",it.message)
-//            })
     }
 
     override fun haveTaskForCurrentLevel(): Boolean {
