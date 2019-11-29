@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.example.geochallenge.R
+import com.example.geochallenge.game.GameInfo
 import com.example.geochallenge.ui.game.BaseGameMapActivity
 import com.example.geochallenge.ui.game.classic.ClassicGameActivity
 import com.example.geochallenge.ui.game.multiplayer.MultiplayerGameActivity
 import com.example.geochallenge.ui.game.street.StreetGameActivity
 import com.example.geochallenge.ui.game.timelimit.TimeLimitGameActivity
 import com.example.geochallenge.ui.records.RecordsActivity
+import com.google.firebase.auth.FirebaseAuth
 
 class MenuFragment : Fragment() {
 
@@ -47,30 +49,38 @@ class MenuFragment : Fragment() {
 
     private fun startClassicGame() {
         val intent = Intent(context, ClassicGameActivity::class.java)
-        intent.putExtra(BaseGameMapActivity.START_LOCATION_KEY, Pair(64.0, 80.0))
-        intent.putExtra(BaseGameMapActivity.COUNT_TASKS_FOR_LEVEL_KEY, 5)
+        putExtra(intent, "solo")
         activity?.startActivity(intent)
     }
 
     private fun startTimeGame() {
         val intent = Intent(context, TimeLimitGameActivity::class.java)
-        intent.putExtra(BaseGameMapActivity.START_LOCATION_KEY, Pair(64.0, 80.0))
-        intent.putExtra(BaseGameMapActivity.COUNT_TASKS_FOR_LEVEL_KEY, 5)
+        putExtra(intent, "time")
         activity?.startActivity(intent)
     }
 
     private fun startMultiplayerGame() {
         val intent = Intent(context, MultiplayerGameActivity::class.java)
-        intent.putExtra(BaseGameMapActivity.START_LOCATION_KEY, Pair(64.0, 80.0))
-        intent.putExtra(BaseGameMapActivity.COUNT_TASKS_FOR_LEVEL_KEY, 5)
+        putExtra(intent, "mp")
         activity?.startActivity(intent)
     }
 
     private fun startStreetGame() {
         val intent = Intent(context, StreetGameActivity::class.java)
-        intent.putExtra(BaseGameMapActivity.START_LOCATION_KEY, Pair(64.0, 80.0))
-        intent.putExtra(BaseGameMapActivity.COUNT_TASKS_FOR_LEVEL_KEY, 5)
+        putExtra(intent, "street")
         activity?.startActivity(intent)
+    }
+
+
+    private fun putExtra(intent: Intent, mode: String) {
+        intent.putExtra(BaseGameMapActivity.START_LOCATION_KEY, getStartLocation())
+        intent.putExtra(
+            BaseGameMapActivity.GAME_INFO_KEY,
+            getGameInfo(
+                mode, getMapId()
+            )
+        )
+        intent.putExtra(BaseGameMapActivity.USER_ID_KEY, getUserID())
     }
 
 
@@ -78,5 +88,13 @@ class MenuFragment : Fragment() {
         val intent = Intent(context, RecordsActivity::class.java)
         activity?.startActivity(intent)
     }
+
+
+    private fun getMapId() = 1
+    private fun getGameInfo(mode: String, mapId: Int) = GameInfo(mode, mapId, 5)
+
+    private fun getUserID() = FirebaseAuth.getInstance().currentUser
+
+    private fun getStartLocation() = Pair(64.0, 80.0)
 
 }

@@ -3,7 +3,7 @@ package com.example.geochallenge.ui.game.classic
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.geochallenge.game.CityTask
-import com.example.geochallenge.game.levels.LevelProvider
+import com.example.geochallenge.game.controlers.GameControler
 import com.example.geochallenge.ui.game.BaseGameViewModel
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -13,7 +13,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-open class ClassicGameViewModel(val levelProvider: LevelProvider, val countTasksForLevel: Int) :
+open class ClassicGameViewModel(val gameControler: GameControler, val countTasksForLevel: Int) :
     BaseGameViewModel() {
 
     companion object{
@@ -75,22 +75,36 @@ open class ClassicGameViewModel(val levelProvider: LevelProvider, val countTasks
             pointsForCurrentLevel.value ?: 0
         ) {
             finishGame()
+
         } else {
             nextLevel()
         }
     }
 
+    override fun finishGame() {
+        gameControler
+            .finishGame(points.value ?: 0, taskCounter.value ?: 0)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnComplete {
+                super.finishGame()
+            }
+            .doOnError {
+                Log.e("mytagg", it.message)
+            }.subscribe()
+    }
+
     override fun getNextTask(): Single<CityTask> {
-        return levelProvider.getNextTask()
+        return gameControler.getNextTask()
     }
 
     override fun prepareNewLevel(newLevel: Int): Completable {
 
-        return levelProvider.prepareForLevel(newLevel)
+        return gameControler.prepareForLevel(newLevel)
     }
 
     override fun haveTaskForCurrentLevel(): Boolean {
-        return levelProvider.haveTaskForCurrentLevel()
+        return gameControler.haveTaskForCurrentLevel()
     }
 
     private fun getTimeBonus(seconds: Long): Long {

@@ -2,6 +2,8 @@ package com.example.geochallenge.di.app
 
 import com.example.geochallenge.BuildConfig.API_URL
 import com.example.geochallenge.data.api.GeochallengeApi
+import com.example.geochallenge.data.api.MockClassicRussianGeochallengeApi
+import com.example.geochallenge.data.database.GeoChallengeDao
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -12,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 
-@Module
+@Module(includes = arrayOf(DataBaseModule::class))
 class NetworkModule {
 
     @Provides
@@ -39,10 +41,18 @@ class NetworkModule {
             .build()
     }
 
+//    @Provides
+//    @Singleton
+//    fun provideApiService(retrofit: Retrofit): GeochallengeApi {
+//        return retrofit.create(GeochallengeApi::class.java)
+//    }
+
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): GeochallengeApi {
-        return retrofit.create(GeochallengeApi::class.java)
+    fun provideApiService(dao: GeoChallengeDao): GeochallengeApi {
+        val mc = MockClassicRussianGeochallengeApi
+        mc.dao = dao
+        return mc
     }
 
 

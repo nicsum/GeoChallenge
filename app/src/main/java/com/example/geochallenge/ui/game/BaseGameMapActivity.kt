@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.example.geochallenge.AppDelegate
 import com.example.geochallenge.di.MapComponent
 import com.example.geochallenge.di.activity.ActivityComponent
+import com.example.geochallenge.game.GameInfo
 import com.example.geochallenge.ui.records.RecordsActivity
 import com.google.android.gms.maps.model.LatLng
 import javax.inject.Inject
@@ -17,7 +18,8 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
 
     companion object {
         const val START_LOCATION_KEY = "START_LOCATION_KEY"
-        const val COUNT_TASKS_FOR_LEVEL_KEY = "COUNT_TASKS_FOR_LEVEL_KEY"
+        const val GAME_INFO_KEY = "GAME_INFO_KEY"
+        const val USER_ID_KEY = "USER_ID_KEY"
     }
 
     @Inject
@@ -88,8 +90,13 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
     private fun getActivityComponent(
         startLocation: LatLng
     ): ActivityComponent {
-        return (application as AppDelegate).getGameActivityComponent(this, startLocation)
-
+        return (application as AppDelegate)
+            .getGameActivityComponent(
+                this,
+                getGameInfo(),
+                getUserId(),
+                startLocation
+            )
     }
 
     private fun getStartLocation(): LatLng {
@@ -99,6 +106,12 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
         }
     }
 
-    protected fun getCountTasksForLevel() = 5
+    protected fun getGameInfo(): GameInfo {
+        return intent.extras?.getSerializable(GAME_INFO_KEY) as GameInfo
+    }
+
+    protected fun getUserId(): String {
+        return intent.extras?.getString(USER_ID_KEY) ?: ""
+    }
 
 }

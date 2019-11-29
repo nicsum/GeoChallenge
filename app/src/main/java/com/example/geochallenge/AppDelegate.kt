@@ -9,6 +9,7 @@ import com.example.geochallenge.di.activity.GameActivityModule
 import com.example.geochallenge.di.app.AppComponent
 import com.example.geochallenge.di.app.AppModule
 import com.example.geochallenge.di.app.DaggerAppComponent
+import com.example.geochallenge.game.GameInfo
 import com.example.geochallenge.ui.game.BaseGameMapActivity
 import com.google.android.gms.maps.model.LatLng
 
@@ -26,10 +27,12 @@ class AppDelegate : MultiDexApplication()  {
 
     fun getGameActivityComponent(
         activity: BaseGameMapActivity,
+        gameInfo: GameInfo,
+        userId: String,
         startLocation: LatLng
     ): ActivityComponent {
         val component = gameActivityComponent ?: appComponent.provideActivityComponent(
-            GameActivityModule(activity, startLocation)
+            GameActivityModule(activity, gameInfo, userId, startLocation)
         )
         gameActivityComponent = component
         return component

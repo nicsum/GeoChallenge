@@ -1,9 +1,10 @@
 package com.example.geochallenge.di.street
 
 import androidx.lifecycle.ViewModelProviders
-import com.example.geochallenge.data.tasks.TaskService
-import com.example.geochallenge.game.levels.LevelProvider
-import com.example.geochallenge.game.levels.SinglePlayerLevelProvider
+import com.example.geochallenge.data.GeochallengeService
+import com.example.geochallenge.game.GameInfo
+import com.example.geochallenge.game.controlers.GameControler
+import com.example.geochallenge.game.controlers.SinglePlayerGameControler
 import com.example.geochallenge.ui.game.BaseGameMapActivity
 import com.example.geochallenge.ui.game.BaseGameViewModel
 import com.example.geochallenge.ui.game.street.StreetGameViewModel
@@ -13,7 +14,7 @@ import dagger.Provides
 
 
 @Module
-class StreetGameModule(val countTasksForLevel: Int) {
+class StreetGameModule {
 
     @Provides
     @StreetGameScope
@@ -27,14 +28,18 @@ class StreetGameModule(val countTasksForLevel: Int) {
 
     @Provides
     @StreetGameScope
-    fun provideLevelProvider(tasksService: TaskService): LevelProvider {
-        return SinglePlayerLevelProvider(tasksService, countTasksForLevel)
+    fun provideLevelProvider(
+        tasksService: GeochallengeService,
+        gameInfo: GameInfo,
+        userId: String
+    ): GameControler {
+        return SinglePlayerGameControler(tasksService, gameInfo, userId)
     }
 
     @Provides
     @StreetGameScope
-    fun provideViewModelFactory(levelProvider: LevelProvider): StreetGameViewModelFactory {
-        return StreetGameViewModelFactory(levelProvider)
+    fun provideViewModelFactory(gameControler: GameControler): StreetGameViewModelFactory {
+        return StreetGameViewModelFactory(gameControler)
 
     }
 

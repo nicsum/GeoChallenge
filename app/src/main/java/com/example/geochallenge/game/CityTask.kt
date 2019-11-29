@@ -4,6 +4,7 @@ package com.example.geochallenge.game
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
@@ -18,7 +19,13 @@ class CityTask(
     @ColumnInfo(name = "city_name")
     var city: String? = "",
 
-    @ColumnInfo(name = "country_en") var country: String? = "",
+    @SerializedName("country_en")
+    @Ignore
+    var countryEN: String? = "",
+
+
+    @ColumnInfo(name = "country")
+    var country: String? = "",
 
     @SerializedName("country_ru")
     @ColumnInfo(name = "country_ru")

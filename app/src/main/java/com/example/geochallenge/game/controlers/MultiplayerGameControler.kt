@@ -1,11 +1,12 @@
-package com.example.geochallenge.game.levels
+package com.example.geochallenge.game.controlers
 
 import com.example.geochallenge.game.CityTask
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 
-class MultiplayerLevelProvider : LevelProvider {
+class MultiplayerGameControler : GameControler {
+
 
     var haveNextTask = true
 
@@ -27,6 +28,10 @@ class MultiplayerLevelProvider : LevelProvider {
 
     override fun haveTaskForCurrentLevel(): Boolean {
         return haveNextTask
+    }
+
+    override fun finishGame(score: Int, countTask: Int): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }

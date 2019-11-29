@@ -1,7 +1,7 @@
 package com.example.geochallenge.game.multiplayer
 
 import android.util.Log
-import com.example.geochallenge.data.tasks.TaskService
+import com.example.geochallenge.data.GeochallengeService
 import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.MultiplayGameState
 import com.example.geochallenge.utils.getGameId
@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.Response
 
 class FirebaseMultiplayerControler(
-    val taskService: TaskService,
+    val geochallengeService: GeochallengeService,
     val api: MultiplayerApi,
     val countTasksForLevel: Int
 ) : MultiplayerControler {
@@ -139,10 +139,11 @@ class FirebaseMultiplayerControler(
     }
 
     private fun getTasksForGame(): Single<List<CityTask>> {
-        return taskService.getRandomCityTasksByLevel(
-            1,
-            countTasksForLevel
-        )
+        TODO()
+//        return geochallengeService.getRandomCityTasksByLevel(
+//            1,
+//            countTasksForLevel
+//        )
     }
 
     private fun getUserId(): String? {
@@ -158,21 +159,22 @@ class FirebaseMultiplayerControler(
 
 
     private fun badGetTaskForNextLevel(oldTasks: List<Int>): Completable {
-        currentGameState?.id?.let { gameId ->
-            return taskService.getRandomCityTasksByLevel(
-                currentLevel + 1,
-                countTasksForLevel
-            )
-                .map { (oldTasks + it.map { tc -> tc.id }) }
-                .flatMapCompletable { tasks ->
-                    database.collection("gameState").document(gameId)
-                        .update("tasks", tasks.toString())
-                    Completable.complete()
-                }
-
-        }
-
-        return Completable.error(Exception("gamestate = null"))
+        TODO()
+//        currentGameState?.id?.let { gameId ->
+//            return geochallengeService.getRandomCityTasksByLevel(
+//                currentLevel + 1,
+//                countTasksForLevel
+//            )
+//                .map { (oldTasks + it.map { tc -> tc.id }) }
+//                .flatMapCompletable { tasks ->
+//                    database.collection("gameState").document(gameId)
+//                        .update("tasks", tasks.toString())
+//                    Completable.complete()
+//                }
+//
+//        }
+//
+//        return Completable.error(Exception("gamestate = null"))
 
     }
 

@@ -13,8 +13,7 @@ class ClassicGameActivity : BaseGameMapActivity() {
 
 
     val classicComponent: ClassicGameComponent by lazy {
-        val countTasks = getCountTasksForLevel()
-        activityComponent.provideClassicGameComponent(ClassicGameModule(countTasks))
+        activityComponent.provideClassicGameComponent(ClassicGameModule())
     }
 
 

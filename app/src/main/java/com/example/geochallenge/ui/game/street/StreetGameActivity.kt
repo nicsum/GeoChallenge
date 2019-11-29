@@ -24,8 +24,7 @@ class StreetGameActivity : BaseGameMapActivity() {
     lateinit var streetView: StreetViewPanoramaView
 
     val streetComponent: StreetGameComponent by lazy {
-        val countTasks = getCountTasksForLevel()
-        activityComponent.provideStreetGameComponent(StreetGameModule(countTasks))
+        activityComponent.provideStreetGameComponent(StreetGameModule())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

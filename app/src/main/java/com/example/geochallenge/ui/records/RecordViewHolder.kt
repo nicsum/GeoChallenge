@@ -10,7 +10,7 @@ class RecordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val pointsTv: TextView = itemView.findViewById(R.id.recordText)
 
     fun bind(record: Record){
-        pointsTv.text = record.points.toString()
+        pointsTv.text = record.score.toString()
 
     }
 

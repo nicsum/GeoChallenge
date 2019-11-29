@@ -1,4 +1,4 @@
-package com.example.geochallenge.data
+package com.example.geochallenge.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

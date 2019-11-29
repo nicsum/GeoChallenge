@@ -98,7 +98,6 @@ abstract class BaseGameViewModel : ViewModel() {
         finishTask()
     }
 
-
     protected open fun finishTask() {
         isTaskCompleted.postValue(true)
     }
@@ -106,7 +105,6 @@ abstract class BaseGameViewModel : ViewModel() {
     fun cameraMoved() {
         isDefaultMapState.postValue(false)
     }
-
 
     abstract fun getNextTask(): Single<CityTask>
 

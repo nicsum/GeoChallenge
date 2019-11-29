@@ -1,5 +1,6 @@
 package com.example.geochallenge.di.activity
 
+import com.example.geochallenge.game.GameInfo
 import com.example.geochallenge.ui.game.BaseGameInfoFragment
 import com.example.geochallenge.ui.game.BaseGameMapActivity
 import com.example.geochallenge.ui.game.classic.ClassicGameActivity
@@ -18,6 +19,8 @@ import dagger.Provides
 @Module
 class GameActivityModule(
     val activity: BaseGameMapActivity,
+    val gameInfo: GameInfo,
+    val userId: String,
     val startLocation: LatLng
 ) {
 
@@ -25,6 +28,18 @@ class GameActivityModule(
     @ActivityScope
     fun provideActivity(): BaseGameMapActivity {
         return activity
+    }
+
+    @Provides
+    @ActivityScope
+    fun provideGameInfo(): GameInfo {
+        return gameInfo
+    }
+
+    @Provides
+    @ActivityScope
+    fun provideUserId(): String {
+        return userId
     }
 
     @Provides

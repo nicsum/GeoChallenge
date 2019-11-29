@@ -2,9 +2,8 @@ package com.example.geochallenge.ui.game.multiplayer
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.geochallenge.data.tasks.TaskService
-import com.example.geochallenge.game.levels.LevelProvider
-import com.example.geochallenge.game.levels.MultiplayerLevelProvider
+import com.example.geochallenge.data.GeochallengeService
+import com.example.geochallenge.game.controlers.GameControler
 import com.example.geochallenge.game.multiplayer.FirebaseMultiplayerControler
 import com.example.geochallenge.game.multiplayer.GameStateChangeListener
 import com.example.geochallenge.ui.game.classic.ClassicGameViewModel
@@ -13,11 +12,11 @@ import io.reactivex.schedulers.Schedulers
 
 
 class MultiplayerViewModel(
-    levelProvider: LevelProvider,
+    gameControler: GameControler,
     val multiplayerControler: FirebaseMultiplayerControler,
-    val taskService: TaskService,
+    val geochallengeService: GeochallengeService,
     countTasksForLevel: Int
-) : ClassicGameViewModel(levelProvider, countTasksForLevel), GameStateChangeListener {
+) : ClassicGameViewModel(gameControler, countTasksForLevel), GameStateChangeListener {
 
 
     var playersAnswer = MutableLiveData<Map<String, Pair<Double, Double>?>>()
@@ -45,30 +44,32 @@ class MultiplayerViewModel(
 
 
     override fun onNextTask(taskId: Int) {
-        taskService.getCityTaskById(taskId)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                (levelProvider as MultiplayerLevelProvider).postTask(it)
-                nextTask()
-//                nextTask = it
-//                isTaskCompleted.postValue(true)
-            }, {
-                Log.e("MultiplayerViewModel", it.message)
-            })
+        TODO()
+//        geochallengeService.getCityTaskById(taskId)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                (gameControler as MultiplayerGameControler).postTask(it)
+//                nextTask()
+////                nextTask = it
+////                isTaskCompleted.postValue(true)
+//            }, {
+//                Log.e("MultiplayerViewModel", it.message)
+//            })
     }
 
     override fun onStartGame(taskId: Int) {
-        taskService.getCityTaskById(taskId)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                waitingPlayers.postValue(false)
-                (levelProvider as MultiplayerLevelProvider).postTask(it)
-                nextTask()
-            }, {
-                Log.e("MultiplayerViewModel", it.message)
-            })
+        TODO()
+//        geochallengeService.getCityTaskById(taskId)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                waitingPlayers.postValue(false)
+//                (gameControler as MultiplayerGameControler).postTask(it)
+//                nextTask()
+//            }, {
+//                Log.e("MultiplayerViewModel", it.message)
+//            })
 
     }
 

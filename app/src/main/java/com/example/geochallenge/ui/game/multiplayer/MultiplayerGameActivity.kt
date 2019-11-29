@@ -13,7 +13,7 @@ import com.example.geochallenge.ui.game.BaseGameViewModel
 class MultiplayerGameActivity : BaseGameMapActivity() {
 
     val multiplayerComponent: MultiplayerGameComponent by lazy {
-        val countTasks = getCountTasksForLevel()
+        val countTasks = getGameInfo().countTaskForLevel
         activityComponent
             .provideMultiplayerGameComponent(MultiplayerGameModule(countTasks))
     }

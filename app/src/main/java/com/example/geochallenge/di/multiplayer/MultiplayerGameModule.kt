@@ -1,9 +1,9 @@
 package com.example.geochallenge.di.multiplayer
 
 import androidx.lifecycle.ViewModelProviders
-import com.example.geochallenge.data.tasks.TaskService
-import com.example.geochallenge.game.levels.LevelProvider
-import com.example.geochallenge.game.levels.MultiplayerLevelProvider
+import com.example.geochallenge.data.GeochallengeService
+import com.example.geochallenge.game.controlers.GameControler
+import com.example.geochallenge.game.controlers.MultiplayerGameControler
 import com.example.geochallenge.game.multiplayer.FirebaseMultiplayerControler
 import com.example.geochallenge.game.multiplayer.MultiplayerApi
 import com.example.geochallenge.game.multiplayer.MultiplayerControler
@@ -21,21 +21,21 @@ class MultiplayerGameModule(val countTasksForLevel: Int) {
 
     @Provides
     @MultiplayerGameScope
-    fun provideLevelProvider(): LevelProvider {
-        return MultiplayerLevelProvider()
+    fun provideLevelProvider(): GameControler {
+        return MultiplayerGameControler()
     }
 
     @Provides
     @MultiplayerGameScope
     fun provideFactory(
-        levelProvider: LevelProvider,
+        gameControler: GameControler,
         multiplayerControler: MultiplayerControler,
-        taskService: TaskService
+        geochallengeService: GeochallengeService
     ): MultiplayerViewModelFactory {
         return MultiplayerViewModelFactory(
-            levelProvider,
+            gameControler,
             multiplayerControler,
-            taskService,
+            geochallengeService,
             countTasksForLevel
         )
     }
@@ -44,10 +44,10 @@ class MultiplayerGameModule(val countTasksForLevel: Int) {
     @Provides
     @MultiplayerGameScope
     fun provideController(
-        taskService: TaskService,
+        geochallengeService: GeochallengeService,
         multiplayerApi: MultiplayerApi
     ): MultiplayerControler {
-        return FirebaseMultiplayerControler(taskService, multiplayerApi, countTasksForLevel)
+        return FirebaseMultiplayerControler(geochallengeService, multiplayerApi, countTasksForLevel)
     }
 
     @Provides

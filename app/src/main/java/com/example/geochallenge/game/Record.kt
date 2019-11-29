@@ -1,9 +1,16 @@
 package com.example.geochallenge.game
 
-class Record( var id : Long?= null,
-              val points: Int): Comparable<Record> {
+import androidx.room.ColumnInfo
+
+class Record(
+    var id: Int? = null,
+    @ColumnInfo(name = "user_id") var userId: String,
+    @ColumnInfo(name = "score") var score: Int,
+    @ColumnInfo(name = "count_task") var countTasks: Int
+
+) : Comparable<Record> {
 
     override fun compareTo(other: Record): Int {
-        return this.points.compareTo(other.points)
+        return this.score.compareTo(other.score)
     }
 }

@@ -2,7 +2,7 @@ package com.example.geochallenge.ui.game.timelimit
 
 import androidx.lifecycle.MutableLiveData
 import com.example.geochallenge.game.CityTask
-import com.example.geochallenge.game.levels.LevelProvider
+import com.example.geochallenge.game.controlers.GameControler
 import com.example.geochallenge.ui.game.BaseGameViewModel
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -12,12 +12,11 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-class TimeLimitGameViewModel(val levelProvider: LevelProvider) : BaseGameViewModel() {
+class TimeLimitGameViewModel(val gameControler: GameControler) : BaseGameViewModel() {
 
     companion object {
         const val COUNT_TIMER : Long = 30
     }
-
 
     val stillHaveTime = MutableLiveData<Long>()
     var stillHaveTimeLong =
@@ -81,16 +80,27 @@ class TimeLimitGameViewModel(val levelProvider: LevelProvider) : BaseGameViewMod
      }
 
     override fun getNextTask(): Single<CityTask> {
-        return levelProvider.getNextTask()
+        return gameControler.getNextTask()
     }
 
     override fun prepareNewLevel(newLevel: Int): Completable {
-        return levelProvider.prepareForLevel(newLevel)
+        return gameControler.prepareForLevel(newLevel)
 
     }
 
     override fun haveTaskForCurrentLevel(): Boolean {
-        return levelProvider.haveTaskForCurrentLevel()
+        return gameControler.haveTaskForCurrentLevel()
+    }
+
+
+    override fun finishGame() {
+        gameControler
+            .finishGame(taskCounter.value ?: 0, taskCounter.value ?: 0)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnComplete {
+                super.finishGame()
+            }
     }
 
 }

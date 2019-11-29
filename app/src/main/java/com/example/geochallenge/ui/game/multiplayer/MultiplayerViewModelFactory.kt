@@ -2,22 +2,22 @@ package com.example.geochallenge.ui.game.multiplayer
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.geochallenge.data.tasks.TaskService
-import com.example.geochallenge.game.levels.LevelProvider
+import com.example.geochallenge.data.GeochallengeService
+import com.example.geochallenge.game.controlers.GameControler
 import com.example.geochallenge.game.multiplayer.MultiplayerControler
 
 class MultiplayerViewModelFactory(
-    val levelProvider: LevelProvider,
+    val gameControler: GameControler,
     val multiplayerControler: MultiplayerControler,
-    val taskService: TaskService,
+    val geochallengeService: GeochallengeService,
     val countTasksForLevel: Int
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return modelClass.getConstructor(
-            LevelProvider::class.java,
+            GameControler::class.java,
             MultiplayerControler::class.java,
-            TaskService::class.java,
+            GeochallengeService::class.java,
             Int::class.java
-        ).newInstance(levelProvider, multiplayerControler, taskService, countTasksForLevel)
+        ).newInstance(gameControler, multiplayerControler, geochallengeService, countTasksForLevel)
     }
 }

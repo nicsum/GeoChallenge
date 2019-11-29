@@ -13,8 +13,7 @@ import com.example.geochallenge.ui.game.BaseGameViewModel
 class TimeLimitGameActivity : BaseGameMapActivity() {
 
     val timeComponent: TimeGameComponent by lazy {
-        val countTasks = getCountTasksForLevel()
-        activityComponent.provideTimeGameComponent(TimeGameModule(countTasks))
+        activityComponent.provideTimeGameComponent(TimeGameModule())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
