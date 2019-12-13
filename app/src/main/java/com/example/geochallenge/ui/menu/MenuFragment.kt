@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import com.example.geochallenge.AppDelegate
 import com.example.geochallenge.R
 import com.example.geochallenge.game.GameInfo
 import com.example.geochallenge.ui.game.classic.ClassicGameActivity
@@ -56,32 +57,33 @@ class MenuFragment : Fragment() {
     private fun startClassicGame() {
         val intent = Intent(context, ClassicGameActivity::class.java)
         activity?.startActivity(intent)
-//        makeGameComponent("solo")
+        createGameComponent("solo")
     }
 
     private fun startTimeGame() {
         val intent = Intent(context, TimeLimitGameActivity::class.java)
         activity?.startActivity(intent)
-//        makeGameComponent("solo")
+        createGameComponent("solo")
     }
 
     private fun startMultiplayerGame() {
         val intent = Intent(context, MultiplayerGameActivity::class.java)
         activity?.startActivity(intent)
-//        makeGameComponent("mp")
+        createGameComponent("mp")
     }
 
     private fun startStreetGame() {
         val intent = Intent(context, StreetGameActivity::class.java)
         activity?.startActivity(intent)
-//        makeGameComponent("street")
+        createGameComponent("street")
     }
 
-//    private fun makeGameComponent(mode: String){
-//        val gameInfo = getGameInfo(mode, getMapId())
-//        val startLocation = getStartLocation()
-//        ComponentManager.makeGameComponent(gameInfo, startLocation)
-//    }
+    private fun createGameComponent(mode: String) {
+        val gameInfo = getGameInfo(mode, getMapId())
+        val startLocation = getStartLocation()
+        (activity?.applicationContext as AppDelegate)
+            .createGameComponent(gameInfo, startLocation)
+    }
 
     fun showTableOfRecords(){
         val intent = Intent(context, RecordsActivity::class.java)

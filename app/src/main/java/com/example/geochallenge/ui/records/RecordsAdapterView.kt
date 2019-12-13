@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.geochallenge.R
 import com.example.geochallenge.game.Record
+import javax.inject.Inject
 
-class RecordsAdapterView : RecyclerView.Adapter<RecordViewHolder>() {
+class RecordsAdapterView @Inject constructor() : RecyclerView.Adapter<RecordViewHolder>() {
 
-
-    var records : MutableList<Record> = ArrayList()
+    var records = ArrayList<Record>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -21,10 +21,10 @@ class RecordsAdapterView : RecyclerView.Adapter<RecordViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: RecordViewHolder, position: Int) {
-        holder.bind(records[position])
+        holder.bind(records[position], position + 1)
     }
 
-    fun add(records: MutableList<Record>, refresh: Boolean){
+    fun add(records: List<Record>, refresh: Boolean) {
         if(refresh){
             this.records = ArrayList(records.size)
         }

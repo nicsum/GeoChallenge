@@ -20,10 +20,11 @@ class MultiplayerGameActivity : BaseGameMapActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
-        val gi = getGameInfo("mp", getMapId())
-        gameComponent = (application as AppDelegate)
-            .userComponent!!.gameComponent()
-            .create(gi, getStartLocation(), this)
+        activityComponent = (application as AppDelegate)
+            .gameComponent
+            ?.gameActivityComponent()
+            ?.create(this)
+        activityComponent?.inject(this)
 
         super.onCreate(savedInstanceState)
         supportFragmentManager.beginTransaction()

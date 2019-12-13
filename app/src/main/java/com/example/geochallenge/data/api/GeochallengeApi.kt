@@ -9,7 +9,6 @@ import retrofit2.http.*
 
 interface GeochallengeApi {
 
-
     @GET("getCityTasksByLevel")
     fun getAllCityTasksByLevel(
         @Query("level") level: Int,
@@ -42,7 +41,7 @@ interface GeochallengeApi {
     @GET("/getResults")
     fun getResults(
         @Query("mode") mode: String,
-        @Query("mapId") mapId: Int
+        @Query("map_id") mapId: Int
     ): Single<List<Record>>
 
 }

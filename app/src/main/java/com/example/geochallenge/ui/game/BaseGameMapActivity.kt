@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.example.geochallenge.di.game.GameComponent
+import com.example.geochallenge.di.activity.GameActivityComponent
 import com.example.geochallenge.game.GameInfo
 import com.example.geochallenge.ui.records.RecordsActivity
 import com.google.android.gms.maps.model.LatLng
@@ -16,14 +16,12 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
 
     var isFirstStartActivity: Boolean = false
 
-    lateinit var gameComponent: GameComponent
+    var activityComponent: GameActivityComponent? = null
 
     abstract fun getLayout(): Int
     abstract fun getViewModel(): BaseGameViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //TODO
-
 
         super.onCreate(savedInstanceState)
 

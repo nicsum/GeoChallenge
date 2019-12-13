@@ -36,7 +36,7 @@ class GameMapFragment : SupportMapFragment(),
     override fun onActivityCreated(p0: Bundle?) {
         super.onActivityCreated(p0)
 
-        (activity as BaseGameMapActivity).gameComponent.inject(this)
+        (activity as BaseGameMapActivity).activityComponent?.inject(this)
         viewModel = (activity as BaseGameMapActivity).getViewModel()
 
         viewModel.isDefaultMapState.observe(this, Observer {

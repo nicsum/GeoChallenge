@@ -18,12 +18,12 @@ class TimeLimitGameActivity : BaseGameMapActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        val gi = getGameInfo("time", getMapId())
-        gameComponent = (application as AppDelegate)
-            .userComponent!!.gameComponent()
-            .create(gi, getStartLocation(), this)
-        gameComponent.inject(this)
-        
+        activityComponent = (application as AppDelegate)
+            .gameComponent
+            ?.gameActivityComponent()
+            ?.create(this)
+        activityComponent?.inject(this)
+
         super.onCreate(savedInstanceState)
 
         supportFragmentManager.beginTransaction()

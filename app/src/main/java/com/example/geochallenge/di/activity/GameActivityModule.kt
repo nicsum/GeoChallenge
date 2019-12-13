@@ -1,4 +1,4 @@
-package com.example.geochallenge.di.game
+package com.example.geochallenge.di.activity
 
 import androidx.lifecycle.ViewModelProviders
 import com.example.geochallenge.game.multiplayer.FirebaseMultiplayerApi
@@ -17,7 +17,7 @@ import dagger.Provides
 
 
 @Module
-class GameModule {
+class GameActivityModule {
 
     @Provides
     fun provideClassicViewModel(
@@ -51,21 +51,8 @@ class GameModule {
         return ViewModelProviders.of(activity, factory).get(MultiplayerViewModel::class.java)
     }
 
-
     @Provides
     fun provideFirebaseApi(api: FirebaseMultiplayerApi): MultiplayerApi {
         return api
     }
-//    @Provides
-//    fun provideGameInfoFragment (gameInfo: GameInfo): BaseGameInfoFragment {
-//        return when (gameInfo.mode) {
-//            "solo" -> ClassicGameInfoFragment()
-//            "time" -> TimeLimitGameInfoFragment()
-//            "mp" -> MultiplayerGameInfoFragment()
-//            "street" -> StreetGameInfoFragment()
-//            else -> ClassicGameInfoFragment()
-//        }
-//    }
-
-
 }

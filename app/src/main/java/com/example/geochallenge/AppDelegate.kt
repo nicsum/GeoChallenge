@@ -6,7 +6,10 @@ import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import com.example.geochallenge.di.app.AppComponent
 import com.example.geochallenge.di.app.DaggerAppComponent
+import com.example.geochallenge.di.game.GameComponent
 import com.example.geochallenge.di.user.UserComponent
+import com.example.geochallenge.game.GameInfo
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseUser
 
 class AppDelegate : MultiDexApplication()  {
@@ -14,6 +17,9 @@ class AppDelegate : MultiDexApplication()  {
     lateinit var appComponent: AppComponent
 
     var userComponent: UserComponent? = null
+        private set
+
+    var gameComponent: GameComponent? = null
         private set
 
     override fun attachBaseContext(base: Context?) {
@@ -28,6 +34,7 @@ class AppDelegate : MultiDexApplication()  {
             .create(this)
     }
 
+    //user component
     fun createUserComponent(firebaseUser: FirebaseUser): UserComponent? {
         userComponent = appComponent.userComponent().create(firebaseUser)
         return userComponent
@@ -35,6 +42,17 @@ class AppDelegate : MultiDexApplication()  {
 
     fun destroyUserComponent() {
         userComponent = null
+    }
+
+    //game component
+
+    fun createGameComponent(gameInfo: GameInfo, startLocation: LatLng): GameComponent? {
+        gameComponent = userComponent?.gameComponent()?.create(gameInfo, startLocation)
+        return gameComponent
+    }
+
+    fun destroyGameComponent() {
+        gameComponent = null
     }
 
 }

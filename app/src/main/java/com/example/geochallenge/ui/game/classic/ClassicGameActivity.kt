@@ -18,13 +18,12 @@ class ClassicGameActivity : BaseGameMapActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        activityComponent = (application as AppDelegate)
+            .gameComponent
+            ?.gameActivityComponent()
+            ?.create(this)
+        activityComponent?.inject(this)
 
-        val gi = getGameInfo("solo", getMapId())
-        gameComponent = (application as AppDelegate)
-            .userComponent!!.gameComponent()
-            .create(gi, getStartLocation(), this)
-
-        gameComponent.inject(this)
         super.onCreate(savedInstanceState)
 
         supportFragmentManager.beginTransaction()
@@ -39,6 +38,5 @@ class ClassicGameActivity : BaseGameMapActivity() {
     override fun getViewModel(): BaseGameViewModel {
         return viewModel
     }
-
 
 }
