@@ -10,15 +10,20 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.example.geochallenge.R
 import com.example.geochallenge.ui.game.BaseGameInfoFragment
+import com.example.geochallenge.ui.game.BaseGameViewModel
 import com.example.geochallenge.ui.game.FillProgressLayout
+import javax.inject.Inject
 
 
-class ClassicGameInfoFragment : BaseGameInfoFragment() {
+class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
 
     lateinit var nextCityButton: Button
     lateinit var pointsTv: TextView
     lateinit var timerTv: TextView
     lateinit var progressBar: FillProgressLayout
+
+    //    @Inject
+    lateinit var viewModel: ClassicGameViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,20 +40,17 @@ class ClassicGameInfoFragment : BaseGameInfoFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
 
-        (activity as ClassicGameActivity)
-            .classicComponent
-            .inject(this)
-
-        val vm = viewModel as ClassicGameViewModel
-
-        vm.isTaskCompleted.observe(this,
+        viewModel = (activity as ClassicGameActivity).viewModel
+        viewModel.isTaskCompleted.observe(
+            this,
             Observer { nextCityButton.visibility = if (it) View.VISIBLE else View.GONE })
 
-        vm.points.observe(this, Observer {
+        viewModel.points.observe(this, Observer {
             addPoints(it ?: 0)
         })
 
-        vm.secondsPassed.observe(this,
+        viewModel.secondsPassed.observe(
+            this,
             Observer {
                 progressBar.setProgress(it.toInt() * 100 / (13000 / 1000))
                 timerTv.text = if (it == null) "" else
@@ -61,6 +63,10 @@ class ClassicGameInfoFragment : BaseGameInfoFragment() {
         nextCityButton.setOnClickListener { viewModel.nextTask() }
 
         super.onActivityCreated(savedInstanceState)
+    }
+
+    override fun getViewModel(): BaseGameViewModel {
+        return viewModel
     }
 
     private fun addPoints(value: Int) {
@@ -78,6 +84,5 @@ class ClassicGameInfoFragment : BaseGameInfoFragment() {
         }
         scoreAnimator.start()
     }
-
 
 }

@@ -1,4 +1,4 @@
-package com.example.geochallenge.ui.game.timelimit
+package com.example.geochallenge.ui.game.time
 
 import androidx.lifecycle.MutableLiveData
 import com.example.geochallenge.game.CityTask

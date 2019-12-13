@@ -9,13 +9,12 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.example.geochallenge.R
 import com.example.geochallenge.game.GameInfo
-import com.example.geochallenge.ui.game.BaseGameMapActivity
 import com.example.geochallenge.ui.game.classic.ClassicGameActivity
 import com.example.geochallenge.ui.game.multiplayer.MultiplayerGameActivity
 import com.example.geochallenge.ui.game.street.StreetGameActivity
-import com.example.geochallenge.ui.game.timelimit.TimeLimitGameActivity
+import com.example.geochallenge.ui.game.time.TimeLimitGameActivity
 import com.example.geochallenge.ui.records.RecordsActivity
-import com.google.firebase.auth.FirebaseAuth
+import com.google.android.gms.maps.model.LatLng
 
 class MenuFragment : Fragment() {
 
@@ -30,71 +29,68 @@ class MenuFragment : Fragment() {
         val view = inflater.inflate(R.layout.fr_menu, container, false)
         startGameButton = view.findViewById(R.id.start_classic_game_btn)
         startLimitTimeGameButton = view.findViewById(R.id.time_trial_btn)
-        startGameButton.setOnClickListener { startClassicGame() }
+        startGameButton.setOnClickListener {
+            startClassicGame()
+        }
 
         startMultiplayrButton = view.findViewById(R.id.multiplayer_btn)
-        startMultiplayrButton.setOnClickListener { startMultiplayerGame() }
+        startMultiplayrButton.setOnClickListener {
+            startMultiplayerGame()
+        }
 
-        startLimitTimeGameButton.setOnClickListener { startTimeGame() }
+        startLimitTimeGameButton.setOnClickListener {
+            startTimeGame()
+        }
 
         showRecordsButton = view.findViewById(R.id.records_btn)
         showRecordsButton.setOnClickListener{showTableOfRecords() }
 
         settingsButton = view.findViewById(R.id.settings_btn)
-        settingsButton.setOnClickListener { startStreetGame() }
+        settingsButton.setOnClickListener {
+            startStreetGame()
+        }
 
         return view
     }
 
-
     private fun startClassicGame() {
         val intent = Intent(context, ClassicGameActivity::class.java)
-        putExtra(intent, "solo")
         activity?.startActivity(intent)
+//        makeGameComponent("solo")
     }
 
     private fun startTimeGame() {
         val intent = Intent(context, TimeLimitGameActivity::class.java)
-        putExtra(intent, "time")
         activity?.startActivity(intent)
+//        makeGameComponent("solo")
     }
 
     private fun startMultiplayerGame() {
         val intent = Intent(context, MultiplayerGameActivity::class.java)
-        putExtra(intent, "mp")
         activity?.startActivity(intent)
+//        makeGameComponent("mp")
     }
 
     private fun startStreetGame() {
         val intent = Intent(context, StreetGameActivity::class.java)
-        putExtra(intent, "street")
         activity?.startActivity(intent)
+//        makeGameComponent("street")
     }
 
-
-    private fun putExtra(intent: Intent, mode: String) {
-        intent.putExtra(BaseGameMapActivity.START_LOCATION_KEY, getStartLocation())
-        intent.putExtra(
-            BaseGameMapActivity.GAME_INFO_KEY,
-            getGameInfo(
-                mode, getMapId()
-            )
-        )
-        intent.putExtra(BaseGameMapActivity.USER_ID_KEY, getUserID())
-    }
-
+//    private fun makeGameComponent(mode: String){
+//        val gameInfo = getGameInfo(mode, getMapId())
+//        val startLocation = getStartLocation()
+//        ComponentManager.makeGameComponent(gameInfo, startLocation)
+//    }
 
     fun showTableOfRecords(){
         val intent = Intent(context, RecordsActivity::class.java)
         activity?.startActivity(intent)
     }
 
-
     private fun getMapId() = 1
     private fun getGameInfo(mode: String, mapId: Int) = GameInfo(mode, mapId, 5)
 
-    private fun getUserID() = FirebaseAuth.getInstance().currentUser
-
-    private fun getStartLocation() = Pair(64.0, 80.0)
+    private fun getStartLocation() = LatLng(64.0, 80.0)
 
 }

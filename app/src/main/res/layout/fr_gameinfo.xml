@@ -9,12 +9,11 @@
     android:orientation="horizontal">
 
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
 
@@ -39,17 +38,11 @@
             android:id="@+id/cityNameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@id/progressBar"
-            android:layout_alignLeft="@id/progressBar"
-            android:layout_alignTop="@id/progressBar"
-            android:layout_alignEnd="@id/progressBar"
-            android:layout_alignRight="@id/progressBar"
-            android:layout_alignBottom="@id/progressBar"
-            android:gravity="center"
+            android:layout_gravity="center"
             android:textColor="#fff"
             android:text="Country, City" />
 
-    </RelativeLayout>
+    </FrameLayout>
 
 
     <androidx.cardview.widget.CardView

@@ -5,8 +5,11 @@ import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.Record
 import io.reactivex.Completable
 import io.reactivex.Single
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class GeochallengeStorage(val api: GeochallengeApi) : GeochallengeService {
+@Singleton
+class GeochallengeStorage @Inject constructor(val api: GeochallengeApi) : GeochallengeService {
 
 
     override fun getCityTaskById(id: Int, mapId: Int): Single<CityTask> {

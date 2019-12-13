@@ -16,18 +16,21 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
-        <activity android:name=".ui.menu.MenuActivity">
+
+        <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.menu.MenuActivity" />
         <activity android:name=".ui.records.RecordsActivity" />
         <activity android:name=".ui.game.street.StreetGameActivity" />
         <activity android:name=".ui.game.classic.ClassicGameActivity" />
         <activity android:name=".ui.game.multiplayer.MultiplayerGameActivity" />
-        <activity android:name=".ui.game.timelimit.TimeLimitGameActivity" />
+        <activity android:name=".ui.game.time.TimeLimitGameActivity" />
 
     </application>
 

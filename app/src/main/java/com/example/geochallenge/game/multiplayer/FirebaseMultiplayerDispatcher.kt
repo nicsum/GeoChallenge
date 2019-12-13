@@ -3,6 +3,7 @@ package com.example.geochallenge.game.multiplayer
 import android.util.Log
 import com.example.geochallenge.data.GeochallengeService
 import com.example.geochallenge.game.CityTask
+import com.example.geochallenge.game.GameInfo
 import com.example.geochallenge.game.MultiplayGameState
 import com.example.geochallenge.utils.getGameId
 import com.google.firebase.auth.FirebaseAuth
@@ -15,12 +16,13 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Response
+import javax.inject.Inject
 
-class FirebaseMultiplayerControler(
+class FirebaseMultiplayerDispatcher @Inject constructor(
     val geochallengeService: GeochallengeService,
     val api: MultiplayerApi,
-    val countTasksForLevel: Int
-) : MultiplayerControler {
+    val gameInfo: GameInfo
+) : MultiplayerDispatcher {
 
     val database = FirebaseFirestore.getInstance()
 

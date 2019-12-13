@@ -5,47 +5,33 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.example.geochallenge.AppDelegate
-import com.example.geochallenge.di.MapComponent
-import com.example.geochallenge.di.activity.ActivityComponent
+import com.example.geochallenge.di.game.GameComponent
 import com.example.geochallenge.game.GameInfo
 import com.example.geochallenge.ui.records.RecordsActivity
 import com.google.android.gms.maps.model.LatLng
-import javax.inject.Inject
 
 
 abstract class BaseGameMapActivity : AppCompatActivity() {
 
-    companion object {
-        const val START_LOCATION_KEY = "START_LOCATION_KEY"
-        const val GAME_INFO_KEY = "GAME_INFO_KEY"
-        const val USER_ID_KEY = "USER_ID_KEY"
-    }
-
-    @Inject
-    lateinit var fragment: BaseGameInfoFragment
-
 
     var isFirstStartActivity: Boolean = false
 
-    lateinit var activityComponent: ActivityComponent
+    lateinit var gameComponent: GameComponent
 
-
-    abstract fun getMapComponent(): MapComponent
     abstract fun getLayout(): Int
     abstract fun getViewModel(): BaseGameViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //TODO
+
+
         super.onCreate(savedInstanceState)
 
         isFirstStartActivity = savedInstanceState == null
 
-        val startLocation = getStartLocation()
-
-        activityComponent = getActivityComponent(startLocation)
-        activityComponent.inject(this)
         setContentView(getLayout())
     }
+
 
     override fun onStart() {
         super.onStart()
@@ -53,23 +39,10 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
             if (it) {
                 Toast.makeText(this, "Игра окончена", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, RecordsActivity::class.java))
-                (application as AppDelegate).dropGameActivityComponent()
                 finish()
             }
         })
     }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-        (application as AppDelegate).dropGameActivityComponent()
-    }
-
-
-//    private fun getViewModel(): BaseGameViewModel {
-//        return (supportFragmentManager
-//            .findFragmentById(R.id.game_info_container) as BaseGameInfoFragment).viewModel
-//    }
 
     override fun onResume() {
         super.onResume()
@@ -87,31 +60,10 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
         getViewModel().finishGame()
     }
 
-    private fun getActivityComponent(
-        startLocation: LatLng
-    ): ActivityComponent {
-        return (application as AppDelegate)
-            .getGameActivityComponent(
-                this,
-                getGameInfo(),
-                getUserId(),
-                startLocation
-            )
-    }
+    fun getMapId() = 1
 
-    private fun getStartLocation(): LatLng {
-        return intent.extras?.getSerializable(START_LOCATION_KEY).let {
-            it as Pair<Double, Double>
-            LatLng(it.first, it.second)
-        }
-    }
+    fun getGameInfo(mode: String, mapId: Int) = GameInfo(mode, mapId, 5)
 
-    protected fun getGameInfo(): GameInfo {
-        return intent.extras?.getSerializable(GAME_INFO_KEY) as GameInfo
-    }
-
-    protected fun getUserId(): String {
-        return intent.extras?.getString(USER_ID_KEY) ?: ""
-    }
+    fun getStartLocation() = LatLng(64.0, 80.0)
 
 }

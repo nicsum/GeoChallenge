@@ -15,11 +15,12 @@ import com.google.android.gms.maps.model.MarkerOptions
 import javax.inject.Inject
 
 
-class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnCameraMoveListener  {
+class GameMapFragment : SupportMapFragment(),
+    OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnCameraMoveListener {
 
     var map: GoogleMap? = null
 
-    @Inject
+
     lateinit var viewModel: BaseGameViewModel
     @Inject
     lateinit var startLocation: LatLng
@@ -35,7 +36,8 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
     override fun onActivityCreated(p0: Bundle?) {
         super.onActivityCreated(p0)
 
-        (activity as BaseGameMapActivity).getMapComponent().inject(this)
+        (activity as BaseGameMapActivity).gameComponent.inject(this)
+        viewModel = (activity as BaseGameMapActivity).getViewModel()
 
         viewModel.isDefaultMapState.observe(this, Observer {
             if(it){
@@ -154,7 +156,7 @@ class GameMapFragment : SupportMapFragment(), OnMapReadyCallback, GoogleMap.OnMa
     }
 
     private fun getStartPosition(): LatLng {
-        return startLocation ?: LatLng(0.0, 0.0)
+        return startLocation
     }
 
 }

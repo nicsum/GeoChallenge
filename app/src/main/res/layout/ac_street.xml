@@ -5,6 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
+    <include
+        layout="@layout/v_load"
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+
     <com.google.android.gms.maps.StreetViewPanoramaView
         android:id="@+id/steet_view_panorama"
         android:layout_width="match_parent"

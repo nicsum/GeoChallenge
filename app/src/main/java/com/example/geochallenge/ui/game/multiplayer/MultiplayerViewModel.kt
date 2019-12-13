@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.geochallenge.data.GeochallengeService
 import com.example.geochallenge.game.controlers.GameControler
-import com.example.geochallenge.game.multiplayer.FirebaseMultiplayerControler
+import com.example.geochallenge.game.multiplayer.FirebaseMultiplayerDispatcher
 import com.example.geochallenge.game.multiplayer.GameStateChangeListener
 import com.example.geochallenge.ui.game.classic.ClassicGameViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers
 
 class MultiplayerViewModel(
     gameControler: GameControler,
-    val multiplayerControler: FirebaseMultiplayerControler,
+    val multiplayerControler: FirebaseMultiplayerDispatcher,
     val geochallengeService: GeochallengeService,
     countTasksForLevel: Int
 ) : ClassicGameViewModel(gameControler, countTasksForLevel), GameStateChangeListener {

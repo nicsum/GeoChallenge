@@ -7,10 +7,15 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.example.geochallenge.R
 import com.example.geochallenge.ui.game.BaseGameInfoFragment
+import com.example.geochallenge.ui.game.BaseGameViewModel
+import javax.inject.Inject
 
-class StreetGameInfoFragment : BaseGameInfoFragment() {
+class StreetGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
 
     lateinit var nextCityButton: Button
+
+    //    @Inject
+    lateinit var viewModel: StreetGameViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,12 +30,16 @@ class StreetGameInfoFragment : BaseGameInfoFragment() {
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-
-        (activity as StreetGameActivity)
-            .streetComponent
-            .inject(this)
+        viewModel = (activity as StreetGameActivity).viewModel
+//        (activity as StreetGameActivity)
+//            .streetComponent
+//            .inject(this)
         nextCityButton.setOnClickListener { viewModel.nextTask() }
 
         super.onActivityCreated(savedInstanceState)
+    }
+
+    override fun getViewModel(): BaseGameViewModel {
+        return viewModel
     }
 }

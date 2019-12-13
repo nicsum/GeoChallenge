@@ -4,8 +4,9 @@ import com.example.geochallenge.game.CityTask
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
+import javax.inject.Inject
 
-class MultiplayerGameControler : GameControler {
+class MultiplayerGameControler @Inject constructor() : GameControler {
 
 
     var haveNextTask = true

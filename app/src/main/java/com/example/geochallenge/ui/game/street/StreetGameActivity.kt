@@ -6,28 +6,33 @@ import android.widget.Button
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+import com.example.geochallenge.AppDelegate
 import com.example.geochallenge.R
-import com.example.geochallenge.di.MapComponent
-import com.example.geochallenge.di.street.StreetGameComponent
-import com.example.geochallenge.di.street.StreetGameModule
-import com.example.geochallenge.ui.game.BaseGameInfoFragment
 import com.example.geochallenge.ui.game.BaseGameMapActivity
 import com.example.geochallenge.ui.game.BaseGameViewModel
 import com.google.android.gms.maps.StreetViewPanoramaView
 import com.google.android.gms.maps.model.LatLng
+import javax.inject.Inject
 
 class StreetGameActivity : BaseGameMapActivity() {
 
+    @Inject
+    lateinit var fragment: StreetGameInfoFragment
+
+    @Inject
+    lateinit var viewModel: StreetGameViewModel
+
     lateinit var switchBtn: Button
     lateinit var mapView: FrameLayout
-
     lateinit var streetView: StreetViewPanoramaView
 
-    val streetComponent: StreetGameComponent by lazy {
-        activityComponent.provideStreetGameComponent(StreetGameModule())
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        val gi = getGameInfo("street", getMapId())
+        gameComponent = (application as AppDelegate)
+            .userComponent!!.gameComponent()
+            .create(gi, getStartLocation(), this)
         super.onCreate(savedInstanceState)
         switchBtn = findViewById(R.id.switchBtn)
         mapView = findViewById(R.id.mapScreen)
@@ -79,8 +84,7 @@ class StreetGameActivity : BaseGameMapActivity() {
     }
 
     override fun getViewModel(): BaseGameViewModel {
-        return (supportFragmentManager
-            .findFragmentById(R.id.game_info_container) as BaseGameInfoFragment).viewModel
+        return viewModel
 
     }
 
@@ -105,10 +109,6 @@ class StreetGameActivity : BaseGameMapActivity() {
 
     override fun getLayout(): Int {
         return R.layout.ac_street
-    }
-
-    override fun getMapComponent(): MapComponent {
-        return streetComponent
     }
 
 

@@ -9,12 +9,8 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
 
 abstract class BaseGameViewModel : ViewModel() {
-
-    @Inject
-    lateinit var viewModel: BaseGameViewModel
 
 
     val isDefaultMapState: MutableLiveData<Boolean> = MutableLiveData()
@@ -26,10 +22,10 @@ abstract class BaseGameViewModel : ViewModel() {
     val taskCounter: MutableLiveData<Int> = MutableLiveData()
     val currentLevel: MutableLiveData<Int> = MutableLiveData()
     val isLevelFinished: MutableLiveData<Boolean> = MutableLiveData()
+    val isLoading: MutableLiveData<Boolean> = MutableLiveData()
     open fun newGame() {
         nextLevel()
     }
-
 
     protected open fun nextLevel() {
         val level = currentLevel.value ?: 0
@@ -111,6 +107,5 @@ abstract class BaseGameViewModel : ViewModel() {
     abstract fun prepareNewLevel(newLevel: Int): Completable
 
     abstract fun haveTaskForCurrentLevel(): Boolean
-
 
 }

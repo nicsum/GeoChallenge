@@ -13,7 +13,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-open class ClassicGameViewModel(val gameControler: GameControler, val countTasksForLevel: Int) :
+open class ClassicGameViewModel(val gameControler: GameControler, countTasksForLevel: Int) :
     BaseGameViewModel() {
 
     companion object{
@@ -86,6 +86,8 @@ open class ClassicGameViewModel(val gameControler: GameControler, val countTasks
             .finishGame(points.value ?: 0, taskCounter.value ?: 0)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { isLoading.postValue(true) }
+            .doFinally { isLoading.postValue(false) }
             .doOnComplete {
                 super.finishGame()
             }
@@ -129,7 +131,5 @@ open class ClassicGameViewModel(val gameControler: GameControler, val countTasks
         }
         return 800 - distance + getTimeBonus(seconds).toInt()
     }
-
-
 
 }

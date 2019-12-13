@@ -1,4 +1,4 @@
-package com.example.geochallenge.ui.game.classic
+package com.example.geochallenge.ui.game.time
 
 import android.os.Bundle
 import com.example.geochallenge.AppDelegate
@@ -7,24 +7,23 @@ import com.example.geochallenge.ui.game.BaseGameMapActivity
 import com.example.geochallenge.ui.game.BaseGameViewModel
 import javax.inject.Inject
 
-class ClassicGameActivity : BaseGameMapActivity() {
 
-
-    @Inject
-    lateinit var fragment: ClassicGameInfoFragment
+class TimeLimitGameActivity : BaseGameMapActivity() {
 
     @Inject
-    lateinit var viewModel: ClassicGameViewModel
+    lateinit var fragment: TimeLimitGameInfoFragment
+
+    @Inject
+    lateinit var viewModel: TimeLimitGameViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-
-        val gi = getGameInfo("solo", getMapId())
+        val gi = getGameInfo("time", getMapId())
         gameComponent = (application as AppDelegate)
             .userComponent!!.gameComponent()
             .create(gi, getStartLocation(), this)
-
         gameComponent.inject(this)
+        
         super.onCreate(savedInstanceState)
 
         supportFragmentManager.beginTransaction()
@@ -39,6 +38,5 @@ class ClassicGameActivity : BaseGameMapActivity() {
     override fun getViewModel(): BaseGameViewModel {
         return viewModel
     }
-
 
 }

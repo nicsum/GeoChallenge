@@ -7,8 +7,9 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
+import javax.inject.Inject
 
-class FirebaseMultiplayerApi(val client: OkHttpClient) :
+class FirebaseMultiplayerApi @Inject constructor(val client: OkHttpClient) :
     MultiplayerApi {
 
 
