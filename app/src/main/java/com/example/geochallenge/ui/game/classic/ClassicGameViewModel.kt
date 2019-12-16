@@ -122,7 +122,7 @@ open class ClassicGameViewModel(val gameControler: GameControler, countTasksForL
             4 -> 0.65
             5 -> 0.7
             else -> 0.75
-        }.toInt()
+        }.toInt() 
     }
 
     private fun calculatePoints(seconds: Long, distance: Int): Int {

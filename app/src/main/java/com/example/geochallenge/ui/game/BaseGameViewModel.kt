@@ -65,7 +65,7 @@ abstract class BaseGameViewModel : ViewModel() {
 
     open fun onStartTask(task: CityTask) {
         currentTask.postValue(task)
-        taskCounter.postValue(taskCounter.value?.plus(1) ?: 0)
+        taskCounter.postValue(taskCounter.value?.plus(1) ?: 1)
     }
 
     open fun finishGame() {
@@ -86,6 +86,7 @@ abstract class BaseGameViewModel : ViewModel() {
 
     protected open fun levelFinished() {
         isLevelFinished.postValue(true)
+        taskCounter.postValue(0)
     }
 
     protected open fun clickedPosition(latitude: Double, longitude: Double, distance: Int) {

@@ -117,19 +117,12 @@
                 tools:text="@string/timer_info"
                 android:textColor="#8b8b8b" />
 
-            <TextView
-                android:id="@+id/short_description3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/timerTv"
-                android:text="Total 14700 pt"
-                android:textColor="#8b8b8b" />
 
             <TextView
                 android:id="@+id/levelText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/short_description3"
+                android:layout_below="@+id/timerTv"
                 android:textColor="#8b8b8b"
                 android:text="Уровень " />
 
@@ -137,7 +130,7 @@
                 android:id="@+id/currentLevelText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/short_description3"
+                android:layout_below="@+id/timerTv"
                 android:layout_toEndOf="@+id/levelText"
                 android:layout_toRightOf="@+id/levelText"
                 android:textColor="#8b8b8b"
@@ -147,7 +140,7 @@
                 android:id="@+id/taskCounterText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/short_description3"
+                android:layout_below="@+id/timerTv"
                 android:layout_toEndOf="@+id/currentLevelText"
                 android:layout_toRightOf="@+id/currentLevelText"
                 android:textColor="#8b8b8b"
