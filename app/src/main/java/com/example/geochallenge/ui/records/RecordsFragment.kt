@@ -45,7 +45,6 @@ class RecordsFragment @Inject constructor() : Fragment() {
 
         viewModel.records.observe(this, Observer {
             adapterView.add(it, true)
-
         })
     }
 

@@ -9,5 +9,6 @@ interface GameControler {
     fun prepareForLevel(level: Int): Completable
     fun haveTaskForCurrentLevel(): Boolean
     fun finishGame(score: Int, countTask: Int): Completable
+//    fun finishGameWithPostRecord(score: Int, countTask: Int, postRecord : Boolean): Completable
 
 }

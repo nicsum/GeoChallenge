@@ -14,4 +14,7 @@
     <string name="location_d_text">%1$d/5</string>
     <string name="distance_info">До города %d км</string>
     <string name="timer_info">Осталось %d сек.</string>
+    <string name="answer_exit">Хотите выйти из игры ?</string>
+    <string name="cancel">Отмена</string>
+    <string name="yes">Да</string>
 </resources>

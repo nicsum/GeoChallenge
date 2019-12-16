@@ -6,6 +6,4 @@ class ClassicMapsFragment : BaseMapsFragment() {
     override fun getLayout(): Int {
         return R.layout.fr_classic_maps
     }
-
-
 }
