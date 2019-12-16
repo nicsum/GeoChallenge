@@ -1,11 +1,13 @@
 package com.example.geochallenge.di.app
 
+import android.util.Log
 import com.example.geochallenge.BuildConfig.API_URL
 import com.example.geochallenge.data.api.GeochallengeApi
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -17,8 +19,25 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideClient(): OkHttpClient {
-        val builder = OkHttpClient().newBuilder()
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
+        val logger = object : HttpLoggingInterceptor.Logger {
+            override fun log(message: String) {
+                Log.i("GeochallengeNetwork", message)
+            }
+        }
+
+        val loggingInterceptor = HttpLoggingInterceptor(logger)
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BASIC
+        return loggingInterceptor
+    }
+
+    @Provides
+    @Singleton
+    fun provideClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+
+        val builder = OkHttpClient()
+            .newBuilder()
+            .addInterceptor(loggingInterceptor)
         return builder.build()
     }
 
@@ -52,6 +71,5 @@ class NetworkModule {
 //        mc.dao = dao
 //        return mc
 //    }
-
 
 }

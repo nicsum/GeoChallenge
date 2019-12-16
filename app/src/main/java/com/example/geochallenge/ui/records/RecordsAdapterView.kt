@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class RecordsAdapterView @Inject constructor() : RecyclerView.Adapter<RecordViewHolder>() {
 
-    var records = ArrayList<Record>()
+    private var records = ArrayList<Record>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordViewHolder {
         val inflater = LayoutInflater.from(parent.context)

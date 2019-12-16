@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/menu_navigation"
+    app:startDestination="@+id/nav_solo">
+
+    <fragment
+        android:id="@+id/nav_solo"
+        android:name="com.example.geochallenge.ui.menu.ClassicMapsFragment"
+        android:label="@string/start_simple_game"
+        tools:layout="@layout/fr_classic_maps" />
+
+    <fragment
+        android:id="@+id/nav_time"
+        android:name="com.example.geochallenge.ui.menu.TimeMapsFragment"
+        android:label="@string/start_limit_time_game"
+        tools:layout="@layout/fr_time_maps" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.example.geochallenge.ui.menu.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/fr_settings" />
+
+</navigation>

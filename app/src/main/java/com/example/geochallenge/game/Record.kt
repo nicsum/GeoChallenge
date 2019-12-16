@@ -1,12 +1,12 @@
 package com.example.geochallenge.game
 
-import androidx.room.ColumnInfo
+import com.google.gson.annotations.SerializedName
 
 class Record(
     var id: Int? = null,
-    @ColumnInfo(name = "user_id") var userId: String,
-    @ColumnInfo(name = "score") var score: Int,
-    @ColumnInfo(name = "count_task") var countTasks: Int
+    @SerializedName("user_id") var userId: String,
+    @SerializedName("score") var score: Int,
+    @SerializedName("count_task") var countTasks: Int
 
 ) : Comparable<Record> {
 

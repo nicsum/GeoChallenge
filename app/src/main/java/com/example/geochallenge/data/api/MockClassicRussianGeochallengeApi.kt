@@ -2,6 +2,7 @@ package com.example.geochallenge.data.api
 
 import com.example.geochallenge.data.database.GeoChallengeDao
 import com.example.geochallenge.game.CityTask
+import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.game.Record
 import com.example.geochallenge.utils.hasInternetConnection
 import io.reactivex.Completable
@@ -79,6 +80,13 @@ object MockClassicRussianGeochallengeApi : GeochallengeApi {
                     Single.error<List<Record>>(IOException())
                 }
             }
+    }
+
+    override fun getMaps(): Single<List<GameMap>> {
+        val map = GameMap(1, "Russia", "Россия", "russia", null, null)
+
+        return Single.just(listOf(map))
+
     }
 
     override fun getAllCityTasksByLevel(level: Int, mapId: Int): Single<List<CityTask>> {

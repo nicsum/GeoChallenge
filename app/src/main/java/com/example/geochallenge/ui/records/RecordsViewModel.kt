@@ -14,7 +14,7 @@ class RecordsViewModel(val geochallengeService: GeochallengeService, val gameInf
 
     val records = MutableLiveData<List<Record>>()
 
-    fun showRecords() {
+    fun loadRecords() {
         geochallengeService
             .getRecords(gameInfo.mode, gameInfo.mapId)
             .subscribeOn(Schedulers.io())
