@@ -52,10 +52,10 @@ class TimeLimitGameViewModel(val gameControler: GameControler) : BaseGameViewMod
 
         timerDisposable = Observable
             .intervalRange(1, count + 1,1,1, TimeUnit.SECONDS)
+            .doOnComplete(this::finishGame)
             .map { count + 1 - it  }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnComplete(this::finishGame)
             .subscribe{
                 stillHaveTime.postValue( it)
                 stillHaveTimeLong = it
@@ -98,7 +98,7 @@ class TimeLimitGameViewModel(val gameControler: GameControler) : BaseGameViewMod
             .finishGame(taskCounter.value ?: 0, taskCounter.value ?: 0)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnComplete {
+            .subscribe {
                 super.finishGame()
             }
     }
