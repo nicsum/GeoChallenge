@@ -6,9 +6,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.geochallenge.AppDelegate
-import com.example.geochallenge.R
+import com.example.geochallenge.ui.auth.AuthActivity
 import com.example.geochallenge.ui.menu.MenuActivity
-import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 
 class SplashActivity : AppCompatActivity() {
@@ -23,10 +22,11 @@ class SplashActivity : AppCompatActivity() {
 
         val user = FirebaseAuth.getInstance().currentUser
 
-        if (user == null) login()
+
+        if (user == null) auth()
         else {
             (applicationContext as AppDelegate).createUserComponent(user)
-            startMenu()
+            startGameMenu()
         }
 
     }
@@ -39,30 +39,19 @@ class SplashActivity : AppCompatActivity() {
                 showMessage("Вход прошел успешно")
                 val user = FirebaseAuth.getInstance().currentUser
                 (applicationContext as AppDelegate).createUserComponent(user!!)
-                startMenu()
+                startGameMenu()
             }
         }
     }
 
 
-    fun login() {
-        val providers = listOf(
-            AuthUI.IdpConfig.EmailBuilder().build()
-//            AuthUI.IdpConfig.PhoneBuilder().build(),
-//            AuthUI.IdpConfig.GoogleBuilder().build()
-        )
-
-        startActivityForResult(
-            AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .setLogo(R.drawable.ic_menu_single)
-                .build(),
-            RC_SIGN_IN
-        )
+    fun auth() {
+        val intent = Intent(this, AuthActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
-    fun startMenu() {
+    fun startGameMenu() {
         val intent = Intent(this, MenuActivity::class.java)
         startActivity(intent)
         finish()

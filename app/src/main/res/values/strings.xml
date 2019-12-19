@@ -17,4 +17,13 @@
     <string name="answer_exit">Хотите выйти из игры ?</string>
     <string name="cancel">Отмена</string>
     <string name="yes">Да</string>
+    <string name="get_registered">Зарегистрироваться</string>
+    <string name="are_already_registered">Вы уже зарегистрированы?</string>
+    <string name="e_mail">Почта</string>
+    <string name="password">Пароль</string>
+    <string name="username_hint">Ваш ник</string>
+    <string name="login">Войти</string>
+    <string name="register">Регистарция</string>
+    <string name="i_forgot_password">Забыли пароль?</string>
+    <string name="or">ИЛИ</string>
 </resources>

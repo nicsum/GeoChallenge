@@ -2,6 +2,7 @@ package com.example.geochallenge.di.app
 
 
 import com.example.geochallenge.AppDelegate
+import com.example.geochallenge.di.auth.AuthComponent
 import com.example.geochallenge.di.user.UserComponent
 import dagger.BindsInstance
 import dagger.Component
@@ -9,7 +10,15 @@ import javax.inject.Singleton
 
 
 @Singleton
-@Component(modules = arrayOf(AppModule::class, NetworkModule::class, AppSubcomponents::class))
+@Component(
+    modules = [
+        AppModule::class,
+        NetworkModule::class,
+        AppSubcomponents::class,
+        FirebaseModule::class,
+        GoogleApiModule::class
+    ]
+)
 interface AppComponent {
 
     @Component.Factory
@@ -18,5 +27,6 @@ interface AppComponent {
     }
 
     fun userComponent(): UserComponent.Factory
+    fun authComponent(): AuthComponent.Factory
 
 }

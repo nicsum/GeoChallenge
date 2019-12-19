@@ -31,6 +31,7 @@
         <activity android:name=".ui.game.classic.ClassicGameActivity" />
         <activity android:name=".ui.game.multiplayer.MultiplayerGameActivity" />
         <activity android:name=".ui.game.time.TimeLimitGameActivity" />
+        <activity android:name=".ui.auth.AuthActivity" />
 
     </application>
 

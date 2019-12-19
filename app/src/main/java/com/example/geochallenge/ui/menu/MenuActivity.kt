@@ -21,7 +21,6 @@ import com.example.geochallenge.ui.game.street.StreetGameActivity
 import com.example.geochallenge.ui.game.time.TimeLimitGameActivity
 import com.example.geochallenge.ui.records.RecordsActivity
 import com.example.geochallenge.ui.splash.SplashActivity
-import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -89,15 +88,16 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
     }
 
     fun logout() {
-        AuthUI.getInstance()
-            .signOut(this)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    (applicationContext as AppDelegate).destroyUserComponent()
-                    splash()
-                    finish()
-                } else (showMessage("Что-то пошло не так. Попробуйте еще раз"))
-            }
+        TODO()
+//        AuthUI.getInstance()
+//            .signOut(this)
+//            .addOnCompleteListener {
+//                if (it.isSuccessful) {
+//                    (applicationContext as AppDelegate).destroyUserComponent()
+//                    splash()
+//                    finish()
+//                } else (showMessage("Что-то пошло не так. Попробуйте еще раз"))
+//            }
     }
 
 
