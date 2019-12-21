@@ -2,13 +2,21 @@ package com.example.geochallenge.ui.menu
 
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.geochallenge.AppDelegate
 import com.example.geochallenge.R
@@ -27,7 +35,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 class MenuActivity : AppCompatActivity(), OnClickMapListener {
 
-//    private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     var menuComponent: MenuComponent? = null
 
@@ -40,8 +48,9 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.ac_menu)
-
-
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        val coordinator: CoordinatorLayout = findViewById(R.id.coordinator)
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
@@ -58,15 +67,52 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
 //        }
 
 //        setupActionBarWithNavController(navController, appBarConfiguration)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.nav_solo, R.id.nav_time, R.id.nav_settings), drawerLayout
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+
+        val actionBarDrawerToggle: ActionBarDrawerToggle = object :
+            ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                R.string.app_name,
+                R.string.app_name
+            ) {
+            private val scaleFactor = 6f
+            override fun onDrawerSlide(
+                drawerView: View,
+                slideOffset: Float
+            ) {
+                super.onDrawerSlide(drawerView, slideOffset)
+                val slideX = drawerView.width * slideOffset
+
+
+                coordinator.translationX = slideX
+                coordinator.scaleX = 1 - (slideOffset / scaleFactor)
+                coordinator.scaleY = 1 - (slideOffset / scaleFactor)
+//                coordinator.rotationY = slideOffset * -90f
+                coordinator.rotationY = slideOffset * -20f
+//                coordinator.rotationY = 0 - slideOffset *5
+
+
+            }
+
+        }
+
+        drawerLayout.setScrimColor(Color.TRANSPARENT)
+        drawerLayout.drawerElevation = 0f
+        drawerLayout.addDrawerListener(actionBarDrawerToggle)
+
 
     }
 
-//    override fun onSupportNavigateUp(): Boolean {
-//        val navController = findNavController(R.id.nav_host_fragment)
-//        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-//    }
-
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         if(FirebaseAuth.getInstance().currentUser !=null)

@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:paddingBottom="4dp"
-                android:text="Stats:"
+                android:text="@string/stats"
                 android:textSize="@dimen/text_caption" />
 
             <TextView
@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/timerTv"
                 android:textColor="#8b8b8b"
-                android:text="Уровень " />
+                android:text="@string/level" />
 
             <TextView
                 android:id="@+id/currentLevelText"
@@ -153,7 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/taskCounterText"
-                android:text="Next" />
+                android:text="@string/next" />
 
         </RelativeLayout>
 

@@ -14,6 +14,8 @@ class SettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (activity as MenuActivity).supportActionBar?.title = "Настройки"
+        (activity as MenuActivity).supportActionBar?.subtitle = ""
         return inflater.inflate(R.layout.fr_settings, container, false)
     }
 }
