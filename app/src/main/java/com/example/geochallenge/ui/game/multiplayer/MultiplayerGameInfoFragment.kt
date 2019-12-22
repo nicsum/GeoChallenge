@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import androidx.lifecycle.Observer
 import com.example.geochallenge.R
 import com.example.geochallenge.ui.game.BaseGameInfoFragment
 import com.example.geochallenge.ui.game.BaseGameViewModel
@@ -14,7 +12,6 @@ import javax.inject.Inject
 
 class MultiplayerGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
 
-    lateinit var waitingProgressBar: ProgressBar
 
     //    @Inject
     lateinit var viewModel: MultiplayerViewModel
@@ -25,7 +22,6 @@ class MultiplayerGameInfoFragment @Inject constructor() : BaseGameInfoFragment()
         savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.fr_gameinfo, container, false)
-        waitingProgressBar = v.findViewById(R.id.waitingProgressBar)
         return v
     }
 
@@ -38,17 +34,7 @@ class MultiplayerGameInfoFragment @Inject constructor() : BaseGameInfoFragment()
         super.onActivityCreated(savedInstanceState)
 
         viewModel = (activity as MultiplayerGameActivity).viewModel
-        viewModel.waitingPlayers.observe(
-            this,
-            Observer {
-                if (it) {
-                    waitingProgressBar.visibility = View.VISIBLE
-                    gameInfo.visibility = View.GONE
-                } else {
-                    waitingProgressBar.visibility = View.GONE
-                    gameInfo.visibility = View.VISIBLE
-                }
-            })
+
     }
 
     override fun getViewModel(): BaseGameViewModel {

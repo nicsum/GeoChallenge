@@ -71,7 +71,7 @@ open class ClassicGameViewModel(val gameControler: GameControler, countTasksForL
 
     override fun levelFinished() {
         super.levelFinished()
-        if (neededPointsForNextLevel(currentLevel.value ?: 0) >=
+        if (neededPointsForNextLevel(currentLevel.value ?: 0) >
             pointsForCurrentLevel.value ?: 0
         ) {
             finishGame()
@@ -86,8 +86,6 @@ open class ClassicGameViewModel(val gameControler: GameControler, countTasksForL
             .finishGame(points.value ?: 0, taskCounter.value ?: 0)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { isLoading.postValue(true) }
-            .doFinally { isLoading.postValue(false) }
             .doOnComplete {
                 super.finishGame()
             }
@@ -122,7 +120,7 @@ open class ClassicGameViewModel(val gameControler: GameControler, countTasksForL
             4 -> 0.65
             5 -> 0.7
             else -> 0.75
-        }.toInt()
+        }.toInt() * 0
     }
 
     private fun calculatePoints(seconds: Long, distance: Int): Int {

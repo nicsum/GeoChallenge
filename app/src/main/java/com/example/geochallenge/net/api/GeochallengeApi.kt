@@ -1,4 +1,4 @@
-package com.example.geochallenge.data.api
+package com.example.geochallenge.net.api
 
 import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.GameMap

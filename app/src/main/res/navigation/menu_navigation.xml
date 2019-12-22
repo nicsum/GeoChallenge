@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.example.geochallenge.ui.menu.SettingsFragment"
+        android:name="com.example.geochallenge.ui.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fr_settings" />
 

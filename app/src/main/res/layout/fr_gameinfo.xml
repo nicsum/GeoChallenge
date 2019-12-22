@@ -55,12 +55,21 @@
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
         card_view:cardCornerRadius="4dp">
 
-        <ProgressBar
-            android:id="@+id/waitingProgressBar"
+        <include
+            layout="@layout/v_load"
+            android:id="@+id/loading_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:visibility="gone" />
 
+        <include
+            layout="@layout/v_error"
+            android:id="@+id/error_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="gone" />
         <RelativeLayout
             android:id="@+id/gameInfoCard"
             android:layout_width="wrap_content"
@@ -158,26 +167,5 @@
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/stillHaveTimeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_body"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="у вас осталось 5 сек.: " />
-
-    <TextView
-        android:id="@+id/stillHaveDistanceText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_body"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/stillHaveTimeText"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="У вас осталось 20000 км" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

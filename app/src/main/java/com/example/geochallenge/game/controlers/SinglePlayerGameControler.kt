@@ -38,6 +38,7 @@ class SinglePlayerGameControler @Inject constructor(
         return iteratorTasksForCurrentLevel.hasNext()
     }
 
+
     override fun finishGame(score: Int, countTask: Int): Completable {
         if (score == 0) return Completable.complete()
 

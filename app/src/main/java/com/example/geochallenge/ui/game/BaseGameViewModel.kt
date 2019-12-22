@@ -22,23 +22,41 @@ abstract class BaseGameViewModel : ViewModel() {
     val taskCounter: MutableLiveData<Int> = MutableLiveData()
     val currentLevel: MutableLiveData<Int> = MutableLiveData()
     val isLevelFinished: MutableLiveData<Boolean> = MutableLiveData()
-    val isLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val isErrorVisible = MutableLiveData<Boolean>()
+    val isLoadingVisible = MutableLiveData<Boolean>()
+    val isGameInfoVisible = MutableLiveData<Boolean>()
     open fun newGame() {
         nextLevel()
     }
 
+
+    open fun updateTasks() {
+        prepareNewLevel(currentLevel.value ?: 1)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { showLoading() }
+            .subscribe({
+                isLevelFinished.postValue(false)
+                nextTask()
+            }, {
+                showError()
+                Log.e("SimpleGameViewModel", it.message)
+            })
+    }
     protected open fun nextLevel() {
         val level = currentLevel.value ?: 0
         val newLevel = if (level == 0) 1 else level + 1
         prepareNewLevel(newLevel)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doFinally { currentLevel.postValue(newLevel) }
+            .doOnSubscribe {
+                showLoading()
+            }
             .subscribe({
-                //                iteratorTasksForCurrentLevel = it.iterator()
-                currentLevel.postValue(newLevel)
-                isLevelFinished.postValue(false)
                 nextTask()
             }, {
+                showError()
                 Log.e("SimpleGameViewModel", it.message)
             })
 
@@ -47,7 +65,6 @@ abstract class BaseGameViewModel : ViewModel() {
     open fun nextTask() {
         isDefaultMapState.setValue(true)
         clickedPosition.setValue(null)
-        isTaskCompleted.setValue(false)
         if (!haveTaskForCurrentLevel()) {
             levelFinished()
             return
@@ -55,9 +72,12 @@ abstract class BaseGameViewModel : ViewModel() {
         getNextTask()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { showLoading() }
             .subscribe({
                 onStartTask(it)
+                showGameInfo()
             }, {
+                showError()
                 Log.e("SimpleGameViewModel", it.message)
             })
 
@@ -65,6 +85,7 @@ abstract class BaseGameViewModel : ViewModel() {
 
     open fun onStartTask(task: CityTask) {
         currentTask.postValue(task)
+        isTaskCompleted.postValue(false)
         taskCounter.postValue(taskCounter.value?.plus(1) ?: 1)
     }
 
@@ -103,8 +124,25 @@ abstract class BaseGameViewModel : ViewModel() {
         isDefaultMapState.postValue(false)
     }
 
-    abstract fun getNextTask(): Single<CityTask>
+    private fun showGameInfo() {
+        isLoadingVisible.postValue(false)
+        isErrorVisible.postValue(false)
+        isGameInfoVisible.postValue(true)
+    }
 
+    private fun showError() {
+        isLoadingVisible.postValue(false)
+        isErrorVisible.postValue(true)
+        isGameInfoVisible.postValue(false)
+    }
+
+    private fun showLoading() {
+        isLoadingVisible.postValue(true)
+        isErrorVisible.postValue(false)
+        isGameInfoVisible.postValue(false)
+    }
+
+    abstract fun getNextTask(): Single<CityTask>
     abstract fun prepareNewLevel(newLevel: Int): Completable
 
     abstract fun haveTaskForCurrentLevel(): Boolean

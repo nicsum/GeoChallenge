@@ -2,7 +2,7 @@ package com.example.geochallenge.di.app
 
 import android.util.Log
 import com.example.geochallenge.BuildConfig.API_URL
-import com.example.geochallenge.data.api.GeochallengeApi
+import com.example.geochallenge.net.api.GeochallengeApi
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides

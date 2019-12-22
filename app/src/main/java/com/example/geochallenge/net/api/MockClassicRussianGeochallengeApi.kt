@@ -1,4 +1,4 @@
-package com.example.geochallenge.data.api
+package com.example.geochallenge.net.api
 
 import com.example.geochallenge.data.database.GeoChallengeDao
 import com.example.geochallenge.game.CityTask
@@ -10,7 +10,8 @@ import io.reactivex.Single
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-object MockClassicRussianGeochallengeApi : GeochallengeApi {
+object MockClassicRussianGeochallengeApi :
+    GeochallengeApi {
 
     val records = ArrayList<Record>()
     val mapId = 1

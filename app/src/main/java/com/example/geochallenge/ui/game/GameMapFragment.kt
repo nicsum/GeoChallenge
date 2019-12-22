@@ -71,7 +71,6 @@ class GameMapFragment : SupportMapFragment(),
                 map?.setOnMarkerClickListener { true}
 //                showStartPosition()
             }  })
-
         viewModel.isDefaultMapState.observe(this, Observer {
             if(it)
                 showStartPosition() })

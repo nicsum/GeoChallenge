@@ -31,6 +31,7 @@ class MultiplayerGameControler @Inject constructor() : GameControler {
         return haveNextTask
     }
 
+
     override fun finishGame(score: Int, countTask: Int): Completable {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

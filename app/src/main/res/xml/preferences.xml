@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:key="lang_task_key"
+        android:title="@string/pref_lang_tasks_title"
+        android:summary="@string/pref_lang_tasks_summary"
+        android:defaultValue="1"
+        android:entries="@array/pref_lang_tasks"
+        android:entryValues="@array/pref_lang_tasks_values"
+        android:dialogTitle="@string/pref_lang_tasks_dialog_title" />
+
+</PreferenceScreen>

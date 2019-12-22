@@ -26,4 +26,9 @@
     <string name="register">Регистарция</string>
     <string name="i_forgot_password">Забыли пароль?</string>
     <string name="or">ИЛИ</string>
+    <!-- pref lang tasks -->
+    <string name="pref_lang_tasks_title">Язык географической точки</string>
+    <string name="pref_lang_tasks_summary">Устанавливает язык названий географических точек</string>
+    <string name="pref_lang_tasks_dialog_title">Установите язык названий географических точек</string>
+    <string name="update">Обновить</string>
 </resources>

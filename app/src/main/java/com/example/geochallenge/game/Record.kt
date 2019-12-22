@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 class Record(
     var id: Int? = null,
-    @SerializedName("user_id") var userId: String,
+    @SerializedName("username") var userId: String,
     @SerializedName("score") var score: Int,
     @SerializedName("count_task") var countTasks: Int
 

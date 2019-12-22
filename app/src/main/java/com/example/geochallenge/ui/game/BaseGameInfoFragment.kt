@@ -2,6 +2,7 @@ package com.example.geochallenge.ui.game
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -15,7 +16,15 @@ abstract class BaseGameInfoFragment : Fragment() {
     lateinit var cityNameTv: TextView
     lateinit var taskCounterTv: TextView
     lateinit var currentLevelTv: TextView
-    lateinit var gameInfo: RelativeLayout
+    lateinit var gameInfoView: RelativeLayout
+
+    lateinit var errorView: View
+    lateinit var errorMessage: TextView
+    lateinit var updateBtn: ImageButton
+
+    lateinit var loadingView: View
+
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -24,7 +33,13 @@ abstract class BaseGameInfoFragment : Fragment() {
         cityNameTv = view.findViewById(R.id.cityNameText)
         taskCounterTv = view.findViewById(R.id.taskCounterText)
         currentLevelTv = view.findViewById(R.id.currentLevelText)
-        gameInfo = view.findViewById(R.id.gameInfoCard)
+        gameInfoView = view.findViewById(R.id.gameInfoCard)
+        errorView = view.findViewById(R.id.error_view)
+        errorMessage = errorView.findViewById(R.id.error_message)
+        updateBtn = errorView.findViewById(R.id.update_btn)
+        loadingView = view.findViewById(R.id.loading_view)
+
+
 
     }
 
@@ -32,6 +47,8 @@ abstract class BaseGameInfoFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         val vm = getViewModel()
+
+        updateBtn.setOnClickListener { vm.updateTasks() }
         vm.distance.observe(
             this,
             Observer {
@@ -47,6 +64,30 @@ abstract class BaseGameInfoFragment : Fragment() {
         vm.currentLevel.observe(
             this,
             Observer { currentLevelTv.text = getString((R.string.level_d_text), it) })
+
+        vm.isLoadingVisible.observe(
+            this,
+            Observer {
+                if (it) loadingView.visibility = View.VISIBLE
+                else loadingView.visibility = View.GONE
+            }
+        )
+
+        vm.isErrorVisible.observe(
+            this,
+            Observer {
+                if (it) errorView.visibility = View.VISIBLE
+                else errorView.visibility = View.GONE
+            }
+        )
+
+        vm.isGameInfoVisible.observe(
+            this,
+            Observer {
+                if (it) gameInfoView.visibility = View.VISIBLE
+                else gameInfoView.visibility = View.GONE
+            }
+        )
 
     }
 
