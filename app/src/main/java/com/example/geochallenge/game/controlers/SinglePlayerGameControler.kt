@@ -26,7 +26,8 @@ class SinglePlayerGameControler @Inject constructor(
         return geochallengeService.getRandomCityTasksByLevel(
             level,
             gameInfo.countTaskForLevel,
-            gameInfo.mapId
+            gameInfo.mapId,
+            gameInfo.tasksLang
         )
             .flatMapCompletable {
                 iteratorTasksForCurrentLevel = it.iterator()

@@ -121,7 +121,7 @@ class GameMapFragment : SupportMapFragment(),
         val answerPosition = LatLng(answerLat, answerLon)
         val answerMarket = MarkerOptions()
             .position(answerPosition)
-            .title(task.city)
+            .title(task.name)
             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
 
         map?.let{

@@ -13,21 +13,26 @@ import javax.inject.Singleton
 class GeochallengeStorage @Inject constructor(val api: GeochallengeApi) : GeochallengeService {
 
 
-    override fun getCityTaskById(id: Int, mapId: Int): Single<CityTask> {
+    override fun getCityTaskById(id: Int, mapId: Int, lang: String): Single<CityTask> {
 
-        return api.getCityTaskById(id, mapId)
+        return api.getCityTaskById(id, mapId, lang)
     }
 
     override fun getRandomCityTasksByLevel(
         level: Int,
         count: Int,
-        mapId: Int
+        mapId: Int,
+        lang: String
     ): Single<List<CityTask>> {
-        return api.getRandomCityTasksByLevel(level, count, mapId)
+        return api.getRandomCityTasksByLevel(level, count, mapId, lang)
     }
 
-    override fun getAllCityTasksByLevel(level: Int, mapId: Int): Single<List<CityTask>> {
-        return api.getAllCityTasksByLevel(level, mapId)
+    override fun getAllCityTasksByLevel(
+        level: Int,
+        mapId: Int,
+        lang: String
+    ): Single<List<CityTask>> {
+        return api.getAllCityTasksByLevel(level, mapId, lang)
     }
 
     override fun postRecord(record: Record, mode: String, mapId: Int, userId: String): Completable {

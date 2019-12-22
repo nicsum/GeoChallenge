@@ -7,8 +7,6 @@
     <string name="mode">Россия</string>
     <string name="multiplayer">Мультиплеер</string>
     <string name="logout">Выйти из профиля</string>
-    <string name="prev"><![CDATA[<]]></string>
-    <string name="next"><![CDATA[>]]></string>
     <string name="settings">Настройки</string>
     <string name="level_d_text">%1$d,\u0020</string>
     <string name="location_d_text">%1$d/5</string>
@@ -31,4 +29,14 @@
     <string name="pref_lang_tasks_summary">Устанавливает язык названий географических точек</string>
     <string name="pref_lang_tasks_dialog_title">Установите язык названий географических точек</string>
     <string name="update">Обновить</string>
+    <string name="cv_img_desc">CardView Image Background</string>
+
+    <string name="lang_en">English</string>
+    <string name="lang_ru">Russian</string>
+    <string name="submit_new_password_link">Submit New Password Link</string>
+    <string name="stats">Stats:</string>
+    <string name="level">Уровень</string>
+    <string name="next">Next</string>
+    <string name="lang_interface">Язык интерфейса</string>
+    <string name="map_image_desc">Map Image</string>
 </resources>

@@ -22,7 +22,8 @@ object MockClassicRussianGeochallengeApi :
     override fun getRandomCityTasksByLevel(
         level: Int,
         limit: Int,
-        mapId: Int
+        mapId: Int,
+        lang: String
     ): Single<List<CityTask>> {
 
         return hasInternetConnection()
@@ -36,7 +37,7 @@ object MockClassicRussianGeochallengeApi :
             }
     }
 
-    override fun getCityTaskById(id: Int, mapId: Int): Single<CityTask> {
+    override fun getCityTaskById(id: Int, mapId: Int, lang: String): Single<CityTask> {
         return hasInternetConnection()
             .delay(1500, TimeUnit.MILLISECONDS)
             .flatMap { yes ->
@@ -84,13 +85,17 @@ object MockClassicRussianGeochallengeApi :
     }
 
     override fun getMaps(): Single<List<GameMap>> {
-        val map = GameMap(1, "Russia", "Россия", "russia", null, null)
+        val map = GameMap(1, "Russia", "Россия", "russia", null, null, true, false)
 
         return Single.just(listOf(map))
 
     }
 
-    override fun getAllCityTasksByLevel(level: Int, mapId: Int): Single<List<CityTask>> {
+    override fun getAllCityTasksByLevel(
+        level: Int,
+        mapId: Int,
+        lang: String
+    ): Single<List<CityTask>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

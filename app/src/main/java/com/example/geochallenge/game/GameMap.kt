@@ -9,6 +9,8 @@ class GameMap(
     @SerializedName("map_ru") var mapRu: String,
     @SerializedName("map_name") var name: String,
     @SerializedName("latitude") var latitude: Double?,
-    @SerializedName("longitude") var longitude: Double?
+    @SerializedName("longitude") var longitude: Double?,
+    @SerializedName("lang_ru") var langRu: Boolean,
+    @SerializedName("lang_en") var langEn: Boolean
 
 )

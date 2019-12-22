@@ -5,5 +5,6 @@ import java.io.Serializable
 data class GameInfo(
     val mode: String,
     val mapId: Int,
-    val countTaskForLevel: Int
+    val countTaskForLevel: Int,
+    val tasksLang: String = "ru" // TODO
 ) : Serializable

@@ -4,5 +4,5 @@ import com.example.geochallenge.game.GameMap
 
 interface OnClickMapListener {
 
-    fun onClickGameMap(map: GameMap)
+    fun onClickGameMap(map: GameMap, lang: String)
 }

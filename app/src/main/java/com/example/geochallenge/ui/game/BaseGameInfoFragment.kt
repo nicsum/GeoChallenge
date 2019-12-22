@@ -56,7 +56,7 @@ abstract class BaseGameInfoFragment : Fragment() {
             })
         vm.currentTask.observe(
             this,
-            Observer { cityNameTv.text = if (it == null) "" else "${it.countryRU}, ${it.city}" })
+            Observer { cityNameTv.text = if (it == null) "" else "${it.country}, ${it.name}" })
 
         vm.taskCounter.observe(
             this,

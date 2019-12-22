@@ -14,20 +14,24 @@ interface GeochallengeApi {
     @GET("getCityTasksByLevel")
     fun getAllCityTasksByLevel(
         @Query("level") level: Int,
-        @Query("map_id") mapId: Int
+        @Query("map_id") mapId: Int,
+        @Query("lang") lang: String
     ): Single<List<CityTask>>
 
     @GET("getRandomCityTasksByLevel")
     fun getRandomCityTasksByLevel(
         @Query("level") level: Int,
         @Query("limit") limit: Int,
-        @Query("map_id") mapId: Int
+        @Query("map_id") mapId: Int,
+        @Query("lang") lang: String
+
     ): Single<List<CityTask>>
 
     @GET("/getCityTasksById")
     fun getCityTaskById(
         @Query("cityid") id: Int,
-        @Query("map_id") mapId: Int
+        @Query("map_id") mapId: Int,
+        @Query("lang") lang: String
     ): Single<CityTask>
 
     //records
