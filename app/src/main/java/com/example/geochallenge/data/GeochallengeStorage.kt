@@ -35,9 +35,14 @@ class GeochallengeStorage @Inject constructor(val api: GeochallengeApi) : Geocha
         return api.getAllCityTasksByLevel(level, mapId, lang)
     }
 
-    override fun postRecord(record: Record, mode: String, mapId: Int, userId: String): Completable {
+    override fun postRecord(
+        record: Record,
+        mode: String,
+        mapId: Int,
+        username: String
+    ): Completable {
         return api
-            .postResults(mode, userId, mapId, record.score, record.countTasks)
+            .postResults(mode, username, mapId, record.score, record.countTasks)
     }
 
     override fun getRecords(mode: String, mapId: Int): Single<List<Record>> {

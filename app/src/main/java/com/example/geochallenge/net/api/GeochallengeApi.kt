@@ -39,7 +39,7 @@ interface GeochallengeApi {
     @POST("/postResults")
     fun postResults(
         @Field("mode") mode: String,
-        @Field("user_id") user: String,
+        @Field("username") user: String,
         @Field("map_id") mapId: Int,
         @Field("score") score: Int,
         @Field("count_task") countTasks: Int

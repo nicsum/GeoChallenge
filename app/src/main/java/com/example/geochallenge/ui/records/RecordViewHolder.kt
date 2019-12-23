@@ -14,7 +14,7 @@ class RecordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(record: Record, place: Int) {
         pointsTv.text = record.score.toString()
         placeTv.text = place.toString()
-        userTv.text = record.userId
+        userTv.text = record.username
     }
 
 }

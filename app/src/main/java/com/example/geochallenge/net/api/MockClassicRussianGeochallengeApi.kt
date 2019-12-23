@@ -61,7 +61,7 @@ object MockClassicRussianGeochallengeApi :
             .delay(1500, TimeUnit.MILLISECONDS)
             .flatMapCompletable { yes ->
                 if (yes) {
-                    records.add(Record(userId = user, score = score, countTasks = countTasks))
+                    records.add(Record(username = user, score = score, countTasks = countTasks))
                     records.sort()
                     Completable.complete()
                 } else {

@@ -46,10 +46,7 @@ abstract class BaseMapsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         (context as MenuActivity).menuComponent?.inject(this)
 
-        if (recyclerView.layoutManager == null) {
-            recyclerView.layoutManager = linearLayoutManager
-        }
-
+        recyclerView.layoutManager = linearLayoutManager
         recyclerView.adapter = adapterView
 
         viewModel.maps.observe(this, Observer {
