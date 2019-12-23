@@ -104,11 +104,12 @@ class TimeLimitGameViewModel(val gameControler: GameControler) : BaseGameViewMod
             .finishGame(taskCounter.value ?: 0, taskCounter.value ?: 0)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnError { resolveError(it) }
-            .subscribe {
+            .subscribe({
                 error.postValue(GameError.NONE)
                 super.finishGame()
-            }
+            }, {
+                error.postValue(GameError.FINISH_GAME_ERROR)
+            })
     }
 
 }
