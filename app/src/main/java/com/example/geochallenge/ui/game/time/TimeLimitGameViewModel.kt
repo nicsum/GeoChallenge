@@ -93,11 +93,6 @@ class TimeLimitGameViewModel(val gameControler: GameControler) : BaseGameViewMod
         return gameControler.haveTaskForCurrentLevel()
     }
 
-    override fun resolveError(e: Throwable) {
-        super.resolveError(e)
-        //TODO
-    }
-
 
     override fun finishGame() {
         gameControler

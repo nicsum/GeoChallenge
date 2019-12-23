@@ -1,6 +1,6 @@
 package com.example.geochallenge.ui.menu
 
-import android.content.Context
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +28,8 @@ abstract class BaseMapsFragment : Fragment() {
     @Inject
     lateinit var linearLayoutManager: LinearLayoutManager
 
+    lateinit var recyclerView: RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,20 +37,21 @@ abstract class BaseMapsFragment : Fragment() {
     ): View? {
 
         val v = inflater.inflate(getLayout(), container, false)
-        val rv = v.findViewById<RecyclerView>(R.id.maps_rv)
-        rv.layoutManager = linearLayoutManager
-        rv.adapter = adapterView
-
+        recyclerView = v.findViewById(R.id.maps_rv)
         return v
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (context as MenuActivity).menuComponent?.inject(this)
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        (context as MenuActivity).menuComponent?.inject(this)
+
+        if (recyclerView.layoutManager == null) {
+            recyclerView.layoutManager = linearLayoutManager
+        }
+
+        recyclerView.adapter = adapterView
+
         viewModel.maps.observe(this, Observer {
             adapterView.add(it, true)
         })
