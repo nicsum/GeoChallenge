@@ -47,6 +47,7 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
 
         super.onCreate(savedInstanceState)
 
+
         setContentView(R.layout.ac_menu)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)

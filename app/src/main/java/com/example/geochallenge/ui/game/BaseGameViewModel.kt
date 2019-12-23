@@ -9,9 +9,10 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import retrofit2.HttpException
+import java.io.IOException
 
 abstract class BaseGameViewModel : ViewModel() {
-
 
     val isDefaultMapState: MutableLiveData<Boolean> = MutableLiveData()
     val isTaskCompleted: MutableLiveData<Boolean> = MutableLiveData()
@@ -22,9 +23,11 @@ abstract class BaseGameViewModel : ViewModel() {
     val taskCounter: MutableLiveData<Int> = MutableLiveData()
     val currentLevel: MutableLiveData<Int> = MutableLiveData()
     val isLevelFinished: MutableLiveData<Boolean> = MutableLiveData()
+    val error = MutableLiveData<GameError>().also { it.value = GameError.NONE }
     val isErrorVisible = MutableLiveData<Boolean>()
     val isLoadingVisible = MutableLiveData<Boolean>()
     val isGameInfoVisible = MutableLiveData<Boolean>()
+
     open fun newGame() {
         nextLevel()
     }
@@ -36,10 +39,11 @@ abstract class BaseGameViewModel : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { showLoading() }
             .subscribe({
+                error.postValue(GameError.NONE)
                 isLevelFinished.postValue(false)
                 nextTask()
             }, {
-                showError()
+                resolveError(it)
                 Log.e("SimpleGameViewModel", it.message)
             })
     }
@@ -54,12 +58,23 @@ abstract class BaseGameViewModel : ViewModel() {
                 showLoading()
             }
             .subscribe({
+                error.postValue(GameError.NONE)
                 nextTask()
             }, {
-                showError()
+                resolveError(it)
                 Log.e("SimpleGameViewModel", it.message)
             })
+    }
 
+    protected open fun resolveError(e: Throwable) {
+
+        when (e) {
+            is HttpException -> error.postValue(GameError.SERVER_ERROR)
+            is IOException -> error.postValue(GameError.CONNECTION_ERROR)
+            else -> error.postValue(GameError.ANY)
+        }
+        showError()
+        Log.e("BaseGameViewModel", e.message)
     }
 
     open fun nextTask() {
@@ -73,11 +88,14 @@ abstract class BaseGameViewModel : ViewModel() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { showLoading() }
+            .doOnSuccess {
+                error.postValue(GameError.NONE)
+            }
             .subscribe({
                 onStartTask(it)
                 showGameInfo()
             }, {
-                showError()
+                resolveError(it)
                 Log.e("SimpleGameViewModel", it.message)
             })
 

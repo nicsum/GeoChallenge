@@ -32,11 +32,6 @@ class MultiplayerGameActivity : BaseGameMapActivity() {
             .commit()
     }
 
-
-    override fun getLayout(): Int {
-        return R.layout.ac_game
-    }
-
     override fun getViewModel(): BaseGameViewModel {
         return viewModel
     }

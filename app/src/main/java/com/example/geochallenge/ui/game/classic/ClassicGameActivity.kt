@@ -9,7 +9,6 @@ import javax.inject.Inject
 
 class ClassicGameActivity : BaseGameMapActivity() {
 
-
     @Inject
     lateinit var fragment: ClassicGameInfoFragment
 
@@ -29,10 +28,6 @@ class ClassicGameActivity : BaseGameMapActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.game_info_container, fragment)
             .commit()
-    }
-
-    override fun getLayout(): Int {
-        return R.layout.ac_game
     }
 
     override fun getViewModel(): BaseGameViewModel {

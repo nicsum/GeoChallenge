@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.controlers.GameControler
 import com.example.geochallenge.ui.game.BaseGameViewModel
+import com.example.geochallenge.ui.game.GameError
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -27,7 +28,6 @@ open class ClassicGameViewModel(val gameControler: GameControler, countTasksForL
     var pointsForCurrentLevel = MutableLiveData<Int>()
 
     var timerDisposable: Disposable? = null
-
 
     override fun onStartTask(task: CityTask) {
         super.onStartTask(task)
@@ -71,7 +71,7 @@ open class ClassicGameViewModel(val gameControler: GameControler, countTasksForL
 
     override fun levelFinished() {
         super.levelFinished()
-        if (neededPointsForNextLevel(currentLevel.value ?: 0) >
+        if (neededPointsForNextLevel(currentLevel.value ?: 0) >=
             pointsForCurrentLevel.value ?: 0
         ) {
             finishGame()
@@ -86,12 +86,12 @@ open class ClassicGameViewModel(val gameControler: GameControler, countTasksForL
             .finishGame(points.value ?: 0, taskCounter.value ?: 0)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnComplete {
+            .subscribe({
+                error.postValue(GameError.NONE)
                 super.finishGame()
-            }
-            .doOnError {
-                Log.e("mytagg", it.message)
-            }.subscribe()
+            }, {
+                error.postValue(GameError.FINISH_GAME_ERROR)
+            })
     }
 
     override fun getNextTask(): Single<CityTask> {
@@ -99,7 +99,6 @@ open class ClassicGameViewModel(val gameControler: GameControler, countTasksForL
     }
 
     override fun prepareNewLevel(newLevel: Int): Completable {
-
         return gameControler.prepareForLevel(newLevel)
     }
 
@@ -120,7 +119,7 @@ open class ClassicGameViewModel(val gameControler: GameControler, countTasksForL
             4 -> 0.65
             5 -> 0.7
             else -> 0.75
-        }.toInt() * 0
+        }.toInt()
     }
 
     private fun calculatePoints(seconds: Long, distance: Int): Int {

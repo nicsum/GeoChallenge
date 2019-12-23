@@ -24,9 +24,6 @@ abstract class BaseGameInfoFragment : Fragment() {
 
     lateinit var loadingView: View
 
-
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         distance = view.findViewById(R.id.distanceTv)
@@ -38,8 +35,6 @@ abstract class BaseGameInfoFragment : Fragment() {
         errorMessage = errorView.findViewById(R.id.error_message)
         updateBtn = errorView.findViewById(R.id.update_btn)
         loadingView = view.findViewById(R.id.loading_view)
-
-
 
     }
 
@@ -78,6 +73,19 @@ abstract class BaseGameInfoFragment : Fragment() {
             Observer {
                 if (it) errorView.visibility = View.VISIBLE
                 else errorView.visibility = View.GONE
+            }
+        )
+        vm.error.observe(
+            this,
+            Observer {
+                when (it) {
+                    GameError.CONNECTION_ERROR -> errorMessage.text =
+                        resources.getString(R.string.game_error_connection)
+                    GameError.SERVER_ERROR -> errorMessage.text =
+                        resources.getString(R.string.game_error_server)
+                    GameError.ANY -> errorMessage.text =
+                        resources.getString(R.string.game_error_any)
+                }
             }
         )
 

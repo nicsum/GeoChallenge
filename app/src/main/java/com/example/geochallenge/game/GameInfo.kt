@@ -6,5 +6,5 @@ data class GameInfo(
     val mode: String,
     val mapId: Int,
     val countTaskForLevel: Int,
-    val tasksLang: String = "ru" // TODO
+    val tasksLang: String
 ) : Serializable

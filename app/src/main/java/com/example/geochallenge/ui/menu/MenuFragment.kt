@@ -91,7 +91,7 @@ class MenuFragment : Fragment() {
     }
 
     private fun getMapId() = 1
-    private fun getGameInfo(mode: String, mapId: Int) = GameInfo(mode, mapId, 5)
+    private fun getGameInfo(mode: String, mapId: Int) = GameInfo(mode, mapId, 5, "ru")
 
     private fun getStartLocation() = LatLng(64.0, 80.0)
 

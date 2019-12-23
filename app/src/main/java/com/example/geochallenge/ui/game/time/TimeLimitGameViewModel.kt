@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.controlers.GameControler
 import com.example.geochallenge.ui.game.BaseGameViewModel
+import com.example.geochallenge.ui.game.GameError
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -92,13 +93,20 @@ class TimeLimitGameViewModel(val gameControler: GameControler) : BaseGameViewMod
         return gameControler.haveTaskForCurrentLevel()
     }
 
+    override fun resolveError(e: Throwable) {
+        super.resolveError(e)
+        //TODO
+    }
+
 
     override fun finishGame() {
         gameControler
             .finishGame(taskCounter.value ?: 0, taskCounter.value ?: 0)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnError { resolveError(it) }
             .subscribe {
+                error.postValue(GameError.NONE)
                 super.finishGame()
             }
     }
