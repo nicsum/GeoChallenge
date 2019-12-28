@@ -3,14 +3,16 @@ package com.example.geochallenge.ui.menu.vm
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.geochallenge.data.GeochallengeService
+import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 
 class MenuMapsViewModelFactory @Inject constructor(
+    val firebaseAuth: FirebaseAuth,
     val geochallengeService: GeochallengeService
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return modelClass
-            .getConstructor(GeochallengeService::class.java)
-            .newInstance(geochallengeService)
+            .getConstructor(FirebaseAuth::class.java, GeochallengeService::class.java)
+            .newInstance(firebaseAuth, geochallengeService)
     }
 }

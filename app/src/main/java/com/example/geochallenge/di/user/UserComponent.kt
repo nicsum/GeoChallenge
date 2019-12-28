@@ -3,7 +3,6 @@ package com.example.geochallenge.di.user
 
 import com.example.geochallenge.di.game.GameComponent
 import com.example.geochallenge.di.menu.MenuComponent
-import com.example.geochallenge.ui.menu.MenuActivity
 import com.google.firebase.auth.FirebaseUser
 import dagger.BindsInstance
 import dagger.Subcomponent
@@ -21,7 +20,6 @@ interface UserComponent {
         fun create(@BindsInstance firebaseUser: FirebaseUser): UserComponent
     }
 
-    fun inject(activity: MenuActivity)
 
     fun gameComponent(): GameComponent.Factory
 

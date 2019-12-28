@@ -33,4 +33,9 @@ class RecordsActivity : AppCompatActivity(){
         setContentView(R.layout.ac_records)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        (applicationContext as AppDelegate).destroyGameComponent()
+    }
+
 }

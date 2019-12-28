@@ -27,5 +27,4 @@ class RecordsViewModel(val geochallengeService: GeochallengeService, val gameInf
 
     }
 
-
 }

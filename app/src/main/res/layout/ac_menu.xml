@@ -9,10 +9,18 @@
     tools:openDrawer="start"
     android:background="@drawable/menu_bg_gradient">
 
-    <include
-        layout="@layout/content_menu"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <include
+            layout="@layout/content_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"

@@ -48,6 +48,8 @@
     <string name="game_error_connection">Не удается установить соединение. Проверте наличие Интернета</string>
     <string name="game_error_finish_game">Не удалось сохранить ваш результат. Проверте Интернет</string>
     <string name="game_error_server"> Не удается установить соединение. Попробуйте обновить</string>
-    <string name="game_error_any"> Извините что-то пошло не так. Попробуйте обновить или перезайти в игру</string>
+    <string name="game_error_any"> Извините, что-то пошло не так. Попробуйте обновить или перезайти в игру</string>
     <string name="game_warning_internet_is_not_available">Интернет недоступен. Проверте соединение</string>
+    <!-- menu error   -->
+    <string name="menu_error"> Не удалось загрузить карты. Проверте Интеренет и попробуйте обновить или перезайти в игру</string>
 </resources>

@@ -13,11 +13,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.geochallenge.AppDelegate
 import com.example.geochallenge.R
 import com.example.geochallenge.di.menu.MenuComponent
@@ -27,15 +29,22 @@ import com.example.geochallenge.ui.game.classic.ClassicGameActivity
 import com.example.geochallenge.ui.game.multiplayer.MultiplayerGameActivity
 import com.example.geochallenge.ui.game.street.StreetGameActivity
 import com.example.geochallenge.ui.game.time.TimeLimitGameActivity
+import com.example.geochallenge.ui.menu.vm.MenuMapsViewModel
 import com.example.geochallenge.ui.records.RecordsActivity
 import com.example.geochallenge.ui.splash.SplashActivity
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import javax.inject.Inject
 
 class MenuActivity : AppCompatActivity(), OnClickMapListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var refreshLayout: SwipeRefreshLayout
+
+    @Inject
+    lateinit var viewModel: MenuMapsViewModel
 
     var menuComponent: MenuComponent? = null
 
@@ -44,6 +53,8 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
             .userComponent
             ?.menuComponent()
             ?.create(this)
+
+        menuComponent?.inject(this)
 
         super.onCreate(savedInstanceState)
 
@@ -56,6 +67,11 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
 
+        refreshLayout = findViewById(R.id.refreshLayout)
+
+        refreshLayout.setOnRefreshListener {
+            viewModel.loadMaps()
+        }
 //        appBarConfiguration = AppBarConfiguration(
 //            setOf(R.id.nav_solo, R.id.nav_time, R.id.nav_settings), drawerLayout
 //        )
@@ -68,6 +84,7 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
 //        }
 
 //        setupActionBarWithNavController(navController, appBarConfiguration)
+
         appBarConfiguration = AppBarConfiguration(
             setOf(R.id.nav_solo, R.id.nav_time, R.id.nav_settings), drawerLayout
         )
@@ -106,6 +123,39 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.loadingIsVisible.observe(
+            this,
+            Observer {
+                refreshLayout.isRefreshing = it
+            })
+
+        viewModel.errorIsVisible.observe(
+            this,
+            Observer {
+                if (it) Snackbar
+                    .make(
+                        findViewById(R.id.drawer_layout),
+                        R.string.menu_error,
+                        Snackbar.LENGTH_LONG
+                    )
+                    .show()
+            }
+        )
+
+        viewModel.isSignOut.observe(
+            this,
+            Observer {
+                if (it)
+                    signOut()
+            }
+        )
+
+
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
@@ -119,7 +169,7 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.logout){
-            logout()
+            viewModel.logout()
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -130,17 +180,10 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
         menuComponent = null
     }
 
-    fun logout() {
-        TODO()
-//        AuthUI.getInstance()
-//            .signOut(this)
-//            .addOnCompleteListener {
-//                if (it.isSuccessful) {
-//                    (applicationContext as AppDelegate).destroyUserComponent()
-//                    splash()
-//                    finish()
-//                } else (showMessage("Что-то пошло не так. Попробуйте еще раз"))
-//            }
+    fun signOut() {
+        (application as AppDelegate).destroyUserComponent()
+        splash()
+        finish()
     }
 
 

@@ -18,6 +18,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
+import com.example.geochallenge.AppDelegate
 import com.example.geochallenge.R
 import com.example.geochallenge.di.activity.GameActivityComponent
 import com.example.geochallenge.net.NetworkChangeReceiver
@@ -42,7 +43,7 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
         }
 
         override fun onExit() {
-            finish()
+            hardExit()
         }
     }
 
@@ -161,6 +162,11 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
 
     private fun hideNetworkIsNotAvailableMessage() {
         snackbar?.dismiss()
+    }
+
+    private fun hardExit() {
+        (application as AppDelegate).destroyGameComponent()
+        finish()
     }
 
     override fun onBackPressed() {
