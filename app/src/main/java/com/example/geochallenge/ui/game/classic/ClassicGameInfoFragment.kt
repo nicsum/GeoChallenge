@@ -46,7 +46,7 @@ class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
             this,
             Observer { completed ->
                 if (completed) nextCityButton.setBackgroundColor(Color.parseColor("#8BC34A"))
-                else nextCityButton.setBackgroundColor(Color.parseColor("#50ffffff"))
+                else nextCityButton.setBackgroundColor(Color.parseColor("#BFffffff"))
             }
 
         )

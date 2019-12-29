@@ -5,22 +5,28 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="#BC000000">
 
     <TextView
         android:id="@+id/error_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
+        android:gravity="center"
+        android:text="@string/error"
         android:textColor="@color/colorMaterialRed500"
-        android:text="Ошибка"
+        android:textSize="14sp"
+        android:textStyle="bold"
         tools:text="error message" />
 
     <ImageButton
         android:id="@+id/update_btn"
-        app:srcCompat="@drawable/ic_update_black_24dp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/update" />
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/update"
+        app:srcCompat="@drawable/ic_update"
+        android:background="?attr/selectableItemBackgroundBorderless" />
 
 </LinearLayout>

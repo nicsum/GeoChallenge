@@ -45,14 +45,15 @@
     <string name="pts">PTS</string>
 
     <!-- game errors-->
-    <string name="game_error_connection">Не удается установить соединение. Проверте наличие Интернета</string>
-    <string name="game_error_finish_game">Не удалось сохранить ваш результат. Проверте Интернет</string>
-    <string name="game_error_server"> Не удается установить соединение. Попробуйте обновить</string>
-    <string name="game_error_any"> Извините что-то пошло не так. Попробуйте обновить или перезайти в игру</string>
-    <string name="game_warning_internet_is_not_available">Интернет недоступен. Проверте соединение</string>
+    <string name="game_error_connection">Не удается установить соединение.\n Проверте наличие Интернета</string>
+    <string name="game_error_finish_game">Не удалось сохранить ваш результат.\n Проверте Интернет</string>
+    <string name="game_error_server"> Не удается установить соединение.\n Попробуйте обновить</string>
+    <string name="game_error_any"> Извините что-то пошло не так.\n Попробуйте обновить или перезайти в игру</string>
+    <string name="game_warning_internet_is_not_available">Интернет недоступен.\n Проверте соединение</string>
     <string name="of">/</string>
     <string name="zero">0</string>
     <string name="until">До места:</string>
     <string name="ptsNextLvl">5000</string>
     <string name="maptext">mapText</string>
+    <string name="error">Ошибка</string>
 </resources>
