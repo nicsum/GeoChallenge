@@ -1,48 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_margin="8dp"
     android:orientation="horizontal">
 
-
-    <FrameLayout
-        android:id="@+id/relativeLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_height="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <com.example.geochallenge.ui.game.FillProgressLayout
             android:id="@+id/progressBar"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             app:fpl_backgroundColor="@color/colorAccent"
             app:fpl_isRounded="false"
             app:fpl_progressColor="@color/colorPrimary"
             app:fpl_progressDirection="left_to_right"
-            app:fpl_shouldRestart="false" />
+            app:fpl_shouldRestart="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+
+        </com.example.geochallenge.ui.game.FillProgressLayout>
 
         <TextView
-            style="@style/TextAppearance.MaterialComponents.Headline5"
             android:id="@+id/cityNameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingStart="12dp"
+            android:paddingLeft="12dp"
+            android:paddingEnd="12dp"
+            android:text="City"
             android:textColor="#fff"
-            android:text="Country, City" />
+            android:textStyle="bold"
+            app:autoSizeMaxTextSize="26sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
 
-    </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <androidx.cardview.widget.CardView
@@ -51,25 +58,25 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
         card_view:cardCornerRadius="4dp">
 
         <include
-            layout="@layout/v_load"
             android:id="@+id/loading_view"
+            layout="@layout/v_load"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:visibility="gone" />
 
         <include
-            layout="@layout/v_error"
             android:id="@+id/error_view"
+            layout="@layout/v_error"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
             android:visibility="gone" />
+
         <RelativeLayout
             android:id="@+id/gameInfoCard"
             android:layout_width="wrap_content"
@@ -77,37 +84,47 @@
             android:elevation="4dp"
             android:padding="16dp">
 
-            <TextView
-                android:id="@+id/cardview_list_title1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:paddingBottom="4dp"
-                android:text="@string/stats"
-                android:textSize="@dimen/text_caption" />
 
             <TextView
                 android:id="@+id/pointsText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/cardview_list_title1"
-                android:layout_marginTop="0dp"
-                android:paddingBottom="4dp"
+                android:layout_alignParentTop="true"
+                android:text="@string/zero"
                 android:textColor="#1F1F1F"
-                android:text="0"
-                android:textSize="@dimen/text_h4" />
+                android:textSize="@dimen/text_h5" />
+
 
             <TextView
+                android:id="@+id/of"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/pointsText"
                 android:layout_toRightOf="@+id/pointsText"
-                android:layout_below="@+id/cardview_list_title1"
+                android:text="@string/of"
+                android:textSize="@dimen/text_h5" />
+
+            <TextView
+                android:id="@+id/ptsNextLvl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/of"
+                android:layout_toRightOf="@+id/of"
+                android:text="@string/ptsNextLvl"
+                android:textSize="@dimen/text_h5" />
+
+            <TextView
+                android:id="@+id/pts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:layout_marginTop="0dp"
-                android:paddingBottom="4dp"
+                android:layout_toEndOf="@+id/ptsNextLvl"
+                android:layout_toRightOf="@+id/ptsNextLvl"
                 android:paddingStart="4dp"
                 android:paddingLeft="4dp"
-                tools:text="KM"
+                android:paddingEnd="4dp"
+                android:text="@string/pts"
                 android:textSize="@dimen/text_h6" />
 
 
@@ -116,15 +133,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pointsText"
-                android:textColor="#8b8b8b" />
+                android:text="@string/until"
+                android:textColor="#1F1F1F" />
 
             <TextView
                 android:id="@+id/timerTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/distanceTv"
-                tools:text="@string/timer_info"
-                android:textColor="#8b8b8b" />
+                android:textColor="#1F1F1F"
+                android:visibility="gone"
+                tools:text="@string/timer_info" />
 
 
             <TextView
@@ -132,8 +151,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/timerTv"
-                android:textColor="#8b8b8b"
-                android:text="@string/level" />
+                android:text="@string/level"
+                android:textColor="#1F1F1F" />
 
             <TextView
                 android:id="@+id/currentLevelText"
@@ -142,7 +161,7 @@
                 android:layout_below="@+id/timerTv"
                 android:layout_toEndOf="@+id/levelText"
                 android:layout_toRightOf="@+id/levelText"
-                android:textColor="#8b8b8b"
+                android:textColor="#1F1F1F"
                 tools:text="@string/level_d_text" />
 
             <TextView
@@ -152,20 +171,12 @@
                 android:layout_below="@+id/timerTv"
                 android:layout_toEndOf="@+id/currentLevelText"
                 android:layout_toRightOf="@+id/currentLevelText"
-                android:textColor="#8b8b8b"
+                android:textColor="#1F1F1F"
                 tools:text="@string/location_d_text" />
-
-
-            <Button
-                android:id="@+id/nextCityBtn"
-                style="@style/Widget.MaterialComponents.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/taskCounterText"
-                android:text="@string/next" />
 
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

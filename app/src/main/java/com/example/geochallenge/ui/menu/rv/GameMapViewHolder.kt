@@ -5,6 +5,7 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.geochallenge.R
 import com.example.geochallenge.game.GameMap
@@ -19,6 +20,10 @@ class GameMapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(map: GameMap, listener: OnClickMapListener) {
         this.map = map
         val mapTv = itemView.findViewById<TextView>(R.id.mapText)
+        TextViewCompat.setAutoSizeTextTypeWithDefaults(
+            mapTv,
+            TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM
+        )
         langsRadioGroup = itemView.findViewById(R.id.langsRadioGroup)
         val enRadioButton = itemView.findViewById<RadioButton>(R.id.radio_en)
         val ruRadioButton = itemView.findViewById<RadioButton>(R.id.radio_ru)
