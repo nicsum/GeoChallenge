@@ -6,7 +6,7 @@
 
 
     <include
-        layout="@layout/v_load"
+        layout="@layout/v_loading"
         android:id="@+id/loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

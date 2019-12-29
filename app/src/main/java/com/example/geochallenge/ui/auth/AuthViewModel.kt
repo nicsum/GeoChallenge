@@ -4,6 +4,8 @@ import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
@@ -25,6 +27,7 @@ class AuthViewModel(val firebaseAuth: FirebaseAuth, val db: FirebaseFirestore) :
 
     val isSignIn = MutableLiveData<Boolean>().also { it.postValue(false) }
     val isPasswordReset = MutableLiveData<Boolean>().also { it.postValue(false) }
+    val loadingIsVisible = MutableLiveData<Boolean>().also { it.postValue(false) }
 
     fun enterUsername(username: String) {
         currentUsername = username
@@ -61,12 +64,13 @@ class AuthViewModel(val firebaseAuth: FirebaseAuth, val db: FirebaseFirestore) :
     fun registration() {
         if (!registrationFieldsAreCorrect()) return
 
-        //check username
+        loadingIsVisible.postValue(true)
         db.collection("usernames")
             .document(currentUsername)
             .get()
             .addOnSuccessListener {
                 if (it.exists()) {
+                    loadingIsVisible.postValue(false)
                     if (it.id == currentUsername) this.usernameError.postValue(AuthErrors.USERNAME_ALREADY_IN_USE)
                 } else {
                     this.usernameError.postValue(AuthErrors.NONE)
@@ -77,15 +81,37 @@ class AuthViewModel(val firebaseAuth: FirebaseAuth, val db: FirebaseFirestore) :
             }
     }
 
+    fun authWithGoogle(acct: GoogleSignInAccount) {
+
+    }
+
+    fun login() {
+        loadingIsVisible.postValue(true)
+        loginError.postValue(AuthErrors.NONE)
+        if (!loginFieldsAreCorrect()) return
+        firebaseAuth.signInWithEmailAndPassword(currentEmail, currentPassword)
+            .addOnSuccessListener {
+                isSignIn.postValue(true)
+            }
+            .addOnFailureListener {
+                Log.e("AuthViewModel", it.message.toString())
+                resolveFirebaseError(it as FirebaseException)
+            }.addOnCompleteListener {
+                loadingIsVisible.postValue(false)
+            }
+    }
     fun sendPasswordResetEmail() {
         if (!forgotPasswordFieldsAreCorrect()) return
 
+        loadingIsVisible.postValue(true)
         firebaseAuth.sendPasswordResetEmail(currentEmail)
             .addOnSuccessListener {
                 isPasswordReset.postValue(true)
             }
             .addOnFailureListener {
                 resolveFirebaseError(it as FirebaseException)
+            }.addOnCompleteListener {
+                loadingIsVisible.postValue(false)
             }
 
     }
@@ -96,6 +122,7 @@ class AuthViewModel(val firebaseAuth: FirebaseAuth, val db: FirebaseFirestore) :
                 if (it.isSuccessful && it.result?.user != null) {
                     addUser(currentUsername, it.result?.user?.uid!!)
                 } else {
+                    loadingIsVisible.postValue(false)
                     resolveFirebaseError(it.exception as FirebaseException)
                     Log.e("AuthViewModel", it.exception?.message.toString())
                 }
@@ -118,20 +145,9 @@ class AuthViewModel(val firebaseAuth: FirebaseAuth, val db: FirebaseFirestore) :
 
     }
 
-    fun login() {
-        loginError.postValue(AuthErrors.NONE)
-        if (!loginFieldsAreCorrect()) return
-        firebaseAuth.signInWithEmailAndPassword(currentEmail, currentPassword)
-            .addOnSuccessListener {
-                isSignIn.postValue(true)
-            }
-            .addOnFailureListener {
-                Log.e("AuthViewModel", it.message.toString())
-                resolveFirebaseError(it as FirebaseException)
-            }
-    }
 
     private fun addUser(username: String, uid: String) {
+
         firebaseAuth.currentUser?.updateProfile(
             UserProfileChangeRequest.Builder()
                 .setDisplayName(username)
@@ -141,6 +157,8 @@ class AuthViewModel(val firebaseAuth: FirebaseAuth, val db: FirebaseFirestore) :
             .document(username).set(mapOf("uid" to uid))
             .addOnSuccessListener {
                 isSignIn.postValue(true)
+            }.addOnCompleteListener {
+                loadingIsVisible.postValue(false)
             }
     }
 

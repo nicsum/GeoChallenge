@@ -56,7 +56,7 @@
         card_view:cardCornerRadius="4dp">
 
         <include
-            layout="@layout/v_load"
+            layout="@layout/v_loading"
             android:id="@+id/loading_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

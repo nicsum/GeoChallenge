@@ -92,6 +92,7 @@ abstract class BaseGameInfoFragment : Fragment() {
         vm.isGameInfoVisible.observe(
             this,
             Observer {
+
                 if (it) gameInfoView.visibility = View.VISIBLE
                 else gameInfoView.visibility = View.GONE
             }
