@@ -8,6 +8,21 @@
     android:layout_margin="8dp"
     android:orientation="horizontal">
 
+    <include
+        android:id="@+id/error_view"
+        layout="@layout/v_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible" />
+
+    <include
+        android:id="@+id/loading_view"
+        layout="@layout/v_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:visibility="visible" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -61,21 +76,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         card_view:cardCornerRadius="4dp">
-
-        <include
-            layout="@layout/v_loading"
-            android:id="@+id/loading_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:visibility="gone" />
-
-        <include
-            android:id="@+id/error_view"
-            layout="@layout/v_error"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/gameInfoCard"

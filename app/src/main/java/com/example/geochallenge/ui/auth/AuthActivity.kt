@@ -3,6 +3,7 @@ package com.example.geochallenge.ui.auth
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.geochallenge.AppDelegate
@@ -10,10 +11,8 @@ import com.example.geochallenge.R
 import com.example.geochallenge.di.auth.AuthComponent
 import com.example.geochallenge.ui.menu.MenuActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import javax.inject.Inject
 
 
@@ -30,6 +29,9 @@ class AuthActivity : AppCompatActivity() {
 
     lateinit var authComponent: AuthComponent
 
+    lateinit var loadingView: View
+    lateinit var screenView: View
+
     override fun onCreate(savedInstanceState: Bundle?) {
         authComponent = (applicationContext as AppDelegate)
             .appComponent.authComponent()
@@ -40,6 +42,9 @@ class AuthActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             showLoginScreen()
         }
+
+        loadingView = findViewById(R.id.loading_view)
+        screenView = findViewById(R.id.container)
     }
 
     override fun onStart() {
@@ -56,6 +61,13 @@ class AuthActivity : AppCompatActivity() {
                 if (it) showLoginScreen()
             }
         )
+
+        viewModel.loadingIsVisible.observe(
+            this,
+            Observer {
+                if (it) showLoading()
+                else hideLoading()
+            })
     }
 
     fun showLoginScreen() {
@@ -109,7 +121,7 @@ class AuthActivity : AppCompatActivity() {
         if (requestCode == RC_SIGN_IN) {
             try {
                 val account = task.getResult(ApiException::class.java)
-                firebaseAuthWithGoogle(account!!)
+                viewModel.authWithGoogle(account!!)
             } catch (e: ApiException) {
                 Log.e("ad", e.message)
             }
@@ -117,16 +129,17 @@ class AuthActivity : AppCompatActivity() {
         }
     }
 
-
-    //TODO мб вынести во viewmodel
-    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
-        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-        firebaseAuth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    startGameMenu()
-                }
-            }
+    private fun showLoading() {
+        loadingView.visibility = View.VISIBLE
     }
+
+    private fun hideLoading() {
+        loadingView.visibility = View.GONE
+    }
+
+    private fun showError(message: String?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 
 }

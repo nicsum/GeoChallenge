@@ -8,7 +8,6 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:layout_marginTop="?attr/actionBarSize"
         android:padding="16dp">
 
         <androidx.recyclerview.widget.RecyclerView

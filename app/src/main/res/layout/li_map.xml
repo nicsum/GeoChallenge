@@ -43,6 +43,8 @@
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform"
                 android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/card_bg_image"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/card_bg_image" />

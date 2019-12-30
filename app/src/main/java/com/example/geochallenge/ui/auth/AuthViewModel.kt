@@ -5,13 +5,13 @@ import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.common.api.ApiException
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
 
-class AuthViewModel(val firebaseAuth: FirebaseAuth, val db: FirebaseFirestore) : ViewModel() {
+class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: FirebaseFirestore) :
+    ViewModel() {
 
     var currentUsername = ""
     var currentEmail = ""
@@ -82,7 +82,16 @@ class AuthViewModel(val firebaseAuth: FirebaseAuth, val db: FirebaseFirestore) :
     }
 
     fun authWithGoogle(acct: GoogleSignInAccount) {
+        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+        loadingIsVisible.postValue(true)
+        firebaseAuth.signInWithCredential(credential)
+            .addOnCompleteListener { task ->
+                loadingIsVisible.postValue(false)
+                if (task.isSuccessful) {
+                    isSignIn.postValue(true)
+                }
 
+            }
     }
 
     fun login() {
