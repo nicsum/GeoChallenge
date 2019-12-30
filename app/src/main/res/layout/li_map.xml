@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cv"
         android:layout_width="match_parent"
@@ -31,14 +32,19 @@
 
             <TextView
                 android:id="@+id/mapText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="mapText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:maxLines="2"
+                android:text="@string/maptext"
                 android:textSize="40sp"
                 android:textStyle="bold"
+                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="@+id/card_bg_image"
-                app:layout_constraintEnd_toEndOf="@id/card_bg_image"
-                app:layout_constraintStart_toStartOf="@+id/card_bg_image"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/card_bg_image" />
 
             <RadioGroup

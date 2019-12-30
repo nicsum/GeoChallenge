@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.geochallenge.R
@@ -35,7 +36,10 @@ abstract class BaseGameInfoFragment : Fragment() {
         errorMessage = errorView.findViewById(R.id.error_message)
         updateBtn = errorView.findViewById(R.id.update_btn)
         loadingView = view.findViewById(R.id.loading_view)
-
+        TextViewCompat.setAutoSizeTextTypeWithDefaults(
+            cityNameTv,
+            TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM
+        )
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
