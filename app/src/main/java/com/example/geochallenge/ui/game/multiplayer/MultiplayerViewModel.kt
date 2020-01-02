@@ -3,6 +3,7 @@ package com.example.geochallenge.ui.game.multiplayer
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.geochallenge.data.GeochallengeService
+import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.game.controlers.GameControler
 import com.example.geochallenge.game.multiplayer.FirebaseMultiplayerDispatcher
 import com.example.geochallenge.game.multiplayer.GameStateChangeListener
@@ -15,8 +16,9 @@ class MultiplayerViewModel(
     gameControler: GameControler,
     val multiplayerControler: FirebaseMultiplayerDispatcher,
     val geochallengeService: GeochallengeService,
+    gameMap: GameMap,
     countTasksForLevel: Int
-) : ClassicGameViewModel(gameControler, countTasksForLevel), GameStateChangeListener {
+) : ClassicGameViewModel(gameControler, gameMap, countTasksForLevel), GameStateChangeListener {
 
 
     var playersAnswer = MutableLiveData<Map<String, Pair<Double, Double>?>>()

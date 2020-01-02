@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.geochallenge.data.GeochallengeService
 import com.example.geochallenge.game.GameInfo
+import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.game.controlers.GameControler
 import com.example.geochallenge.game.controlers.MultiplayerGameControler
 import com.example.geochallenge.game.multiplayer.FirebaseMultiplayerDispatcher
@@ -14,6 +15,7 @@ class MultiplayerViewModelFactory @Inject constructor(
     val gameControler: MultiplayerGameControler,
     val multiplayerDispatcher: FirebaseMultiplayerDispatcher,
     val geochallengeService: GeochallengeService,
+    val gameMap: GameMap,
     val gameInfo: GameInfo
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -21,11 +23,13 @@ class MultiplayerViewModelFactory @Inject constructor(
             GameControler::class.java,
             MultiplayerDispatcher::class.java,
             GeochallengeService::class.java,
+            GameMap::class.java,
             Int::class.java
         ).newInstance(
             gameControler,
             multiplayerDispatcher,
             geochallengeService,
+            gameMap,
             gameInfo.countTaskForLevel
         )
     }

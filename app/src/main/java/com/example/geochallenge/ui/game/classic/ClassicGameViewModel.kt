@@ -3,6 +3,7 @@ package com.example.geochallenge.ui.game.classic
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.geochallenge.game.CityTask
+import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.game.controlers.GameControler
 import com.example.geochallenge.ui.game.BaseGameViewModel
 import com.example.geochallenge.ui.game.GameError
@@ -14,7 +15,11 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-open class ClassicGameViewModel(val gameControler: GameControler, countTasksForLevel: Int) :
+open class ClassicGameViewModel(
+    val gameControler: GameControler,
+    private val gameMap: GameMap,
+    countTasksForLevel: Int
+) :
     BaseGameViewModel() {
 
     companion object{
@@ -48,7 +53,6 @@ open class ClassicGameViewModel(val gameControler: GameControler, countTasksForL
             "ClassicGameViewModelTag",
             "distance = $distance, seconds = $seconds , points = $pointsForCurrentTask"
         )
-
     }
 
     override fun finishTask() {
@@ -71,11 +75,10 @@ open class ClassicGameViewModel(val gameControler: GameControler, countTasksForL
 
     override fun levelFinished() {
         super.levelFinished()
-        if (neededPointsForNextLevel(currentLevel.value ?: 0) >=
+        if (neededPointsForNextLevel() >=
             pointsForCurrentLevel.value ?: 0
         ) {
             finishGame()
-
         } else {
             nextLevel()
         }
@@ -111,22 +114,18 @@ open class ClassicGameViewModel(val gameControler: GameControler, countTasksForL
         return (SECONDS_FOR_BONUS - seconds) * 20
     }
 
-    private fun neededPointsForNextLevel(currentLevel: Int): Int {
-        return maxPointsForLevel * when (currentLevel) {
-            1 -> 0.5
-            2 -> 0.55
-            3 -> 0.6
-            4 -> 0.65
-            5 -> 0.7
-            else -> 0.75
-        }.toInt()
+    private fun neededPointsForNextLevel(): Int {
+        return (maxPointsForLevel * 0.5).toInt()
     }
 
     private fun calculatePoints(seconds: Long, distance: Int): Int {
-        if (distance >= 800) {
+        val limitDistance = gameMap.distance
+            ?.times(1000)
+            ?.toInt() ?: 800
+        if (distance >= limitDistance) {
             return 0
         }
-        return 800 - distance + getTimeBonus(seconds).toInt()
+        return limitDistance - distance + getTimeBonus(seconds).toInt()
     }
 
 }

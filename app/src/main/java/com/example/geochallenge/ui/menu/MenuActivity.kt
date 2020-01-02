@@ -32,7 +32,6 @@ import com.example.geochallenge.ui.game.time.TimeLimitGameActivity
 import com.example.geochallenge.ui.menu.vm.MenuMapsViewModel
 import com.example.geochallenge.ui.records.RecordsActivity
 import com.example.geochallenge.ui.splash.SplashActivity
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -213,10 +212,10 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
             R.id.nav_time -> "time"
             else -> null
         } ?: return
-        startGame(map.id, mode, lang)
+        startGame(map, mode, lang)
     }
 
-    private fun startGame(mapId: Int, mode: String, lang: String) {
+    private fun startGame(map: GameMap, mode: String, lang: String) {
         val intent = when (mode) {
             "solo" -> Intent(this, ClassicGameActivity::class.java)
             "time" -> Intent(this, TimeLimitGameActivity::class.java)
@@ -225,15 +224,14 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
             else -> null
         } ?: return
         startActivity(intent)
-        createGameComponent(mode, mapId, lang)
+        createGameComponent(mode, map, lang)
     }
 
 
-    private fun createGameComponent(mode: String, mapId: Int, lang: String) {
-        val gameInfo = getGameInfo(mode, mapId, lang)
-        val startLocation = getStartLocation()
+    private fun createGameComponent(mode: String, map: GameMap, lang: String) {
+        val gameInfo = getGameInfo(mode, map.id, lang)
         (applicationContext as AppDelegate)
-            .createGameComponent(gameInfo, startLocation)
+            .createGameComponent(gameInfo, map)
     }
 
     fun showTableOfRecords() {
@@ -243,6 +241,5 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
 
     private fun getGameInfo(mode: String, mapId: Int, lang: String) = GameInfo(mode, mapId, 5, lang)
 
-    private fun getStartLocation() = LatLng(64.0, 80.0)
 
 }

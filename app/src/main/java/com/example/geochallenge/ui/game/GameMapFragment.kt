@@ -3,6 +3,7 @@ package com.example.geochallenge.ui.game
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.example.geochallenge.game.CityTask
+import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.ui.game.multiplayer.MultiplayerViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -20,10 +21,10 @@ class GameMapFragment : SupportMapFragment(),
 
     var map: GoogleMap? = null
 
-
     lateinit var viewModel: BaseGameViewModel
+
     @Inject
-    lateinit var startLocation: LatLng
+    lateinit var gameMap: GameMap
 
 
     override fun onCreate(p0: Bundle?) {
@@ -107,7 +108,8 @@ class GameMapFragment : SupportMapFragment(),
     }
     private fun showStartPosition(){
         val defaultPosition = getStartPosition()
-        val location = CameraUpdateFactory.newLatLngZoom(defaultPosition, 1.0f) // вынести переменную
+        val zoom = gameMap.zoom?.toFloat() ?: 1.0f
+        val location = CameraUpdateFactory.newLatLngZoom(defaultPosition, zoom)
         map?.animateCamera(location)
     }
 
@@ -155,7 +157,7 @@ class GameMapFragment : SupportMapFragment(),
     }
 
     private fun getStartPosition(): LatLng {
-        return startLocation
+        return LatLng(gameMap.latitude ?: 0.0, gameMap.longitude ?: 0.0)
     }
 
 }

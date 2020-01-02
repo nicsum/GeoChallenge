@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import com.example.geochallenge.AppDelegate
 import com.example.geochallenge.R
 import com.example.geochallenge.game.GameInfo
 import com.example.geochallenge.ui.game.classic.ClassicGameActivity
@@ -81,8 +80,8 @@ class MenuFragment : Fragment() {
     private fun createGameComponent(mode: String) {
         val gameInfo = getGameInfo(mode, getMapId())
         val startLocation = getStartLocation()
-        (activity?.applicationContext as AppDelegate)
-            .createGameComponent(gameInfo, startLocation)
+//        (activity?.applicationContext as AppDelegate)
+//            .createGameComponent(gameInfo, startLocation)
     }
 
     fun showTableOfRecords(){

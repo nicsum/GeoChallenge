@@ -9,7 +9,7 @@ import com.example.geochallenge.di.app.DaggerAppComponent
 import com.example.geochallenge.di.game.GameComponent
 import com.example.geochallenge.di.user.UserComponent
 import com.example.geochallenge.game.GameInfo
-import com.google.android.gms.maps.model.LatLng
+import com.example.geochallenge.game.GameMap
 import com.google.firebase.auth.FirebaseUser
 
 class AppDelegate : MultiDexApplication()  {
@@ -46,8 +46,8 @@ class AppDelegate : MultiDexApplication()  {
 
     //game component
 
-    fun createGameComponent(gameInfo: GameInfo, startLocation: LatLng): GameComponent? {
-        gameComponent = userComponent?.gameComponent()?.create(gameInfo, startLocation)
+    fun createGameComponent(gameInfo: GameInfo, gameMap: GameMap): GameComponent? {
+        gameComponent = userComponent?.gameComponent()?.create(gameInfo, gameMap)
         return gameComponent
     }
 
