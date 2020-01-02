@@ -1,10 +1,13 @@
 package com.example.geochallenge.ui.auth
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import com.example.geochallenge.AppDelegate
 import com.example.geochallenge.R
@@ -12,6 +15,7 @@ import com.example.geochallenge.di.auth.AuthComponent
 import com.example.geochallenge.ui.menu.MenuActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 
@@ -68,6 +72,15 @@ class AuthActivity : AppCompatActivity() {
                 if (it) showLoading()
                 else hideLoading()
             })
+
+        viewModel.authError.observe(
+            this,
+            Observer {
+                if (it != AuthErrors.NONE) {
+                    showAuthError()
+                }
+            }
+        )
     }
 
     fun showLoginScreen() {
@@ -123,10 +136,21 @@ class AuthActivity : AppCompatActivity() {
                 val account = task.getResult(ApiException::class.java)
                 viewModel.authWithGoogle(account!!)
             } catch (e: ApiException) {
-                Log.e("ad", e.message)
+                if (e.statusCode == CommonStatusCodes.NETWORK_ERROR) viewModel.authError.postValue(
+                    AuthErrors.CONNECTION_FAILD
+                )
+                else viewModel.authError.postValue(AuthErrors.ANY)
+                Log.e("AuthActivity", e.message)
             }
 
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val fragment = supportFragmentManager.findFragmentByTag("ErrorMessageDialog")
+        if (fragment != null)
+            supportFragmentManager.beginTransaction().remove(fragment).commit()
     }
 
     private fun showLoading() {
@@ -137,8 +161,31 @@ class AuthActivity : AppCompatActivity() {
         loadingView.visibility = View.GONE
     }
 
-    private fun showError(message: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun showAuthError() {
+        AuthErrorMessageDialog().show(supportFragmentManager, "ErrorMessageDialog")
+    }
+
+    class AuthErrorMessageDialog : DialogFragment() {
+
+
+        var message: String? = null
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            val context = activity ?: return super.onCreateDialog(savedInstanceState)
+            val authError = (context as? AuthActivity)?.viewModel?.authError?.value
+            message = when (authError) {
+                AuthErrors.CONNECTION_FAILD -> R.string.auth_error_connection
+                AuthErrors.TO_MANY_REQUESTS -> R.string.auth_error_too_many_requests
+                AuthErrors.INVALID_USER -> R.string.auth_error
+                else -> R.string.error
+            }.let { getString(it) }
+            return AlertDialog.Builder(context)
+                .setMessage(message)
+                .setPositiveButton(R.string.ok) { _, _ ->
+                    (context as? AuthActivity)?.viewModel?.iKnowAboutAuthError()
+                }
+                .create()
+        }
+
     }
 
 

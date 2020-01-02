@@ -2,6 +2,8 @@ package com.example.geochallenge.ui.auth
 
 enum class AuthErrors {
     NONE,
+    ANY,
+    CONNECTION_FAILD,
     USERNAME_ALREADY_IN_USE,
     EMAIL_ALREADY_IN_USE,
     NOT_CORRECT_EMAIL,

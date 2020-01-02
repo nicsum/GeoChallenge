@@ -106,7 +106,7 @@ class LoginFragment : Fragment() {
                 }
             }
         )
-        viewModel.loginError.observe(
+        viewModel.authError.observe(
             this,
             Observer {
                 when (it) {

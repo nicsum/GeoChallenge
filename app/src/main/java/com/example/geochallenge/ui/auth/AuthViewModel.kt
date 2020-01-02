@@ -5,10 +5,10 @@ import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 
 class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: FirebaseFirestore) :
     ViewModel() {
@@ -23,7 +23,8 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
         MutableLiveData<AuthErrors>().also { it.value = AuthErrors.FIELD_PASSWORD_IS_EMPTY }
     val emailError =
         MutableLiveData<AuthErrors>().also { it.value = AuthErrors.FIELD_EMAIL_IS_EMPTY }
-    val loginError = MutableLiveData<AuthErrors>().also { it.value = AuthErrors.NONE }
+
+    val authError = MutableLiveData<AuthErrors>().also { it.value = AuthErrors.NONE }
 
     val isSignIn = MutableLiveData<Boolean>().also { it.postValue(false) }
     val isPasswordReset = MutableLiveData<Boolean>().also { it.postValue(false) }
@@ -71,13 +72,15 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
             .addOnSuccessListener {
                 if (it.exists()) {
                     loadingIsVisible.postValue(false)
-                    if (it.id == currentUsername) this.usernameError.postValue(AuthErrors.USERNAME_ALREADY_IN_USE)
+                    if (it.id == currentUsername)
+                        this.usernameError.postValue(AuthErrors.USERNAME_ALREADY_IN_USE)
                 } else {
                     this.usernameError.postValue(AuthErrors.NONE)
                     createUserWithEmailAndPasswordAndUsername()
                 }
             }.addOnFailureListener {
-                Log.e("AuthViewModel", it.message)
+                resolveError(it)
+                loadingIsVisible.postValue(false)
             }
     }
 
@@ -89,14 +92,15 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
                 loadingIsVisible.postValue(false)
                 if (task.isSuccessful) {
                     isSignIn.postValue(true)
+                } else {
+                    resolveError(task.exception)
                 }
-
             }
     }
 
     fun login() {
         loadingIsVisible.postValue(true)
-        loginError.postValue(AuthErrors.NONE)
+        authError.postValue(AuthErrors.NONE)
         if (!loginFieldsAreCorrect()) return
         firebaseAuth.signInWithEmailAndPassword(currentEmail, currentPassword)
             .addOnSuccessListener {
@@ -104,7 +108,7 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
             }
             .addOnFailureListener {
                 Log.e("AuthViewModel", it.message.toString())
-                resolveFirebaseError(it as FirebaseException)
+                resolveError(it)
             }.addOnCompleteListener {
                 loadingIsVisible.postValue(false)
             }
@@ -118,7 +122,7 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
                 isPasswordReset.postValue(true)
             }
             .addOnFailureListener {
-                resolveFirebaseError(it as FirebaseException)
+                resolveError(it)
             }.addOnCompleteListener {
                 loadingIsVisible.postValue(false)
             }
@@ -132,7 +136,7 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
                     addUser(currentUsername, it.result?.user?.uid!!)
                 } else {
                     loadingIsVisible.postValue(false)
-                    resolveFirebaseError(it.exception as FirebaseException)
+                    resolveError(it.exception)
                     Log.e("AuthViewModel", it.exception?.message.toString())
                 }
             }
@@ -157,21 +161,26 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
 
     private fun addUser(username: String, uid: String) {
 
-        firebaseAuth.currentUser?.updateProfile(
-            UserProfileChangeRequest.Builder()
-                .setDisplayName(username)
-                .build()
-        )
         db.collection("usernames")
             .document(username).set(mapOf("uid" to uid))
             .addOnSuccessListener {
                 isSignIn.postValue(true)
+                firebaseAuth.currentUser?.updateProfile(
+                    UserProfileChangeRequest.Builder()
+                        .setDisplayName(username)
+                        .build()
+                )
+            }.addOnFailureListener {
+                firebaseAuth.currentUser?.delete()
+                resolveError(it)
             }.addOnCompleteListener {
                 loadingIsVisible.postValue(false)
             }
     }
 
-    private fun resolveFirebaseError(e: FirebaseException) {
+
+    private fun resolveError(e: Exception?) {
+        if (e == null) return
         when (e) {
             is FirebaseAuthUserCollisionException -> {
                 if (e.errorCode == "ERROR_EMAIL_ALREADY_IN_USE") {
@@ -186,9 +195,18 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
                     passwordError.postValue(AuthErrors.WRONG_PASSWORD)
                 }
             }
-            is FirebaseAuthInvalidUserException -> loginError.postValue(AuthErrors.INVALID_USER)
-            is FirebaseTooManyRequestsException -> loginError.postValue(AuthErrors.TO_MANY_REQUESTS) //TODO вынести ошибку не под email
+            is FirebaseFirestoreException ->
+                if (e.code == FirebaseFirestoreException.Code.UNAVAILABLE) {
+                    this.authError.postValue(AuthErrors.CONNECTION_FAILD)
+                }
+            is FirebaseAuthInvalidUserException -> authError.postValue(AuthErrors.INVALID_USER)
+            is FirebaseTooManyRequestsException -> authError.postValue(AuthErrors.TO_MANY_REQUESTS) //TODO вынести ошибку не под email
+            else -> authError.postValue(AuthErrors.ANY)
         }
+    }
+
+    fun iKnowAboutAuthError() {
+        authError.postValue(AuthErrors.NONE)
     }
 
     fun clearField() {
@@ -199,7 +217,7 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
         usernameError.value = AuthErrors.FIELD_USERNAME_IS_EMPTY
         passwordError.value = AuthErrors.FIELD_USERNAME_IS_EMPTY
         emailError.value = AuthErrors.FIELD_USERNAME_IS_EMPTY
-        loginError.value = AuthErrors.NONE
+        authError.value = AuthErrors.NONE
     }
 
 }

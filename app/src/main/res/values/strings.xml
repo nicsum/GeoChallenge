@@ -17,6 +17,7 @@
 
     <string name="cancel">Отмена</string>
     <string name="yes">Да</string>
+    <string name="ok">OK</string>
     <string name="get_registered">Зарегистрироваться</string>
     <string name="are_already_registered">Вы уже зарегистрированы?</string>
     <string name="e_mail">Почта</string>
@@ -43,6 +44,11 @@
     <string name="try_again">Попробовать еще</string>
     <string name="exit">Выйти</string>
     <string name="pts">PTS</string>
+
+    <!-- auth errors-->
+    <string name="auth_error_connection">Не удается установить соединение.\n Проверте наличие Интернета</string>
+    <string name="auth_error_too_many_requests">Слишком много запросов.\n Попробуйте позже</string>
+    <string name="auth_error">Не удалось вас авторизировать. Попробуйте позже</string>
 
     <!-- game errors-->
     <string name="game_error_connection">Не удается установить соединение.\n Проверте наличие Интернета</string>
