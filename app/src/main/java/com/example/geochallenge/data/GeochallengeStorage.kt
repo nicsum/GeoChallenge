@@ -4,7 +4,6 @@ import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.game.Record
 import com.example.geochallenge.net.api.GeochallengeApi
-import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -40,7 +39,7 @@ class GeochallengeStorage @Inject constructor(val api: GeochallengeApi) : Geocha
         mode: String,
         mapId: Int,
         username: String
-    ): Completable {
+    ): Single<Record> {
         return api
             .postResults(mode, username, mapId, record.score, record.countTasks)
     }

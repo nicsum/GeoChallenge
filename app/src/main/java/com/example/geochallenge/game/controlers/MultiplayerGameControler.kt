@@ -1,6 +1,7 @@
 package com.example.geochallenge.game.controlers
 
 import com.example.geochallenge.game.CityTask
+import com.example.geochallenge.game.Record
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
@@ -32,7 +33,7 @@ class MultiplayerGameControler @Inject constructor() : GameControler {
     }
 
 
-    override fun finishGame(score: Int, countTask: Int): Completable {
+    override fun finishGame(score: Int, countTask: Int): Single<Record> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

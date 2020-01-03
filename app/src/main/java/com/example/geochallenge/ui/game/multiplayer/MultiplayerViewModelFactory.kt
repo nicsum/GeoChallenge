@@ -30,7 +30,7 @@ class MultiplayerViewModelFactory @Inject constructor(
             multiplayerDispatcher,
             geochallengeService,
             gameMap,
-            gameInfo.countTaskForLevel
+            gameInfo
         )
     }
 }

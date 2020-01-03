@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.geochallenge.ui.records.RecordsActivity
 import com.example.geochallenge.ui.records.RecordsViewModel
 import com.example.geochallenge.ui.records.RecordsViewModelFactory
+import com.example.geochallenge.ui.utils.LinearLayoutManagerWithSmoothScroller
 import dagger.Module
 import dagger.Provides
 
@@ -22,7 +23,7 @@ class RecordsModule {
 
     @Provides
     fun provideLinearLayoutManager(activity: RecordsActivity): LinearLayoutManager {
-        return LinearLayoutManager(activity)
+        return LinearLayoutManagerWithSmoothScroller(activity)
     }
 }
 

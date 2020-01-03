@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.geochallenge.R
+import com.example.geochallenge.game.GameInfo
 import javax.inject.Inject
 
 class RecordsFragment @Inject constructor() : Fragment() {
@@ -24,6 +25,9 @@ class RecordsFragment @Inject constructor() : Fragment() {
 
     @Inject
     lateinit var linearLayoutManager: LinearLayoutManager
+
+    @Inject
+    lateinit var gameInfo: GameInfo
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,9 +47,14 @@ class RecordsFragment @Inject constructor() : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.records.observe(this, Observer {
-            adapterView.add(it, true)
+        viewModel.records.observe(
+            this,
+            Observer {
+                adapterView.add(it, true)
+                recyclerView.smoothScrollToPosition(it.indexOfFirst { record -> record.id == gameInfo.recordId })
         })
+
+
     }
 
     override fun onStart() {

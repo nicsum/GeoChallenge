@@ -24,7 +24,6 @@ class RecordsViewModel(val geochallengeService: GeochallengeService, val gameInf
             }, {
                 Log.d("RecordsViewModel", it.message)
             })
-
     }
 
 }
