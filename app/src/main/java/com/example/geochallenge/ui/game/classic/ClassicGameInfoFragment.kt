@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.example.geochallenge.R
@@ -16,8 +15,6 @@ import javax.inject.Inject
 
 
 class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
-
-    lateinit var nextCityButton: Button
     lateinit var pointsTv: TextView
     lateinit var timerTv: TextView
     lateinit var progressBar: FillProgressLayout
@@ -31,7 +28,6 @@ class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.fr_gameinfo, container, false)
-        nextCityButton = v.findViewById(R.id.nextCityBtn)
         pointsTv = v.findViewById(R.id.pointsText)
         timerTv = v.findViewById(R.id.timerTv)
         progressBar = v.findViewById(R.id.progressBar)
