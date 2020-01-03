@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import com.example.geochallenge.R
 import com.example.geochallenge.ui.game.BaseGameInfoFragment
@@ -15,7 +14,7 @@ import javax.inject.Inject
 class TimeLimitGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
 
     lateinit var timerTv: TextView
-    lateinit var nextCityButton: CardView
+//    lateinit var nextCityButton: Button
 
     //    @Inject
     lateinit var viewModel: TimeLimitGameViewModel
@@ -28,7 +27,7 @@ class TimeLimitGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
 
         val v = inflater.inflate(R.layout.fr_gameinfo, container, false)
         timerTv = v.findViewById(R.id.timerTv)
-        nextCityButton = v.findViewById(R.id.scoreTableLayout)
+//        nextCityButton = v.findViewById(R.id.nextCityBtn)
         return v
     }
 

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -13,11 +14,40 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
+
+    <TextView
+        android:id="@+id/records_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Таблица Лидеров"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="40dp"
+        android:layout_marginEnd="40dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:backgroundTint="@color/colorAccentTrans"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_replay" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/records_rv"
+        android:layout_below="@+id/records_text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
 
-</FrameLayout>
+    </androidx.recyclerview.widget.RecyclerView>
+
+</RelativeLayout>
 
 

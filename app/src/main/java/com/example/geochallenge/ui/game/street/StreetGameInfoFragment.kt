@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
 import com.example.geochallenge.R
 import com.example.geochallenge.ui.game.BaseGameInfoFragment
 import com.example.geochallenge.ui.game.BaseGameViewModel
@@ -12,7 +11,7 @@ import javax.inject.Inject
 
 class StreetGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
 
-    lateinit var nextCityButton: CardView
+//    lateinit var nextCityButton: Button
 
     //    @Inject
     lateinit var viewModel: StreetGameViewModel
@@ -24,7 +23,7 @@ class StreetGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
     ): View? {
 
         val v = inflater.inflate(R.layout.fr_gameinfo, container, false)
-        nextCityButton = v.findViewById(R.id.scoreTableLayout)
+//        nextCityButton = v.findViewById(R.id.nextCityBtn)
         return v
     }
 
