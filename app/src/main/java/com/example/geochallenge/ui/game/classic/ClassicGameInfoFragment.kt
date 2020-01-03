@@ -1,13 +1,12 @@
 package com.example.geochallenge.ui.game.classic
 
 import android.animation.ValueAnimator
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import com.example.geochallenge.R
 import com.example.geochallenge.ui.game.BaseGameInfoFragment
@@ -18,7 +17,7 @@ import javax.inject.Inject
 
 class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
 
-    lateinit var nextCityButton: CardView
+    lateinit var nextCityButton: Button
     lateinit var pointsTv: TextView
     lateinit var timerTv: TextView
     lateinit var progressBar: FillProgressLayout
@@ -32,7 +31,7 @@ class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.fr_gameinfo, container, false)
-        nextCityButton = v.findViewById(R.id.scoreTableLayout)
+        nextCityButton = v.findViewById(R.id.nextCityBtn)
         pointsTv = v.findViewById(R.id.pointsText)
         timerTv = v.findViewById(R.id.timerTv)
         progressBar = v.findViewById(R.id.progressBar)
@@ -45,8 +44,7 @@ class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
         viewModel.isTaskCompleted.observe(
             this,
             Observer { completed ->
-                if (completed) nextCityButton.setBackgroundColor(Color.parseColor("#8BC34A"))
-                else nextCityButton.setBackgroundColor(Color.parseColor("#BFffffff"))
+                nextCityButton.visibility = if (completed) View.VISIBLE else View.GONE
             }
 
         )
