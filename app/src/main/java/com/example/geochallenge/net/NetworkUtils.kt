@@ -6,7 +6,7 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
 
-
+//TODO удалить?
 class NetworkUtils {
 
 

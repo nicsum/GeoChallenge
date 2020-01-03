@@ -4,10 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.geochallenge.R
+import com.example.geochallenge.game.GameInfo
 import com.example.geochallenge.game.Record
 import javax.inject.Inject
 
-class RecordsAdapterView @Inject constructor() : RecyclerView.Adapter<RecordViewHolder>() {
+class RecordsAdapterView @Inject constructor(val gameInfo: GameInfo) :
+    RecyclerView.Adapter<RecordViewHolder>() {
 
     private var records = ArrayList<Record>()
 
@@ -21,7 +23,9 @@ class RecordsAdapterView @Inject constructor() : RecyclerView.Adapter<RecordView
     }
 
     override fun onBindViewHolder(holder: RecordViewHolder, position: Int) {
-        holder.bind(records[position], position + 1)
+        val record = records[position]
+        val isMyRecord = (record.id != null && record.id == gameInfo.recordId)
+        holder.bind(record, position + 1, isMyRecord)
     }
 
     fun add(records: List<Record>, refresh: Boolean) {

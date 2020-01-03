@@ -3,6 +3,7 @@ package com.example.geochallenge.ui.game.classic
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.geochallenge.game.CityTask
+import com.example.geochallenge.game.GameInfo
 import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.game.controlers.GameControler
 import com.example.geochallenge.ui.game.BaseGameViewModel
@@ -18,7 +19,7 @@ import java.util.concurrent.TimeUnit
 open class ClassicGameViewModel(
     val gameControler: GameControler,
     private val gameMap: GameMap,
-    countTasksForLevel: Int
+    val gameInfo: GameInfo
 ) :
     BaseGameViewModel() {
 
@@ -26,7 +27,8 @@ open class ClassicGameViewModel(
         const val SECONDS_FOR_TASK = 13L
         const val SECONDS_FOR_BONUS = 10L
     }
-    val maxPointsForLevel = countTasksForLevel * (SECONDS_FOR_BONUS.toInt() * 20)
+
+    val maxPointsForLevel = gameInfo.countTaskForLevel * (SECONDS_FOR_BONUS.toInt() * 20)
 
     val secondsPassed = MutableLiveData<Long>()
     var points = MutableLiveData<Int>()
@@ -91,6 +93,7 @@ open class ClassicGameViewModel(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 error.postValue(GameError.NONE)
+                gameInfo.recordId = it?.id
                 super.finishGame()
             }, {
                 error.postValue(GameError.FINISH_GAME_ERROR)
@@ -120,7 +123,6 @@ open class ClassicGameViewModel(
 
     private fun calculatePoints(seconds: Long, distance: Int): Int {
         val limitDistance = gameMap.distance
-            ?.times(1000)
             ?.toInt() ?: 800
         if (distance >= limitDistance) {
             return 0

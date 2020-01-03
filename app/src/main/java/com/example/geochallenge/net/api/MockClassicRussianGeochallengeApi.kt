@@ -5,7 +5,6 @@ import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.game.Record
 import com.example.geochallenge.utils.hasInternetConnection
-import io.reactivex.Completable
 import io.reactivex.Single
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -55,20 +54,20 @@ object MockClassicRussianGeochallengeApi :
         mapId: Int,
         score: Int,
         countTasks: Int
-    ): Completable {
-
-        return hasInternetConnection()
-            .delay(1500, TimeUnit.MILLISECONDS)
-            .flatMapCompletable { yes ->
-                if (yes) {
-                    records.add(Record(username = user, score = score, countTasks = countTasks))
-                    records.sort()
-                    Completable.complete()
-                } else {
-                    Completable.error(IOException())
-                }
-
-            }
+    ): Single<Record> {
+        TODO()
+//        return hasInternetConnection()
+//            .delay(1500, TimeUnit.MILLISECONDS)
+//            .flatMapCompletable { yes ->
+//                if (yes) {
+//                    records.add(Record(username = user, score = score, countTasks = countTasks))
+//                    records.sort()
+//                    Completable.complete()
+//                } else {
+//                    Completable.error(IOException())
+//                }
+//
+//            }
 
     }
 

@@ -119,7 +119,7 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
             if (it) {
                 Toast.makeText(
                     this,
-                    resources.getString(R.string.game_is_finished),
+                    getString(R.string.game_is_finished),
                     Toast.LENGTH_SHORT
                 ).show()
                 startActivity(Intent(this, RecordsActivity::class.java))

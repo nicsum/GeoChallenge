@@ -2,6 +2,7 @@ package com.example.geochallenge.ui.game.time
 
 import androidx.lifecycle.MutableLiveData
 import com.example.geochallenge.game.CityTask
+import com.example.geochallenge.game.GameInfo
 import com.example.geochallenge.game.controlers.GameControler
 import com.example.geochallenge.ui.game.BaseGameViewModel
 import com.example.geochallenge.ui.game.GameError
@@ -13,7 +14,10 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-class TimeLimitGameViewModel(val gameControler: GameControler) : BaseGameViewModel() {
+class TimeLimitGameViewModel(
+    val gameControler: GameControler,
+    val gameInfo: GameInfo
+) : BaseGameViewModel() {
 
     companion object {
         const val COUNT_TIMER : Long = 30
@@ -101,6 +105,7 @@ class TimeLimitGameViewModel(val gameControler: GameControler) : BaseGameViewMod
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 error.postValue(GameError.NONE)
+                gameInfo.recordId = it?.id
                 super.finishGame()
             }, {
                 error.postValue(GameError.FINISH_GAME_ERROR)

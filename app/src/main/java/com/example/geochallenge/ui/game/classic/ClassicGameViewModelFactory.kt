@@ -19,9 +19,9 @@ class ClassicGameViewModelFactory @Inject constructor(
         return modelClass.getConstructor(
             GameControler::class.java,
             GameMap::class.java,
-            Int::class.java
+            GameInfo::class.java
         )
-            .newInstance(gameControler, gameMap, gameInfo.countTaskForLevel)
+            .newInstance(gameControler, gameMap, gameInfo)
 //       return ClassicGameViewModel(gameControler)
     }
 
