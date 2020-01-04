@@ -64,4 +64,5 @@
     <!-- menu error   -->
     <string name="menu_error"> Не удалось загрузить карты. Проверте Интеренет и попробуйте обновить или перезайти в игру</string>
     <string name="error">Ошибка</string>
+    <string name="leaderboard">Таблица Лидеров</string>
 </resources>

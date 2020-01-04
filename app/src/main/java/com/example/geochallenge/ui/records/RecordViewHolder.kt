@@ -13,9 +13,18 @@ class RecordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val userTv: TextView = itemView.findViewById(R.id.userText)
 
     fun bind(record: Record, place: Int, isMyRecord: Boolean) {
+        if (place == 1)
+            placeTv.setBackgroundResource(R.drawable.ic_gold_medal)
+
+        if (place == 2)
+            placeTv.setBackgroundResource(R.drawable.ic_silver_medal)
+
+        if (place == 3)
+            placeTv.setBackgroundResource(R.drawable.ic_bronze_medal)
+
         if (isMyRecord)
-            itemView.setBackgroundColor(Color.YELLOW)
-        else itemView.setBackgroundColor(Color.WHITE)
+            itemView.setBackgroundColor(Color.parseColor("#FFC107"))
+
         pointsTv.text = record.score.toString()
         placeTv.text = place.toString()
         userTv.text = record.username
