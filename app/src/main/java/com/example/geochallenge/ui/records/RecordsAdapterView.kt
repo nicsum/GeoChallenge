@@ -36,4 +36,12 @@ class RecordsAdapterView @Inject constructor(val gameInfo: GameInfo) :
         this.records.sortDescending()
         notifyDataSetChanged()
     }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
 }

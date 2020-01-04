@@ -2,6 +2,7 @@ package com.example.geochallenge.ui.game
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -18,7 +19,7 @@ abstract class BaseGameInfoFragment : Fragment() {
     lateinit var taskCounterTv: TextView
     lateinit var currentLevelTv: TextView
     lateinit var gameInfoView: RelativeLayout
-
+    lateinit var nextCityButton: Button
     lateinit var errorView: View
     lateinit var errorMessage: TextView
     lateinit var updateBtn: ImageButton
@@ -32,6 +33,7 @@ abstract class BaseGameInfoFragment : Fragment() {
         taskCounterTv = view.findViewById(R.id.taskCounterText)
         currentLevelTv = view.findViewById(R.id.currentLevelText)
         gameInfoView = view.findViewById(R.id.gameInfoCard)
+        nextCityButton = view.findViewById(R.id.nextCityBtn)
         errorView = view.findViewById(R.id.error_view)
         errorMessage = errorView.findViewById(R.id.error_message)
         updateBtn = errorView.findViewById(R.id.update_btn)
@@ -67,7 +69,10 @@ abstract class BaseGameInfoFragment : Fragment() {
         vm.isLoadingVisible.observe(
             this,
             Observer {
-                if (it) loadingView.visibility = View.VISIBLE
+                if (it) {
+                    loadingView.visibility = View.VISIBLE
+                    nextCityButton.visibility = View.GONE
+                }
                 else loadingView.visibility = View.GONE
             }
         )
@@ -75,7 +80,10 @@ abstract class BaseGameInfoFragment : Fragment() {
         vm.isErrorVisible.observe(
             this,
             Observer {
-                if (it) errorView.visibility = View.VISIBLE
+                if (it) {
+                    errorView.visibility = View.VISIBLE
+                    nextCityButton.visibility = View.GONE
+                }
                 else errorView.visibility = View.GONE
             }
         )
