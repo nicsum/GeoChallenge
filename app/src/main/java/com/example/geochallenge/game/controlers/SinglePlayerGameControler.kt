@@ -41,12 +41,11 @@ class SinglePlayerGameControler @Inject constructor(
 
 
     override fun finishGame(score: Int, countTask: Int): Single<Record> {
-        if (score == 0) return Single.just(null)
-
         val username = userDataRepository.username
         val newRecord = Record(username = username, score = score, countTasks = countTask)
         return geochallengeService.postRecord(newRecord, gameInfo.mode, gameInfo.mapId, username)
     }
+
 
 //    override fun finishGameWithPostRecord(score: Int, countTask: Int): Completable {
 //        if (score == 0) return Completable.complete()

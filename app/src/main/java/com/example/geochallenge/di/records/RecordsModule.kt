@@ -1,6 +1,6 @@
 package com.example.geochallenge.di.records
 
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.geochallenge.ui.records.RecordsActivity
 import com.example.geochallenge.ui.records.RecordsViewModel
@@ -18,7 +18,7 @@ class RecordsModule {
         activity: RecordsActivity,
         factory: RecordsViewModelFactory
     ): RecordsViewModel {
-        return ViewModelProviders.of(activity, factory).get(RecordsViewModel::class.java)
+        return ViewModelProvider(activity, factory).get(RecordsViewModel::class.java)
     }
 
     @Provides

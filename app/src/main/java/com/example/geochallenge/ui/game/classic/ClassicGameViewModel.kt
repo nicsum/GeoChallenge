@@ -87,6 +87,10 @@ open class ClassicGameViewModel(
     }
 
     override fun finishGame() {
+        if (points.value == 0) {
+            super.finishGame()
+            return
+        }
         gameControler
             .finishGame(points.value ?: 0, taskCounter.value ?: 0)
             .subscribeOn(Schedulers.io())

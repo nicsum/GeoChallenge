@@ -99,6 +99,10 @@ class TimeLimitGameViewModel(
 
 
     override fun finishGame() {
+        if (taskCounter.value == 0) {
+            super.finishGame()
+            return
+        }
         gameControler
             .finishGame(taskCounter.value ?: 0, taskCounter.value ?: 0)
             .subscribeOn(Schedulers.io())

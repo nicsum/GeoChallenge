@@ -1,6 +1,7 @@
 package com.example.geochallenge.di.auth
 
-import androidx.lifecycle.ViewModelProviders
+
+import androidx.lifecycle.ViewModelProvider
 import com.example.geochallenge.ui.auth.AuthActivity
 import com.example.geochallenge.ui.auth.AuthViewModel
 import com.example.geochallenge.ui.auth.AuthViewModelFactory
@@ -16,7 +17,8 @@ class AuthModule {
         activity: AuthActivity,
         factory: AuthViewModelFactory
     ): AuthViewModel {
-        return ViewModelProviders.of(activity, factory).get(AuthViewModel::class.java)
+
+        return ViewModelProvider(activity, factory).get(AuthViewModel::class.java)
 
     }
 }

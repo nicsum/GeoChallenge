@@ -1,6 +1,6 @@
 package com.example.geochallenge.di.activity
 
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.example.geochallenge.game.multiplayer.FirebaseMultiplayerApi
 import com.example.geochallenge.game.multiplayer.MultiplayerApi
 import com.example.geochallenge.ui.game.BaseGameMapActivity
@@ -24,7 +24,7 @@ class GameActivityModule {
         activity: BaseGameMapActivity,
         factory: ClassicGameViewModelFactory
     ): ClassicGameViewModel {
-        return ViewModelProviders.of(activity, factory).get(ClassicGameViewModel::class.java)
+        return ViewModelProvider(activity, factory).get(ClassicGameViewModel::class.java)
     }
 
     @Provides
@@ -32,7 +32,7 @@ class GameActivityModule {
         activity: BaseGameMapActivity,
         factory: TimeLimitGameViewModelFactory
     ): TimeLimitGameViewModel {
-        return ViewModelProviders.of(activity, factory).get(TimeLimitGameViewModel::class.java)
+        return ViewModelProvider(activity, factory).get(TimeLimitGameViewModel::class.java)
     }
 
     @Provides
@@ -40,7 +40,7 @@ class GameActivityModule {
         activity: BaseGameMapActivity,
         factory: StreetGameViewModelFactory
     ): StreetGameViewModel {
-        return ViewModelProviders.of(activity, factory).get(StreetGameViewModel::class.java)
+        return ViewModelProvider(activity, factory).get(StreetGameViewModel::class.java)
     }
 
     @Provides
@@ -48,7 +48,7 @@ class GameActivityModule {
         activity: BaseGameMapActivity,
         factory: MultiplayerViewModelFactory
     ): MultiplayerViewModel {
-        return ViewModelProviders.of(activity, factory).get(MultiplayerViewModel::class.java)
+        return ViewModelProvider(activity, factory).get(MultiplayerViewModel::class.java)
     }
 
     @Provides

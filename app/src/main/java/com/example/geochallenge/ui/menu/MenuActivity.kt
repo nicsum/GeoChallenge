@@ -55,6 +55,7 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
 
         menuComponent?.inject(this)
 
+
         super.onCreate(savedInstanceState)
 
 

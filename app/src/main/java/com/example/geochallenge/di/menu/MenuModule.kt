@@ -1,6 +1,6 @@
 package com.example.geochallenge.di.menu
 
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.geochallenge.ui.menu.MenuActivity
 import com.example.geochallenge.ui.menu.OnClickMapListener
@@ -18,7 +18,7 @@ class MenuModule {
         activity: MenuActivity,
         factory: MenuMapsViewModelFactory
     ): MenuMapsViewModel {
-        return ViewModelProviders.of(activity, factory).get(MenuMapsViewModel::class.java)
+        return ViewModelProvider(activity, factory).get(MenuMapsViewModel::class.java)
     }
 
     //TODO удалить если не нужно

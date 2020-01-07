@@ -5,7 +5,6 @@
         android:key="lang_task_key"
         android:title="@string/pref_lang_tasks_title"
         android:summary="@string/pref_lang_tasks_summary"
-        android:defaultValue="1"
         android:entries="@array/pref_lang_tasks"
         android:entryValues="@array/pref_lang_tasks_values"
         android:dialogTitle="@string/pref_lang_tasks_dialog_title" />
