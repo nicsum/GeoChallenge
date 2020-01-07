@@ -99,7 +99,7 @@ class TimeLimitGameViewModel(
 
 
     override fun finishGame() {
-        if (taskCounter.value == 0) {
+        if (taskCounter.value == 0 || taskCounter.value == null) {
             super.finishGame()
             return
         }

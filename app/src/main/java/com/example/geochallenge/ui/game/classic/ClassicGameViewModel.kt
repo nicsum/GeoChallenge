@@ -87,7 +87,7 @@ open class ClassicGameViewModel(
     }
 
     override fun finishGame() {
-        if (points.value == 0) {
+        if (points.value == 0 || points.value == null) {
             super.finishGame()
             return
         }
