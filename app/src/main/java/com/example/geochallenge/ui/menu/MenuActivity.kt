@@ -41,6 +41,7 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var refreshLayout: SwipeRefreshLayout
+    private var gameMapIsSelected = false
 
     @Inject
     lateinit var viewModel: MenuMapsViewModel
@@ -125,6 +126,7 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
 
     override fun onResume() {
         super.onResume()
+        gameMapIsSelected = false
 
         viewModel.loadingIsVisible.observe(
             this,
@@ -206,6 +208,9 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
     }
 
     override fun onClickGameMap(map: GameMap, lang: String) {
+        if (gameMapIsSelected) return
+
+        gameMapIsSelected = true
         val navId = findNavController(R.id.nav_host_fragment).currentDestination?.id
 
         val mode = when (navId) {

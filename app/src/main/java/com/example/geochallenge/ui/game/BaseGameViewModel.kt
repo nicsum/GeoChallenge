@@ -16,7 +16,7 @@ abstract class BaseGameViewModel : ViewModel() {
 
     val isDefaultMapState: MutableLiveData<Boolean> = MutableLiveData()
     val isTaskCompleted: MutableLiveData<Boolean> = MutableLiveData()
-    val isGameFinished: MutableLiveData<Boolean> = MutableLiveData()
+    //    val isGameFinished: MutableLiveData<Boolean> = MutableLiveData()
     val clickedPosition: MutableLiveData<Pair<Double, Double>> = MutableLiveData()
     val currentTask: MutableLiveData<CityTask> = MutableLiveData()
     val distance: MutableLiveData<Int> = MutableLiveData()
@@ -27,6 +27,9 @@ abstract class BaseGameViewModel : ViewModel() {
     val isErrorVisible = MutableLiveData<Boolean>()
     val isLoadingVisible = MutableLiveData<Boolean>()
     val isGameInfoVisible = MutableLiveData<Boolean>()
+    val gameResult = MutableLiveData<Pair<Int, Boolean>>()
+
+
 
     open fun newGame() {
         nextLevel()
@@ -107,9 +110,7 @@ abstract class BaseGameViewModel : ViewModel() {
         taskCounter.postValue(taskCounter.value?.plus(1) ?: 1)
     }
 
-    open fun finishGame() {
-        isGameFinished.postValue(true)
-    }
+    open fun finishGame() {}
 
     open fun clickedPosition(latitude: Double, longitude: Double) {
         val currentTaskLat = currentTask.value?.latitude ?: return

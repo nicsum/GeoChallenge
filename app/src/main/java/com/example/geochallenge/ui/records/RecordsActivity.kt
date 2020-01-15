@@ -7,6 +7,7 @@ import com.example.geochallenge.R
 import com.example.geochallenge.di.records.RecordsComponent
 import javax.inject.Inject
 
+
 class RecordsActivity : AppCompatActivity(){
 
     @Inject

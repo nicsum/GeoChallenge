@@ -3,6 +3,7 @@ package com.example.geochallenge.net.api
 import com.example.geochallenge.data.database.GeoChallengeDao
 import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.GameMap
+import com.example.geochallenge.game.PostResultsResponce
 import com.example.geochallenge.game.Record
 import com.example.geochallenge.utils.hasInternetConnection
 import io.reactivex.Single
@@ -54,7 +55,7 @@ object MockClassicRussianGeochallengeApi :
         mapId: Int,
         score: Int,
         countTasks: Int
-    ): Single<Record> {
+    ): Single<PostResultsResponce> {
         TODO()
 //        return hasInternetConnection()
 //            .delay(1500, TimeUnit.MILLISECONDS)
@@ -87,7 +88,28 @@ object MockClassicRussianGeochallengeApi :
         val map = GameMap(1, "Russia", "Россия", "russia", null, null, true, false, null, null)
 
         return Single.just(listOf(map))
+    }
 
+    override fun getTopAfter(
+        position: Int,
+        limit: Int,
+        mode: String,
+        mapId: Int
+    ): Single<List<Record>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getTopBefore(
+        position: Int,
+        limit: Int,
+        mode: String,
+        mapId: Int
+    ): Single<List<Record>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getMyRecords(user: String, mode: String, mapId: Int): Single<List<Record>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun getAllCityTasksByLevel(
@@ -97,6 +119,5 @@ object MockClassicRussianGeochallengeApi :
     ): Single<List<CityTask>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
 
 }

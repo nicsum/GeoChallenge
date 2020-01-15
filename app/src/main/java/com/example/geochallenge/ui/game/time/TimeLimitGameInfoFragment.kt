@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import com.example.geochallenge.R
 import com.example.geochallenge.ui.game.BaseGameInfoFragment
 import com.example.geochallenge.ui.game.BaseGameViewModel
+import kotlinx.android.synthetic.main.fr_gameinfo.*
 import javax.inject.Inject
 
 class TimeLimitGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
@@ -38,11 +39,8 @@ class TimeLimitGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
         viewModel.stillHaveTime.observe(
             this,
             Observer {
-                timerTv.text = if (it == null) "" else
-                    getString(
-                        R.string.timer_info,
-                        it
-                    )
+                progressBar.setProgress(it.toInt() * 100 / (30000 / 1000))
+
             })
 
         nextCityButton.setOnClickListener { viewModel.nextTask() }

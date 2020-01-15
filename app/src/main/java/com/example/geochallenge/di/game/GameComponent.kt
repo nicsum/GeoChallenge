@@ -24,6 +24,8 @@ interface GameComponent {
         ): GameComponent
     }
 
+    fun getGameInfo(): GameInfo
+    fun getGameMap(): GameMap
     fun gameActivityComponent(): GameActivityComponent.Factory
     fun recordsComponent(): RecordsComponent.Factory
 

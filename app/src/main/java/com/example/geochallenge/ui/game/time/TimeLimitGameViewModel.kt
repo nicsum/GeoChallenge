@@ -56,9 +56,8 @@ class TimeLimitGameViewModel(
         timerDisposable?.dispose()
 
         timerDisposable = Observable
-            .intervalRange(1, count + 1,1,1, TimeUnit.SECONDS)
+            .intervalRange(0, count + 1, 1, 1, TimeUnit.SECONDS)
             .doOnComplete(this::finishGame)
-            .map { count + 1 - it  }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe{
@@ -100,6 +99,7 @@ class TimeLimitGameViewModel(
 
     override fun finishGame() {
         if (taskCounter.value == 0 || taskCounter.value == null) {
+            gameResult.postValue(Pair(0, false))
             super.finishGame()
             return
         }

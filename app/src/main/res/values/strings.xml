@@ -42,6 +42,8 @@
     <string name="lang_interface">Язык интерфейса</string>
     <string name="map_image_desc">Map Image</string>
     <string name="try_again">Попробовать еще</string>
+    <string name="show_records">Таблица рекордов</string>
+    <string name="replay">Переиграть</string>
     <string name="exit">Выйти</string>
     <string name="pts">PTS</string>
 

@@ -18,16 +18,16 @@ class RecordsFragment @Inject constructor() : Fragment() {
     lateinit var loadingView: View
 
     @Inject
-    lateinit var adapterView: RecordsAdapterView
+    lateinit var viewModel: RecordsViewModel
 
     @Inject
-    lateinit var viewModel: RecordsViewModel
+    lateinit var gameInfo: GameInfo
 
     @Inject
     lateinit var linearLayoutManager: LinearLayoutManager
 
     @Inject
-    lateinit var gameInfo: GameInfo
+    lateinit var recordsAdapter: RecordsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,8 +38,8 @@ class RecordsFragment @Inject constructor() : Fragment() {
         val v = inflater.inflate(R.layout.fr_records, container, false)
         recyclerView = v.findViewById(R.id.records_rv)
         loadingView = v.findViewById(R.id.loading)
-        recyclerView.layoutManager = linearLayoutManager
-        recyclerView.adapter = adapterView
+        initAdapter()
+//        initState()
         return v
     }
 
@@ -50,12 +50,29 @@ class RecordsFragment @Inject constructor() : Fragment() {
         viewModel.records.observe(
             this,
             Observer {
-                adapterView.add(it, true)
-                recyclerView.smoothScrollToPosition(it.indexOfFirst { record -> record.id == gameInfo.recordId })
-        })
+                recordsAdapter.add(it, true)
+                recyclerView.smoothScrollToPosition(
+                    it.indexOfFirst { record ->
+                        record.id == gameInfo.recordId
+                    })
+            })
+    }
 
+    private fun initAdapter() {
+        recyclerView.layoutManager = linearLayoutManager
+        recyclerView.adapter = recordsAdapter
 
     }
+//
+//    private fun initState() {
+//        viewModel.getState().observe(this, Observer { state ->
+//            loading.visibility = if (viewModel.listIsEmpty() && state == RecordsDataSource.State.LOADING) View.VISIBLE else View.GONE
+////            errorText.visibility = if (viewModel.listIsEmpty() && state == RecordsDataSource.State.ERROR) View.VISIBLE else View.GONE
+//            if (!viewModel.listIsEmpty()) {
+//                recordsAdapter.setState(state ?: RecordsDataSource.State.DONE)
+//            }
+//        })
+//    }
 
     override fun onStart() {
         super.onStart()

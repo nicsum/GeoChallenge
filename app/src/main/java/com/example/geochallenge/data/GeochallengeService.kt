@@ -2,6 +2,7 @@ package com.example.geochallenge.data
 
 import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.GameMap
+import com.example.geochallenge.game.PostResultsResponce
 import com.example.geochallenge.game.Record
 import io.reactivex.Single
 
@@ -18,7 +19,34 @@ interface GeochallengeService {
 
     fun getCityTaskById(id: Int, mapId: Int, lang: String): Single<CityTask>
 
-    fun postRecord(record: Record, mode: String, mapId: Int, userId: String): Single<Record>
-    fun getRecords(mode: String, mapId: Int): Single<List<Record>>
+    fun postRecord(
+        record: Record,
+        mode: String,
+        mapId: Int,
+        username: String
+    ): Single<PostResultsResponce>
+
+    fun getAllRecords(mode: String, mapId: Int): Single<List<Record>>
     fun getMaps(): Single<List<GameMap>>
+
+    fun getTopAfter(
+        position: Int,
+        limit: Int,
+        mode: String,
+        mapId: Int
+    ): Single<List<Record>>
+
+
+    fun getTopBefore(
+        position: Int,
+        limit: Int,
+        mode: String,
+        mapId: Int
+    ): Single<List<Record>>
+
+    fun getMyRecords(
+        user: String,
+        mode: String,
+        mapId: Int
+    ): Single<List<Record>>
 }

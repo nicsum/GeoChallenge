@@ -34,6 +34,7 @@ open class ClassicGameViewModel(
     var points = MutableLiveData<Int>()
     var pointsForCurrentLevel = MutableLiveData<Int>()
 
+
     var timerDisposable: Disposable? = null
 
     override fun onStartTask(task: CityTask) {
@@ -88,6 +89,7 @@ open class ClassicGameViewModel(
 
     override fun finishGame() {
         if (points.value == 0 || points.value == null) {
+            gameResult.postValue(Pair(0, false))
             super.finishGame()
             return
         }
@@ -98,6 +100,8 @@ open class ClassicGameViewModel(
             .subscribe({
                 error.postValue(GameError.NONE)
                 gameInfo.recordId = it?.id
+                val score = if (it.updated) it.score else points.value ?: 0
+                gameResult.postValue(Pair(score, it.updated))
                 super.finishGame()
             }, {
                 error.postValue(GameError.FINISH_GAME_ERROR)

@@ -3,6 +3,7 @@ package com.example.geochallenge.game.controlers
 import com.example.geochallenge.data.GeochallengeService
 import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.GameInfo
+import com.example.geochallenge.game.PostResultsResponce
 import com.example.geochallenge.game.Record
 import com.example.geochallenge.user.UserDataRepository
 import io.reactivex.Completable
@@ -40,7 +41,7 @@ class SinglePlayerGameControler @Inject constructor(
     }
 
 
-    override fun finishGame(score: Int, countTask: Int): Single<Record> {
+    override fun finishGame(score: Int, countTask: Int): Single<PostResultsResponce> {
         val username = userDataRepository.username
         val newRecord = Record(username = username, score = score, countTasks = countTask)
         return geochallengeService.postRecord(newRecord, gameInfo.mode, gameInfo.mapId, username)

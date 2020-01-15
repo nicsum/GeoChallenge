@@ -42,7 +42,6 @@ class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
             Observer { completed ->
                 nextCityButton.visibility = if (completed) View.VISIBLE else View.GONE
             }
-
         )
 
         viewModel.points.observe(

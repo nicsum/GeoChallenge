@@ -2,6 +2,7 @@ package com.example.geochallenge.ui.game
 
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
@@ -12,7 +13,6 @@ import android.net.NetworkRequest
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -23,13 +23,15 @@ import com.example.geochallenge.R
 import com.example.geochallenge.di.activity.GameActivityComponent
 import com.example.geochallenge.net.NetworkChangeReceiver
 import com.example.geochallenge.net.NetworkIsChangeListener
+import com.example.geochallenge.ui.game.classic.ClassicGameActivity
+import com.example.geochallenge.ui.game.time.TimeLimitGameActivity
 import com.example.geochallenge.ui.records.RecordsActivity
 import com.google.android.material.snackbar.Snackbar
 
 
 abstract class BaseGameMapActivity : AppCompatActivity() {
 
-    private val exitListener = object : AnswerExitListener {
+    private val answerExitListener = object : AnswerExitListener {
         override fun OnExit() {
             getViewModel().finishGame()
         }
@@ -37,9 +39,14 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
         override fun OnCancel() {}
     }
 
-    private var tryFinishGameListener = object : TryFinishGameListener {
-        override fun onFinishGame() {
-            getViewModel().finishGame()
+    private var tryFinishGameListener = object : FinishGameListener {
+
+        override fun onShowRecords() {
+            exitToRecords()
+        }
+
+        override fun onReplay() {
+            replay()
         }
 
         override fun onExit() {
@@ -115,17 +122,22 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        getViewModel().isGameFinished.observe(this, Observer {
-            if (it) {
-                Toast.makeText(
-                    this,
-                    getString(R.string.game_is_finished),
-                    Toast.LENGTH_SHORT
-                ).show()
-                startActivity(Intent(this, RecordsActivity::class.java))
-                finish()
+        getViewModel().gameResult.observe(this, Observer {
+            if (it != null) {
+                showResultGameDialog()
             }
         })
+//        getViewModel().isGameFinished.observe(this, Observer {
+//            if (it) {
+//                Toast.makeText(
+//                    this,
+//                    getString(R.string.game_is_finished),
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//                startActivity(Intent(this, RecordsActivity::class.java))
+//                finish()
+//            }
+//        })
 
         getViewModel().error.observe(
             this,
@@ -134,7 +146,6 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
                     showTryAgainFinishGameDialog()
                 }
             })
-
     }
 
     override fun onResume() {
@@ -164,8 +175,28 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
         snackbar?.dismiss()
     }
 
+    private fun replay() {
+        val app = application as AppDelegate
+        val gameInfo = app.gameComponent!!.getGameInfo()
+        val gameMap = app.gameComponent!!.getGameMap()
+        gameInfo.recordId = null
+        (application as AppDelegate).destroyGameComponent()
+        (application as AppDelegate).createGameComponent(gameInfo, gameMap)
+        when (gameInfo.mode) {
+            "solo" -> startActivity(Intent(this, ClassicGameActivity::class.java))
+            "time" -> startActivity(Intent(this, TimeLimitGameActivity::class.java))
+            else -> throw IllegalArgumentException("uknown mode")
+        }
+        finish()
+    }
+
     private fun hardExit() {
         (application as AppDelegate).destroyGameComponent()
+        finish()
+    }
+
+    private fun exitToRecords() {
+        startActivity(Intent(this, RecordsActivity::class.java))
         finish()
     }
 
@@ -181,6 +212,10 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
         TryFinishGameDialog().show(supportFragmentManager, "TryFinishGameDialog")
     }
 
+    private fun showResultGameDialog() {
+        ResultGameDialog().show(supportFragmentManager, "ResultGameDialog")
+    }
+
     open fun getLayout() = R.layout.ac_game
 
     class AnswerExitDialog : DialogFragment() {
@@ -189,7 +224,7 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
 
         override fun onAttach(context: Context) {
             super.onAttach(context)
-            listener = (context as BaseGameMapActivity).exitListener
+            listener = (context as BaseGameMapActivity).answerExitListener
         }
 
         override fun onDestroy() {
@@ -213,7 +248,7 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
     }
 
     class TryFinishGameDialog : DialogFragment() {
-        var listener: TryFinishGameListener? = null
+        var listener: FinishGameListener? = null
         override fun onAttach(context: Context) {
             super.onAttach(context)
             listener = (context as BaseGameMapActivity).tryFinishGameListener
@@ -229,12 +264,60 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
             return AlertDialog.Builder(context)
                 .setMessage(R.string.game_error_finish_game)
                 .setPositiveButton(R.string.try_again) { _, _ ->
-                    listener?.onFinishGame()
+                    listener?.onShowRecords()
                 }
                 .setNegativeButton(R.string.exit) { _, _ ->
                     listener?.onExit()
                 }
                 .create()
+        }
+    }
+
+    class ResultGameDialog : DialogFragment() {
+        var listener: FinishGameListener? = null
+        var score: Int? = null
+        var isMyBestResult: Boolean? = null
+        override fun onAttach(context: Context) {
+            super.onAttach(context)
+            context as BaseGameMapActivity
+            listener = context.tryFinishGameListener
+
+            val vm = context.getViewModel()
+            val result = vm.gameResult.value
+            isMyBestResult = result?.second
+
+            score = result?.first
+        }
+
+        override fun onDestroy() {
+            super.onDestroy()
+            listener = null
+        }
+
+
+        override fun onCancel(dialog: DialogInterface) {
+            listener?.onExit()
+        }
+
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            val context = activity ?: return super.onCreateDialog(savedInstanceState)
+            val message = getMessage()
+            return AlertDialog.Builder(context)
+                .setMessage(message)
+                .setPositiveButton(R.string.show_records) { _, _ ->
+                    listener?.onShowRecords()
+                }.setNeutralButton(R.string.replay) { _, _ ->
+                    listener?.onReplay()
+                }
+                .setNegativeButton(R.string.exit) { _, _ ->
+                    listener?.onExit()
+                }
+                .create()
+        }
+
+        private fun getMessage(): String {
+            return if (isMyBestResult!!) "Поздравляем! Вы набрали $score очков. Это ваш лучший результат"
+            else "Вы набрали $score очков."
         }
     }
 
