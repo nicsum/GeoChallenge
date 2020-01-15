@@ -30,7 +30,7 @@ open class ClassicGameViewModel(
 
     val maxPointsForLevel = gameInfo.countTaskForLevel * (SECONDS_FOR_BONUS.toInt() * 20)
 
-    val secondsPassed = MutableLiveData<Long>()
+    val secondsPassed = MutableLiveData<Long>().also { it.value = 0L }
     var points = MutableLiveData<Int>()
     var pointsForCurrentLevel = MutableLiveData<Int>()
 
