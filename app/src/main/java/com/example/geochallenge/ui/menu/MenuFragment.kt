@@ -16,6 +16,7 @@ import com.example.geochallenge.ui.game.time.TimeLimitGameActivity
 import com.example.geochallenge.ui.records.RecordsActivity
 import com.google.android.gms.maps.model.LatLng
 
+@Deprecated("old class")
 class MenuFragment : Fragment() {
 
     lateinit var startGameButton: Button
@@ -25,7 +26,7 @@ class MenuFragment : Fragment() {
     lateinit var settingsButton: Button
 
     override fun onCreateView(
-        inflater: LayoutInflater,container: ViewGroup?, savedInstanceState: Bundle?  ): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?  ): View? {
         val view = inflater.inflate(R.layout.fr_menu_old, container, false)
         startGameButton = view.findViewById(R.id.start_classic_game_btn)
         startLimitTimeGameButton = view.findViewById(R.id.time_trial_btn)

@@ -1,10 +1,10 @@
 package com.example.geochallenge.ui.records
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.geochallenge.R
 import com.example.geochallenge.game.Record
@@ -25,7 +25,12 @@ class RecordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             placeTv.setBackgroundResource(R.drawable.ic_bronze_medal)
 
         if (isMyRecord)
-            itemView.setBackgroundColor(Color.parseColor("#FFC107"))
+            itemView.setBackgroundColor(
+                ContextCompat.getColor(
+                    itemView.context,
+                    R.color.colorAccentYellow
+                )
+            )
 
         pointsTv.text = record.score.toString()
         placeTv.text = record.order.toString()

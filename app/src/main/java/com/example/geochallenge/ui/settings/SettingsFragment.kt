@@ -19,7 +19,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             ?.appComponent
             ?.inject(this)
 
-        (activity as? MenuActivity)?.supportActionBar?.title = "Настройки"
+        (activity as? MenuActivity)?.supportActionBar?.title = getString(R.string.settings_title)
         (activity as? MenuActivity)?.supportActionBar?.subtitle = ""
     }
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

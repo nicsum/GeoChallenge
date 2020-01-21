@@ -180,6 +180,7 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
 
 
     private fun resolveError(e: Exception?) {
+
         if (e == null) return
         when (e) {
             is FirebaseAuthUserCollisionException -> {

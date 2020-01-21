@@ -32,11 +32,11 @@ import com.google.android.material.snackbar.Snackbar
 abstract class BaseGameMapActivity : AppCompatActivity() {
 
     private val answerExitListener = object : AnswerExitListener {
-        override fun OnExit() {
+        override fun onExit() {
             getViewModel().finishGame()
         }
 
-        override fun OnCancel() {}
+        override fun onCancel() {}
     }
 
     private var tryFinishGameListener = object : FinishGameListener {
@@ -185,7 +185,7 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
         when (gameInfo.mode) {
             "solo" -> startActivity(Intent(this, ClassicGameActivity::class.java))
             "time" -> startActivity(Intent(this, TimeLimitGameActivity::class.java))
-            else -> throw IllegalArgumentException("uknown mode")
+            else -> throw IllegalArgumentException("unknown mode")
         }
         finish()
     }
@@ -238,9 +238,9 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
             builder
                 .setMessage(R.string.answer_exit)
                 .setPositiveButton(R.string.yes) { _, _ ->
-                    listener?.OnExit()
+                    listener?.onExit()
                 }.setNegativeButton(R.string.cancel) { _, _ ->
-                    listener?.OnCancel()
+                    listener?.onCancel()
                 }
 
             return builder.create()
@@ -316,8 +316,11 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
         }
 
         private fun getMessage(): String {
-            return if (isMyBestResult!!) "Поздравляем! Вы набрали $score очков. Это ваш лучший результат"
-            else "Вы набрали $score очков."
+            return if (isMyBestResult!!) getString(
+                R.string.result_game_message_with_congratulations,
+                score
+            )
+            else getString(R.string.result_game_message, score)
         }
     }
 

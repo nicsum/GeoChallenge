@@ -80,9 +80,10 @@ class RegistrationFragment : Fragment() {
             this,
             Observer {
                 when (it) {
-                    AuthErrors.FIELD_PASSWORD_IS_EMPTY -> passwordInput.error = "Введите пароль"
+                    AuthErrors.FIELD_PASSWORD_IS_EMPTY -> passwordInput.error =
+                        getString(R.string.enter_your_password)
                     AuthErrors.SHORT_PASSWORD -> passwordInput.error =
-                        "Длинна пароля должна быть не меньше 6 знаков"
+                        getString(R.string.short_password_warning)
                     AuthErrors.NONE -> passwordInput.error = null
                 }
             }
@@ -92,10 +93,12 @@ class RegistrationFragment : Fragment() {
             this,
             Observer {
                 when (it) {
-                    AuthErrors.FIELD_EMAIL_IS_EMPTY -> emailInput.error = "Введите свою почту"
-                    AuthErrors.NOT_CORRECT_EMAIL -> emailInput.error = "Почта введена неверно"
+                    AuthErrors.FIELD_EMAIL_IS_EMPTY -> emailInput.error =
+                        getString(R.string.enter_your_email)
+                    AuthErrors.NOT_CORRECT_EMAIL -> emailInput.error =
+                        getString(R.string.email_is_not_correct)
                     AuthErrors.EMAIL_ALREADY_IN_USE -> emailInput.error =
-                        "Введенная почта уже занята"
+                        getString(R.string.email_already_in_use_warning)
                     AuthErrors.NONE -> emailInput.error = null
                 }
             }
@@ -106,9 +109,13 @@ class RegistrationFragment : Fragment() {
             Observer {
                 when (it) {
                     AuthErrors.USERNAME_ALREADY_IN_USE ->
-                        usernameInput.error = "${usernameInputEditText.text} такой ник уже занят"
+                        usernameInput.error =
+                            getString(
+                                R.string.username_already_in_use_warning,
+                                usernameInputEditText.text
+                            )
                     AuthErrors.FIELD_USERNAME_IS_EMPTY ->
-                        usernameInput.error = "Введите свой ник"
+                        usernameInput.error = getString(R.string.enter_your_username)
                     AuthErrors.NONE -> usernameInput.error = null
                 }
             }

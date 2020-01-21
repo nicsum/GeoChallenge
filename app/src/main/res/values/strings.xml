@@ -14,6 +14,14 @@
     <string name="timer_info">Осталось %d сек.</string>
     <string name="answer_exit">Хотите выйти из игры?</string>
     <string name="game_is_finished">Игра окончена</string>
+    <string name="result_game_message_with_congratulations">Поздравляем! Вы набрали %1$d очков. Это ваш лучший результат</string>
+    <string name="result_game_message">Вы набрали %1$d очков.</string>
+
+    <string name="solo_title">Time Trial</string>
+    <string name="solo_subtitle">Игра на время</string>
+
+    <string name="time_title">Solo</string>
+    <string name="time_subtitle">Игра на очки</string>
 
     <string name="cancel">Отмена</string>
     <string name="yes">Да</string>
@@ -27,6 +35,9 @@
     <string name="register">Регистарция</string>
     <string name="i_forgot_password">Забыли пароль?</string>
     <string name="or">ИЛИ</string>
+
+
+    <string name="settings_title">Настройки</string>
     <!-- pref lang tasks -->
     <string name="pref_lang_tasks_title">Язык географической точки</string>
     <string name="pref_lang_tasks_summary">Устанавливает язык названий географических точек</string>
@@ -47,10 +58,22 @@
     <string name="exit">Выйти</string>
     <string name="pts">PTS</string>
 
-    <!-- auth errors-->
+    <string name="error">Ошибка</string>
+
+    <!-- auth warnings-->
     <string name="auth_error_connection">Не удается установить соединение.\n Проверте наличие Интернета</string>
     <string name="auth_error_too_many_requests">Слишком много запросов.\n Попробуйте позже</string>
     <string name="auth_error">Не удалось вас авторизировать. Попробуйте позже</string>
+    <string name="enter_your_email">Введите свою почту</string>
+    <string name="enter_your_password">Введите пароль</string>
+    <string name="enter_your_username">Введите свой ник</string>
+    <string name="short_password_warning">Длинна пароля должна быть не меньше 6 знаков</string>
+    <string name="email_is_not_correct">Почта введена неверно</string>
+    <string name="password_is_not_correct">Пароль введен неверно</string>
+    <string name="invalid_user_warning">Пользователь с этой почтой не зарегистрирован</string>
+    <string name="to_many_requests_warning">Сервер пока в шоке от количества ваших запросов.\n Попробуйте позже</string>
+    <string name="email_already_in_use_warning">Пользователь с таким почтой уже зарегестрирован</string>
+    <string name="username_already_in_use_warning">Никнейм %1$s уже занят</string>
 
     <!-- game errors-->
     <string name="game_error_connection">Не удается установить соединение.\n Проверте наличие Интернета</string>
@@ -65,6 +88,5 @@
     <string name="maptext">mapText</string>
     <!-- menu error   -->
     <string name="menu_error"> Не удалось загрузить карты. Проверте Интеренет и попробуйте обновить или перезайти в игру</string>
-    <string name="error">Ошибка</string>
     <string name="leaderboard">Таблица Лидеров</string>
 </resources>

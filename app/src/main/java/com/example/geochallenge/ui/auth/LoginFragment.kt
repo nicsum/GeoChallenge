@@ -98,10 +98,11 @@ class LoginFragment : Fragment() {
             Observer {
                 when (it) {
                     AuthErrors.FIELD_PASSWORD_IS_EMPTY -> passwordInputLayout.error =
-                        "Введите пароль"
+                        getString(R.string.enter_your_password)
                     AuthErrors.SHORT_PASSWORD -> passwordInputLayout.error =
-                        "Длинна пароля должна быть не меньше 6 знаков"
-                    AuthErrors.WRONG_PASSWORD -> passwordInputLayout.error = "Неверный пароль"
+                        getString(R.string.short_password_warning)
+                    AuthErrors.WRONG_PASSWORD -> passwordInputLayout.error =
+                        getString(R.string.short_password_warning)
                     AuthErrors.NONE -> passwordInputLayout.error = null
                 }
             }
@@ -111,9 +112,9 @@ class LoginFragment : Fragment() {
             Observer {
                 when (it) {
                     AuthErrors.INVALID_USER -> emailInputLayout.error =
-                        "Пользователь с этой почтой не зарегистрирован"
+                        getString(R.string.invalid_user_warning)
                     AuthErrors.TO_MANY_REQUESTS -> emailInputLayout.error =
-                        "Сервер посчитал вас подозрительным. Попробуйте позже"
+                        getString(R.string.to_many_requests_warning)
                     AuthErrors.NONE -> emailInputLayout.error = null
                 }
             }
@@ -123,10 +124,12 @@ class LoginFragment : Fragment() {
             this,
             Observer {
                 when (it) {
-                    AuthErrors.FIELD_EMAIL_IS_EMPTY -> emailInputLayout.error = "Введите свою почту"
-                    AuthErrors.NOT_CORRECT_EMAIL -> emailInputLayout.error = "Почта введена неверно"
+                    AuthErrors.FIELD_EMAIL_IS_EMPTY -> emailInputLayout.error =
+                        getString(R.string.enter_your_email)
+                    AuthErrors.NOT_CORRECT_EMAIL -> emailInputLayout.error =
+                        getString(R.string.email_is_not_correct)
                     AuthErrors.EMAIL_ALREADY_IN_USE -> emailInputLayout.error =
-                        "Введенная почта уже занята"
+                        getString(R.string.email_already_in_use_warning)
                     AuthErrors.NONE -> emailInputLayout.error = null
                 }
             }

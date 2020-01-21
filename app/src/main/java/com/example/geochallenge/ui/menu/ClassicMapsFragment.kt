@@ -7,8 +7,8 @@ class ClassicMapsFragment : BaseMapsFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (activity as MenuActivity).supportActionBar?.title = "Solo"
-        (activity as MenuActivity).supportActionBar?.subtitle = "Игра на очки"
+        (activity as MenuActivity).supportActionBar?.title = getString(R.string.solo_title)
+        (activity as MenuActivity).supportActionBar?.subtitle = getString(R.string.solo_subtitle)
     }
 
     override fun getLayout(): Int {

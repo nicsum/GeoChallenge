@@ -3,7 +3,6 @@ package com.example.geochallenge.ui.splash
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.geochallenge.AppDelegate
 import com.example.geochallenge.ui.auth.AuthActivity
@@ -36,7 +35,6 @@ class SplashActivity : AppCompatActivity() {
 
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == Activity.RESULT_OK) {
-                showMessage("Вход прошел успешно")
                 val user = FirebaseAuth.getInstance().currentUser
                 (applicationContext as AppDelegate).createUserComponent(user!!)
                 startGameMenu()
@@ -57,8 +55,5 @@ class SplashActivity : AppCompatActivity() {
         finish()
     }
 
-    fun showMessage(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-    }
 
 }

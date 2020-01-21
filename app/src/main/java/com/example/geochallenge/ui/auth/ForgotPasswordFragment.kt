@@ -62,9 +62,12 @@ class ForgotPasswordFragment : Fragment() {
             this,
             Observer {
                 when (it) {
-                    AuthErrors.FIELD_EMAIL_IS_EMPTY -> emailInputLayout.error = "Введите свою почту"
-                    AuthErrors.NOT_CORRECT_EMAIL -> emailInputLayout.error = "Почта введена неверно"
+                    AuthErrors.FIELD_EMAIL_IS_EMPTY -> emailInputLayout.error =
+                        getString(R.string.enter_your_email)
+                    AuthErrors.NOT_CORRECT_EMAIL -> emailInputLayout.error =
+                        getString(R.string.email_is_not_correct)
                     AuthErrors.NONE -> emailInputLayout.error = null
+                    else -> emailInputEditText.error = getString(R.string.error)
                 }
             }
         )
