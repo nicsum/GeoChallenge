@@ -30,19 +30,24 @@ open class ClassicGameViewModel(
     }
 
 
-    val maxPointsForLevel = gameInfo.countTaskForLevel * (SECONDS_FOR_BONUS.toInt() * 20)
+    val maxPointsForLevel = gameInfo.countTaskForLevel *
+            (SECONDS_FOR_BONUS.toInt() * 20 + (gameMap.distance ?: 800.0))
 
     val secondsPassed = MutableLiveData<Long>().also { it.value = 0L }
-    var points = MutableLiveData<Int>()
-    var pointsForCurrentLevel = MutableLiveData<Int>()
+    val neededPoints = MutableLiveData<Int>().also { neededPointsForNextLevel() }
 
+    var points = MutableLiveData<Int>()
+//    var pointsForCurrentLevel = MutableLiveData<Int>()
+
+    var neededPointsForNextLevel = neededPointsForNextLevel()
 
     var timerDisposable: Disposable? = null
 
     override fun onStartTask(task: CityTask) {
         super.onStartTask(task)
+        neededPoints.postValue(neededPointsForNextLevel)
         startTimerFromCount(SECONDS_FOR_TASK)
-        pointsForCurrentLevel.postValue(0)
+//        pointsForCurrentLevel.postValue(0)
     }
 
     override fun clickedPosition(latitude: Double, longitude: Double, distance: Int) {
@@ -52,8 +57,8 @@ open class ClassicGameViewModel(
         val seconds = secondsPassed.value ?: return
         val pointsForCurrentTask = calculatePoints(seconds, distance)
         points.postValue((points.value ?: 0) + pointsForCurrentTask)
-        pointsForCurrentLevel
-            .postValue((pointsForCurrentLevel.value ?: 0) + pointsForCurrentTask)
+//        pointsForCurrentLevel
+//            .postValue((pointsForCurrentLevel.value ?: 0) + pointsForCurrentTask)
 
         cityTask?.name?.let {
             gameControler.postGameStats(it, distance).subscribeOn(Schedulers.io())
@@ -92,11 +97,12 @@ open class ClassicGameViewModel(
 
     override fun levelFinished() {
         super.levelFinished()
-        if (neededPointsForNextLevel() >=
-            pointsForCurrentLevel.value ?: 0
+        if (neededPointsForNextLevel >=
+            points.value ?: 0
         ) {
             finishGame()
         } else {
+            neededPointsForNextLevel += neededPointsForNextLevel()
             nextLevel()
         }
     }

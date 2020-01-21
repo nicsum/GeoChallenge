@@ -6,6 +6,7 @@ import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.game.PostResultsResponce
 import com.example.geochallenge.game.Record
 import com.example.geochallenge.utils.hasInternetConnection
+import io.reactivex.Completable
 import io.reactivex.Single
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -109,6 +110,10 @@ object MockClassicRussianGeochallengeApi :
     }
 
     override fun getMyRecords(user: String, mode: String, mapId: Int): Single<List<Record>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun postStats(mapId: Int, taskName: String, distance: Int): Completable {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

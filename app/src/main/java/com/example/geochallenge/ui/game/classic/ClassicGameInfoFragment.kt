@@ -11,6 +11,7 @@ import com.example.geochallenge.R
 import com.example.geochallenge.ui.game.BaseGameInfoFragment
 import com.example.geochallenge.ui.game.BaseGameViewModel
 import com.example.geochallenge.ui.game.FillProgressLayout
+import kotlinx.android.synthetic.main.fr_gameinfo.*
 import javax.inject.Inject
 
 
@@ -41,6 +42,12 @@ class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
             this,
             Observer {
                 nextCityButton.visibility = if (it) View.VISIBLE else View.GONE
+            }
+        )
+        viewModel.neededPoints.observe(
+            this,
+            Observer {
+                ptsNextLvl.text = it.toString()
             }
         )
 

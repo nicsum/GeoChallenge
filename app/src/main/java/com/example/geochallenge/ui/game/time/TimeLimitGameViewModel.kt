@@ -50,7 +50,7 @@ class TimeLimitGameViewModel(
                  .observeOn(AndroidSchedulers.mainThread())
                  .subscribe()
          }
-         
+
          taskAnswer.postValue(answer)
 
          if (resultTime <= 0) {
