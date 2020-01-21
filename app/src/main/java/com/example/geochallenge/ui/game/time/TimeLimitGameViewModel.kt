@@ -1,11 +1,14 @@
 package com.example.geochallenge.ui.game.time
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.GameInfo
+import com.example.geochallenge.game.TaskAnswer
 import com.example.geochallenge.game.controlers.GameControler
 import com.example.geochallenge.ui.game.BaseGameViewModel
 import com.example.geochallenge.ui.game.GameError
+import com.google.android.gms.maps.model.LatLng
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -20,54 +23,73 @@ class TimeLimitGameViewModel(
 ) : BaseGameViewModel() {
 
     companion object {
-        const val COUNT_TIMER : Long = 30
+        const val DEFAULT_COUNT_TIMER: Long = 30
     }
 
-    val stillHaveTime = MutableLiveData<Long>()
-    var stillHaveTimeLong =
-        COUNT_TIMER
+//    val stillHaveTime = MutableLiveData<Long>()
+//    val secondsPassed = MutableLiveData<Long>().also { it.value = 0L }
+
+    val timer =
+        MutableLiveData<Pair<Long, Long>>().also { it.value = Pair(0L, DEFAULT_COUNT_TIMER) }
+    var timeLeft = DEFAULT_COUNT_TIMER
+
     var timerDisposable: Disposable? = null
 
-    override fun newGame() {
-        super.newGame()
-        startTimerFromCount(COUNT_TIMER)
-
-    }
 
      override fun clickedPosition(latitude: Double, longitude: Double, distance: Int) {
          super.clickedPosition(latitude, longitude, distance)
-
+         Log.i("BaseGameViewModel", Thread.currentThread().name)
          //calculate time
-         val timeBonus = getExtraTime(distance)
-         val resultTime = stillHaveTimeLong + timeBonus
+         val timeBonus = getTimeBonus(distance)
+         val resultTime = timer.value!!.second - timer.value!!.first + timeBonus
 
-         if (resultTime <= 0) finishGame()
-         else startTimerFromCount(resultTime)
+         val answer = TaskAnswer(LatLng(latitude, longitude), cityTask!!)
+         taskAnswer.postValue(answer)
 
+         if (resultTime <= 0) {
+             finishGame()
+             timeLeft = 0
+         } else {
+             timeLeft = resultTime
+             Observable.just(1)
+                 .subscribeOn(AndroidSchedulers.mainThread())
+                 .observeOn(AndroidSchedulers.mainThread())
+                 .delay(1, TimeUnit.SECONDS)
+                 .subscribe {
+                     nextTask()
+                 }
+         }
      }
+
+
+    override fun finishTask() {
+        timerDisposable?.dispose()
+        super.finishTask()
+    }
 
      override fun levelFinished() {
          super.levelFinished()
          nextLevel()
      }
 
-
-    fun startTimerFromCount(count : Long ){
+    fun startTimer(count: Long) {
         timerDisposable?.dispose()
-
         timerDisposable = Observable
             .intervalRange(0, count + 1, 1, 1, TimeUnit.SECONDS)
             .doOnComplete(this::finishGame)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe{
-                stillHaveTime.postValue( it)
-                stillHaveTimeLong = it
+            .doOnSubscribe {
+                timer.postValue(Pair(0, count))
             }
+            .subscribe{
+                val timeLeft = timer.value!!.first + 1
+                timer.postValue(Pair(timeLeft, count))
+            }
+
     }
 
-
-     private fun getExtraTime(distance: Int) = when {
+    private fun getTimeBonus(distance: Int) = when {
 
          distance <= 100 -> 9
          distance <= 200 -> 8
@@ -84,7 +106,10 @@ class TimeLimitGameViewModel(
      }
 
     override fun getNextTask(): Single<CityTask> {
-        return gameControler.getNextTask()
+        return gameControler
+            .getNextTask()
+            .doOnSuccess { startTimer(timeLeft) }
+
     }
 
     override fun prepareNewLevel(newLevel: Int): Completable {
@@ -110,7 +135,8 @@ class TimeLimitGameViewModel(
             .subscribe({
                 error.postValue(GameError.NONE)
                 gameInfo.recordId = it?.id
-                super.finishGame()
+                val score = if (it.updated) it.score else taskCounter.value ?: 0
+                gameResult.postValue(Pair(score, it.updated))
             }, {
                 error.postValue(GameError.FINISH_GAME_ERROR)
             })

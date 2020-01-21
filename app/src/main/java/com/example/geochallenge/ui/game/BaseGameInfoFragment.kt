@@ -112,6 +112,7 @@ abstract class BaseGameInfoFragment : Fragment() {
 
     }
 
+
     abstract fun getViewModel(): BaseGameViewModel
 
 }

@@ -1,6 +1,5 @@
 package com.example.geochallenge.ui.game.multiplayer
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,13 +20,7 @@ class MultiplayerGameInfoFragment @Inject constructor() : BaseGameInfoFragment()
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v = inflater.inflate(R.layout.fr_gameinfo, container, false)
-        return v
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
+        return inflater.inflate(R.layout.fr_gameinfo, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -1,9 +1,11 @@
 package com.example.geochallenge.ui.game
 
 import android.util.Log
+import androidx.annotation.MainThread
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.geochallenge.game.CityTask
+import com.example.geochallenge.game.TaskAnswer
 import com.example.geochallenge.utils.CalculateUtils
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -15,6 +17,7 @@ import java.io.IOException
 abstract class BaseGameViewModel : ViewModel() {
 
     val isDefaultMapState: MutableLiveData<Boolean> = MutableLiveData()
+    val taskAnswer = MutableLiveData<TaskAnswer>()
     val isTaskCompleted: MutableLiveData<Boolean> = MutableLiveData()
     //    val isGameFinished: MutableLiveData<Boolean> = MutableLiveData()
     val clickedPosition: MutableLiveData<Pair<Double, Double>> = MutableLiveData()
@@ -29,12 +32,11 @@ abstract class BaseGameViewModel : ViewModel() {
     val isGameInfoVisible = MutableLiveData<Boolean>()
     val gameResult = MutableLiveData<Pair<Int, Boolean>>()
 
-
+    var cityTask: CityTask? = null
 
     open fun newGame() {
         nextLevel()
     }
-
 
     open fun updateTasks() {
         prepareNewLevel(currentLevel.value ?: 1)
@@ -81,8 +83,9 @@ abstract class BaseGameViewModel : ViewModel() {
     }
 
     open fun nextTask() {
-        isDefaultMapState.setValue(true)
-        clickedPosition.setValue(null)
+
+        Log.i("BaseGameViewModel", Thread.currentThread().name)
+
         if (!haveTaskForCurrentLevel()) {
             levelFinished()
             return
@@ -101,18 +104,19 @@ abstract class BaseGameViewModel : ViewModel() {
                 resolveError(it)
                 Log.e("SimpleGameViewModel", it.message)
             })
-
     }
 
     open fun onStartTask(task: CityTask) {
-        currentTask.postValue(task)
+        setTask(task)
+        isDefaultMapState.postValue(true)
+        clickedPosition.postValue(null)
         isTaskCompleted.postValue(false)
+        taskAnswer.postValue(null)
         taskCounter.postValue(taskCounter.value?.plus(1) ?: 1)
     }
 
-    open fun finishGame() {}
-
     open fun clickedPosition(latitude: Double, longitude: Double) {
+        clickedPosition.postValue(Pair(latitude, longitude))
         val currentTaskLat = currentTask.value?.latitude ?: return
         val currentTaskLon = currentTask.value?.longitude ?: return
         val d = CalculateUtils.calculateDistance(
@@ -121,26 +125,32 @@ abstract class BaseGameViewModel : ViewModel() {
         ).toInt() / 1000 // m to km
 
         clickedPosition(latitude, longitude, d)
-
     }
 
-    protected open fun levelFinished() {
-        isLevelFinished.postValue(true)
-        taskCounter.postValue(0)
-    }
-
-    protected open fun clickedPosition(latitude: Double, longitude: Double, distance: Int) {
+    protected open fun clickedPosition(
+        latitude: Double,
+        longitude: Double, distance: Int
+    ) {
         this.distance.postValue(distance)
-        clickedPosition.postValue(Pair(latitude, longitude))
-        finishTask()
+//        val answer = TaskAnswer(LatLng(latitude, longitude), currentTask.value!!)
+//        finishTask(answer)
     }
 
     protected open fun finishTask() {
         isTaskCompleted.postValue(true)
     }
 
+    open fun finishGame() {}
+
+    protected open fun levelFinished() {
+        isLevelFinished.postValue(true)
+        taskCounter.postValue(0)
+    }
+
+
+    @MainThread
     fun cameraMoved() {
-        isDefaultMapState.postValue(false)
+        isDefaultMapState.value = false
     }
 
     private fun showGameInfo() {
@@ -159,6 +169,11 @@ abstract class BaseGameViewModel : ViewModel() {
         isLoadingVisible.postValue(true)
         isErrorVisible.postValue(false)
         isGameInfoVisible.postValue(false)
+    }
+
+    private fun setTask(task: CityTask) {
+        this.cityTask = task
+        this.currentTask.postValue(task)
     }
 
     abstract fun getNextTask(): Single<CityTask>

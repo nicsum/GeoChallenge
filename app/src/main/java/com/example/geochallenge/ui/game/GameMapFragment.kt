@@ -1,9 +1,10 @@
 package com.example.geochallenge.ui.game
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
-import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.GameMap
+import com.example.geochallenge.game.TaskAnswer
 import com.example.geochallenge.ui.game.multiplayer.MultiplayerViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -26,7 +27,6 @@ class GameMapFragment : SupportMapFragment(),
     @Inject
     lateinit var gameMap: GameMap
 
-
     override fun onCreate(p0: Bundle?) {
         super.onCreate(p0)
         retainInstance = true
@@ -41,40 +41,24 @@ class GameMapFragment : SupportMapFragment(),
         viewModel = (activity as BaseGameMapActivity).getViewModel()
 
         viewModel.isDefaultMapState.observe(this, Observer {
+            Log.i("GameMapFragment", "isDefaultMapState = $it")
             if(it){
                 map?.clear()
+                map?.setOnMapClickListener(this)
+                showStartPosition()
             }
         })
         viewModel.clickedPosition.observe(this,
             Observer {it?.let { addMarks(LatLng(it.first, it.second) , viewModel.distance.value) }
             })
-        viewModel.isTaskCompleted.observe(this, Observer {
-            if(it) {
-                map?.setOnMapClickListener(null)
+        viewModel.taskAnswer.observe(this, Observer { answer ->
+            if (answer != null) {
                 map?.setOnMarkerClickListener { false}
-                //TODO вынести формирование ответа во вьюмодел или придумай что-нибудь
-                viewModel.currentTask.value?.let{ task ->
-                    val clickedPosition = LatLng(
-                        viewModel.clickedPosition.value?.first ?: 0.0,
-                        viewModel.clickedPosition.value?.second ?: 0.0)
-
-                    val playersAnswer = (viewModel as? MultiplayerViewModel)?.playersAnswer
-                        ?.value
-                        ?.values
-                        ?.filterNotNull()
-                        ?.map { coordinates -> LatLng(coordinates.first, coordinates.second) }
-
-                    showAnswer(task, clickedPosition, playersAnswer)
-                }
+                showAnswer(answer)
             }
             else {
-                map?.setOnMapClickListener(this)
                 map?.setOnMarkerClickListener { true}
-//                showStartPosition()
             }  })
-        viewModel.isDefaultMapState.observe(this, Observer {
-            if(it)
-                showStartPosition() })
 
         (viewModel as? MultiplayerViewModel)?.playersAnswer?.observe(
             this,
@@ -91,8 +75,8 @@ class GameMapFragment : SupportMapFragment(),
 
     override fun onMapClick(position: LatLng?) {
         if(position!=null){
-
             viewModel.clickedPosition(position.latitude, position.longitude)
+            map?.setOnMapClickListener(null)
         }
     }
     override fun onCameraMove() {
@@ -114,21 +98,20 @@ class GameMapFragment : SupportMapFragment(),
     }
 
     private fun showAnswer(
-        task: CityTask,
-        clickedPosition: LatLng,
-        playersAnswers: List<LatLng>? = null
+        taskAnswer: TaskAnswer
     ) {
-        val answerLat = task.latitude ?: return
-        val answerLon = task.longitude ?: return
-        val answerPosition = LatLng(answerLat, answerLon)
+        val playersAnswers = taskAnswer.playersAnswers
+            ?.values
+            ?.filterNotNull()
+        val answerPosition = LatLng(taskAnswer.task.latitude!!, taskAnswer.task.longitude!!)
         val answerMarket = MarkerOptions()
             .position(answerPosition)
-            .title(task.name)
+            .title(taskAnswer.task.name)
             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
 
         map?.let{
             it.addMarker(answerMarket)
-            zoomMarkets(listOf(answerPosition, clickedPosition) + (playersAnswers ?: ArrayList()))
+            zoomMarkets(listOf(answerPosition, taskAnswer.answer) + (playersAnswers ?: ArrayList()))
         }
     }
 
@@ -168,4 +151,11 @@ class GameMapFragment : SupportMapFragment(),
 //    }
 //    return this
 //}
+
+//.playersAnswer
+//?.value
+//?.values
+//?.filterNotNull()
+//?.map { coordinates -> LatLng(coordinates.first, coordinates.second) }
+
 

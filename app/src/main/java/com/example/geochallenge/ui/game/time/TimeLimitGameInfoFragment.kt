@@ -36,14 +36,16 @@ class TimeLimitGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
 
 
         viewModel = (activity as TimeLimitGameActivity).viewModel
-        viewModel.stillHaveTime.observe(
+
+        viewModel.timer.observe(
             this,
             Observer {
-                progressBar.setProgress(it.toInt() * 100 / (30000 / 1000))
-
+                progressBar.setProgress(it.first.toInt() * 100 / it.second.toInt())
+                pointsText.text = it.first.toString()
+                ptsNextLvl.text = it.second.toString()
             })
 
-        nextCityButton.setOnClickListener { viewModel.nextTask() }
+//        nextCityButton.setOnClickListener { viewModel.nextTask() }
         super.onActivityCreated(savedInstanceState)
     }
 

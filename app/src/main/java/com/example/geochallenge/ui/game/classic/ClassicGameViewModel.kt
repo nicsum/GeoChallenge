@@ -5,9 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.GameInfo
 import com.example.geochallenge.game.GameMap
+import com.example.geochallenge.game.TaskAnswer
 import com.example.geochallenge.game.controlers.GameControler
 import com.example.geochallenge.ui.game.BaseGameViewModel
 import com.example.geochallenge.ui.game.GameError
+import com.google.android.gms.maps.model.LatLng
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -20,13 +22,13 @@ open class ClassicGameViewModel(
     val gameControler: GameControler,
     private val gameMap: GameMap,
     val gameInfo: GameInfo
-) :
-    BaseGameViewModel() {
+) : BaseGameViewModel() {
 
     companion object{
         const val SECONDS_FOR_TASK = 13L
         const val SECONDS_FOR_BONUS = 10L
     }
+
 
     val maxPointsForLevel = gameInfo.countTaskForLevel * (SECONDS_FOR_BONUS.toInt() * 20)
 
@@ -50,8 +52,13 @@ open class ClassicGameViewModel(
         val seconds = secondsPassed.value ?: return
         val pointsForCurrentTask = calculatePoints(seconds, distance)
         points.postValue((points.value ?: 0) + pointsForCurrentTask)
-        pointsForCurrentLevel.postValue((pointsForCurrentLevel.value ?: 0) + pointsForCurrentTask)
+        pointsForCurrentLevel
+            .postValue((pointsForCurrentLevel.value ?: 0) + pointsForCurrentTask)
 
+
+        val answer = TaskAnswer(LatLng(latitude, longitude), cityTask!!)
+        taskAnswer.postValue(answer)
+        finishTask()
         Log.i(
             "ClassicGameViewModelTag",
             "distance = $distance, seconds = $seconds , points = $pointsForCurrentTask"
@@ -59,8 +66,8 @@ open class ClassicGameViewModel(
     }
 
     override fun finishTask() {
-        super.finishTask()
         timerDisposable?.dispose()
+        super.finishTask()
     }
 
     fun startTimerFromCount(count: Long) {
@@ -90,7 +97,6 @@ open class ClassicGameViewModel(
     override fun finishGame() {
         if (points.value == 0 || points.value == null) {
             gameResult.postValue(Pair(0, false))
-            super.finishGame()
             return
         }
         gameControler
@@ -102,7 +108,6 @@ open class ClassicGameViewModel(
                 gameInfo.recordId = it?.id
                 val score = if (it.updated) it.score else points.value ?: 0
                 gameResult.postValue(Pair(score, it.updated))
-                super.finishGame()
             }, {
                 error.postValue(GameError.FINISH_GAME_ERROR)
             })
