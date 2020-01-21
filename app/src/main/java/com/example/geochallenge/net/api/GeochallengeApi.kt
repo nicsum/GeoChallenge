@@ -4,6 +4,7 @@ import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.game.PostResultsResponce
 import com.example.geochallenge.game.Record
+import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -80,4 +81,13 @@ interface GeochallengeApi {
         @Query("map_id") mapId: Int
 
     ): Single<List<Record>>
+
+
+    @FormUrlEncoded
+    @POST("/postStats")
+    fun postStats(
+        @Field("map_id") mapId: Int,
+        @Field("cname") taskName: String,
+        @Field("distance") distance: Int
+    ): Completable
 }

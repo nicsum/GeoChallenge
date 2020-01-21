@@ -47,6 +47,10 @@ class SinglePlayerGameControler @Inject constructor(
         return geochallengeService.postRecord(newRecord, gameInfo.mode, gameInfo.mapId, username)
     }
 
+    override fun postGameStats(taskName: String, distance: Int): Completable {
+        return geochallengeService.postStats(gameInfo.mapId, taskName, distance)
+    }
+
 
 //    override fun finishGameWithPostRecord(score: Int, countTask: Int): Completable {
 //        if (score == 0) return Completable.complete()

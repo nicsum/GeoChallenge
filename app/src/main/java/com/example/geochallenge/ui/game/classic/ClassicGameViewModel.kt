@@ -55,6 +55,13 @@ open class ClassicGameViewModel(
         pointsForCurrentLevel
             .postValue((pointsForCurrentLevel.value ?: 0) + pointsForCurrentTask)
 
+        cityTask?.name?.let {
+            gameControler.postGameStats(it, distance).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        }
+
+
 
         val answer = TaskAnswer(LatLng(latitude, longitude), cityTask!!)
         taskAnswer.postValue(answer)

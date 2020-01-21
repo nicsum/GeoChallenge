@@ -5,6 +5,7 @@ import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.game.PostResultsResponce
 import com.example.geochallenge.game.Record
 import com.example.geochallenge.net.api.GeochallengeApi
+import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -94,6 +95,10 @@ class GeochallengeStorage @Inject constructor(val api: GeochallengeApi) : Geocha
 
     override fun getMyRecords(user: String, mode: String, mapId: Int): Single<List<Record>> {
         return api.getMyRecords(user, mode, mapId)
+    }
+
+    override fun postStats(mapId: Int, taskName: String, distance: Int): Completable {
+        return api.postStats(mapId, taskName, distance)
     }
 
 }

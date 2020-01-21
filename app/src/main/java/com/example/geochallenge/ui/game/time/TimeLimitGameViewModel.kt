@@ -44,6 +44,13 @@ class TimeLimitGameViewModel(
          val resultTime = timer.value!!.second - timer.value!!.first + timeBonus
 
          val answer = TaskAnswer(LatLng(latitude, longitude), cityTask!!)
+
+         cityTask?.name?.let {
+             gameControler.postGameStats(it, distance).subscribeOn(Schedulers.io())
+                 .observeOn(AndroidSchedulers.mainThread())
+                 .subscribe()
+         }
+         
          taskAnswer.postValue(answer)
 
          if (resultTime <= 0) {
