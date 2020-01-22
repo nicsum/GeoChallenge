@@ -54,6 +54,6 @@ interface GeochallengeService {
     fun postStats(
         mapId: Int,
         taskName: String,
-        distance: Int
+        distance: Double
     ): Completable
 }

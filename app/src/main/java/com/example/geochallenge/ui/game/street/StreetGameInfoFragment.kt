@@ -21,10 +21,7 @@ class StreetGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        val v = inflater.inflate(R.layout.fr_gameinfo, container, false)
-//        nextCityButton = v.findViewById(R.id.nextCityBtn)
-        return v
+        return inflater.inflate(R.layout.fr_gameinfo, container, false)
     }
 
 

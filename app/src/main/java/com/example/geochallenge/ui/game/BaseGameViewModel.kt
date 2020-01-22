@@ -22,7 +22,7 @@ abstract class BaseGameViewModel : ViewModel() {
     //    val isGameFinished: MutableLiveData<Boolean> = MutableLiveData()
     val clickedPosition: MutableLiveData<Pair<Double, Double>> = MutableLiveData()
     val currentTask: MutableLiveData<CityTask> = MutableLiveData()
-    val distance: MutableLiveData<Int> = MutableLiveData()
+    val distance: MutableLiveData<Double> = MutableLiveData()
     val taskCounter: MutableLiveData<Int> = MutableLiveData()
     val currentLevel: MutableLiveData<Int> = MutableLiveData()
     val isLevelFinished: MutableLiveData<Boolean> = MutableLiveData()
@@ -122,14 +122,14 @@ abstract class BaseGameViewModel : ViewModel() {
         val d = CalculateUtils.calculateDistance(
             Pair(latitude, longitude),
             Pair(currentTaskLat, currentTaskLon)
-        ).toInt() / 1000 // m to km
+        ) / 1000 // m to km
 
         clickedPosition(latitude, longitude, d)
     }
 
     protected open fun clickedPosition(
         latitude: Double,
-        longitude: Double, distance: Int
+        longitude: Double, distance: Double
     ) {
         this.distance.postValue(distance)
 //        val answer = TaskAnswer(LatLng(latitude, longitude), currentTask.value!!)

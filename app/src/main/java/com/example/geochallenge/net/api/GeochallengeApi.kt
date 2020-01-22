@@ -88,6 +88,6 @@ interface GeochallengeApi {
     fun postStats(
         @Field("map_id") mapId: Int,
         @Field("cname") taskName: String,
-        @Field("distance") distance: Int
+        @Field("distance") distance: Double
     ): Completable
 }

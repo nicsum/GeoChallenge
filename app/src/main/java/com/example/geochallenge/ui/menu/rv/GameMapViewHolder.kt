@@ -41,7 +41,7 @@ class GameMapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             lang = when (checkedId) {
                 R.id.radio_en -> SettingsManager.ENGLISH_LANG_CODE
                 R.id.radio_ru -> SettingsManager.RUSSIAN_LANG_CODE
-                else -> SettingsManager.RUSSIAN_LANG_CODE //TODO
+                else -> throw IllegalArgumentException("no such lang code")
             }
         }
 

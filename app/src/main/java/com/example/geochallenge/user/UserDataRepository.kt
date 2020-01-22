@@ -9,7 +9,7 @@ class UserDataRepository @Inject constructor(val firebaseUser: FirebaseUser) {
 
 
     val username: String
-        get() = firebaseUser.displayName ?: "anon" //TODO
+        get() = firebaseUser.displayName!!
 
     val uid: String
         get() = firebaseUser.uid

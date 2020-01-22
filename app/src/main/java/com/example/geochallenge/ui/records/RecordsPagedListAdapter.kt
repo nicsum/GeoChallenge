@@ -14,6 +14,8 @@ class RecordsPagedListAdapter(
     PagedListAdapter<Record, RecyclerView.ViewHolder>(RecordsDiffCallback) {
 
     companion object {
+        const val DATA_VIEW_TYPE = 1
+        const val FOOTER_VIEW_TYPE = 2
         val RecordsDiffCallback = object : DiffUtil.ItemCallback<Record>() {
             override fun areItemsTheSame(oldItem: Record, newItem: Record): Boolean {
                 return oldItem.id == newItem.id
@@ -25,8 +27,6 @@ class RecordsPagedListAdapter(
         }
     }
 
-    private val DATA_VIEW_TYPE = 1
-    private val FOOTER_VIEW_TYPE = 2
 
     private var state = RecordsDataSource.State.LOADING
 

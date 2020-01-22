@@ -113,7 +113,7 @@ object MockClassicRussianGeochallengeApi :
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun postStats(mapId: Int, taskName: String, distance: Int): Completable {
+    override fun postStats(mapId: Int, taskName: String, distance: Double): Completable {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

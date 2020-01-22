@@ -84,7 +84,7 @@ class GameMapFragment : SupportMapFragment(),
         viewModel.cameraMoved()
     }
 
-    fun addMarks(position: LatLng?, distance: Int?){
+    fun addMarks(position: LatLng?, distance: Double?) {
         map?.addMarker(position?.let {
             MarkerOptions().position(it).title(distance.toString())
         })
@@ -111,7 +111,9 @@ class GameMapFragment : SupportMapFragment(),
 
         map?.let{
             it.addMarker(answerMarket)
-            zoomMarkets(listOf(answerPosition, taskAnswer.answer) + (playersAnswers ?: ArrayList()))
+            zoomMarkets(
+                listOfNotNull(answerPosition, taskAnswer.answer) + (playersAnswers ?: ArrayList())
+            )
         }
     }
 

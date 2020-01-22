@@ -36,17 +36,18 @@ class TimeLimitGameViewModel(
     var timerDisposable: Disposable? = null
 
 
-     override fun clickedPosition(latitude: Double, longitude: Double, distance: Int) {
+    override fun clickedPosition(latitude: Double, longitude: Double, distance: Double) {
          super.clickedPosition(latitude, longitude, distance)
          Log.i("BaseGameViewModel", Thread.currentThread().name)
          //calculate time
          val timeBonus = getTimeBonus(distance)
          val resultTime = timer.value!!.second - timer.value!!.first + timeBonus
 
-         val answer = TaskAnswer(LatLng(latitude, longitude), cityTask!!)
+        val answer = TaskAnswer(cityTask!!, LatLng(latitude, longitude))
 
          cityTask?.name?.let {
-             gameControler.postGameStats(it, distance).subscribeOn(Schedulers.io())
+             gameControler.postGameStats(it, distance)
+                 .subscribeOn(Schedulers.io())
                  .observeOn(AndroidSchedulers.mainThread())
                  .subscribe()
          }
@@ -96,7 +97,7 @@ class TimeLimitGameViewModel(
 
     }
 
-    private fun getTimeBonus(distance: Int) = when {
+    private fun getTimeBonus(distance: Double) = when {
 
          distance <= 100 -> 9
          distance <= 200 -> 8

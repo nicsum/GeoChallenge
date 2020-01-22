@@ -27,6 +27,7 @@ open class ClassicGameViewModel(
     companion object{
         const val SECONDS_FOR_TASK = 13L
         const val SECONDS_FOR_BONUS = 10L
+        const val MAX_POINTS_FOR_DISTANCE = 800.0
     }
 
 
@@ -37,6 +38,8 @@ open class ClassicGameViewModel(
     val neededPoints = MutableLiveData<Int>().also { neededPointsForNextLevel() }
 
     var points = MutableLiveData<Int>()
+
+    private var currentTaskAnswer: TaskAnswer? = null
 //    var pointsForCurrentLevel = MutableLiveData<Int>()
 
     var neededPointsForNextLevel = neededPointsForNextLevel()
@@ -50,7 +53,7 @@ open class ClassicGameViewModel(
 //        pointsForCurrentLevel.postValue(0)
     }
 
-    override fun clickedPosition(latitude: Double, longitude: Double, distance: Int) {
+    override fun clickedPosition(latitude: Double, longitude: Double, distance: Double) {
         super.clickedPosition(latitude, longitude, distance)
 
         //calculate points
@@ -67,8 +70,7 @@ open class ClassicGameViewModel(
         }
 
 
-
-        val answer = TaskAnswer(LatLng(latitude, longitude), cityTask!!)
+        val answer = TaskAnswer(cityTask!!, LatLng(latitude, longitude))
         taskAnswer.postValue(answer)
         finishTask()
         Log.i(
@@ -89,7 +91,10 @@ open class ClassicGameViewModel(
             .intervalRange(0, count + 1, 1, 1, TimeUnit.SECONDS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnComplete(this::finishTask)
+            .doOnComplete {
+                taskAnswer.postValue(TaskAnswer(cityTask!!))
+                finishGame()
+            }
             .subscribe {
                 secondsPassed.postValue(it)
             }
@@ -147,13 +152,19 @@ open class ClassicGameViewModel(
         return (maxPointsForLevel * 0.5).toInt()
     }
 
-    private fun calculatePoints(seconds: Long, distance: Int): Int {
+    private fun calculatePoints(seconds: Long, distance: Double): Int {
         val limitDistance = gameMap.distance
-            ?.toInt() ?: 800
+            ?: MAX_POINTS_FOR_DISTANCE
         if (distance >= limitDistance) {
             return 0
         }
-        return limitDistance - distance + getTimeBonus(seconds).toInt()
+        return calculatePointsForDistance(distance) + getTimeBonus(seconds).toInt()
+    }
+
+    private fun calculatePointsForDistance(distance: Double): Int {
+
+        return ((distance / (gameMap.distance
+            ?: MAX_POINTS_FOR_DISTANCE)) * MAX_POINTS_FOR_DISTANCE).toInt()
     }
 
 }

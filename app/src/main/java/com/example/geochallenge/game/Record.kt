@@ -33,7 +33,7 @@ class Record(
         var result = id ?: 0
         result = 31 * result + username.hashCode()
         result = 31 * result + score
-        result = 31 * result + (countTasks ?: 0)
+        result = 31 * result + countTasks
         result = 31 * result + (order ?: 0)
         return result
     }

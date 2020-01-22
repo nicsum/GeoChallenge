@@ -201,7 +201,7 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
                     this.authError.postValue(AuthErrors.CONNECTION_FAILD)
                 }
             is FirebaseAuthInvalidUserException -> authError.postValue(AuthErrors.INVALID_USER)
-            is FirebaseTooManyRequestsException -> authError.postValue(AuthErrors.TO_MANY_REQUESTS) //TODO вынести ошибку не под email
+            is FirebaseTooManyRequestsException -> authError.postValue(AuthErrors.TO_MANY_REQUESTS)
             else -> authError.postValue(AuthErrors.ANY)
         }
     }

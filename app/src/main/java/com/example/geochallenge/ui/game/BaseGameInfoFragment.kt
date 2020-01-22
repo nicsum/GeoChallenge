@@ -53,8 +53,9 @@ abstract class BaseGameInfoFragment : Fragment() {
         vm.distance.observe(
             this,
             Observer {
-                distance.text = if (it == null) "" else getString(R.string.distance_info, it)
+                distance.text = getDistanceText(it)
             })
+
         vm.currentTask.observe(
             this,
             Observer { cityNameTv.text = if (it == null) "" else "${it.country}, ${it.name}" })
@@ -112,6 +113,14 @@ abstract class BaseGameInfoFragment : Fragment() {
 
     }
 
+    private fun getDistanceText(distance: Double?): String {
+        if (distance == null) return ""
+        return if (distance < 5) getString(
+            R.string.distance_info,
+            "${(distance * 1000).toInt()} м."
+        )
+        else getString(R.string.distance_info, "${distance.toInt()} км.")
+    }
 
     abstract fun getViewModel(): BaseGameViewModel
 

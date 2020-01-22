@@ -21,7 +21,6 @@ class MenuModule {
         return ViewModelProvider(activity, factory).get(MenuMapsViewModel::class.java)
     }
 
-    //TODO удалить если не нужно
     @Provides
     fun provideLinearLayoutManager(activity: MenuActivity): LinearLayoutManager {
         return LinearLayoutManager(activity)
