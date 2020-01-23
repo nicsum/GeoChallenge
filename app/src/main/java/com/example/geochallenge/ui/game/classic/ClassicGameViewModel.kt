@@ -28,6 +28,7 @@ open class ClassicGameViewModel(
         const val SECONDS_FOR_TASK = 13L
         const val SECONDS_FOR_BONUS = 10L
         const val MAX_POINTS_FOR_DISTANCE = 800.0
+        const val DEFAULT_DISTANCE = 800.0
     }
 
 
@@ -39,7 +40,7 @@ open class ClassicGameViewModel(
 
     var points = MutableLiveData<Int>()
 
-    private var currentTaskAnswer: TaskAnswer? = null
+
 //    var pointsForCurrentLevel = MutableLiveData<Int>()
 
     var neededPointsForNextLevel = neededPointsForNextLevel()
@@ -154,7 +155,7 @@ open class ClassicGameViewModel(
 
     private fun calculatePoints(seconds: Long, distance: Double): Int {
         val limitDistance = gameMap.distance
-            ?: MAX_POINTS_FOR_DISTANCE
+            ?: DEFAULT_DISTANCE
         if (distance >= limitDistance) {
             return 0
         }
@@ -162,9 +163,8 @@ open class ClassicGameViewModel(
     }
 
     private fun calculatePointsForDistance(distance: Double): Int {
-
-        return ((distance / (gameMap.distance
-            ?: MAX_POINTS_FOR_DISTANCE)) * MAX_POINTS_FOR_DISTANCE).toInt()
+        val limitDistance = gameMap.distance ?: DEFAULT_DISTANCE
+        return ((1 - (distance / limitDistance))
+                * MAX_POINTS_FOR_DISTANCE).toInt()
     }
-
 }
