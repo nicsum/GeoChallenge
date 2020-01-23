@@ -67,6 +67,7 @@ open class ClassicGameViewModel(
         cityTask?.name?.let {
             gameControler.postGameStats(it, distance).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .onErrorComplete()
                 .subscribe()
         }
 
@@ -94,7 +95,7 @@ open class ClassicGameViewModel(
             .observeOn(AndroidSchedulers.mainThread())
             .doOnComplete {
                 taskAnswer.postValue(TaskAnswer(cityTask!!))
-                finishGame()
+                finishTask()
             }
             .subscribe {
                 secondsPassed.postValue(it)

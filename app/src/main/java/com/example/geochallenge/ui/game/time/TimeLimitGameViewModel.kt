@@ -49,6 +49,7 @@ class TimeLimitGameViewModel(
              gameControler.postGameStats(it, distance)
                  .subscribeOn(Schedulers.io())
                  .observeOn(AndroidSchedulers.mainThread())
+                 .onErrorComplete()
                  .subscribe()
          }
 

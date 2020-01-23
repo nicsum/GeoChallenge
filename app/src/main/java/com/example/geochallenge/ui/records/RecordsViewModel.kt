@@ -22,12 +22,15 @@ class RecordsViewModel(
 
 
     val records = MutableLiveData<List<Record>>()
+    val loadingIsVisible = MutableLiveData<Boolean>()
 
     fun loadRecords() {
         geochallengeService
             .getAllRecords(gameInfo.mode, gameInfo.mapId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { loadingIsVisible.postValue(true) }
+            .doFinally { loadingIsVisible.postValue(false) }
             .subscribe({
                 records.postValue(it)
             }, {

@@ -12,6 +12,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -63,6 +64,12 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
         override fun onLost(network: Network?) {
             showNetworkIsNotAvailableMessage()
         }
+
+        override fun onBlockedStatusChanged(network: Network, blocked: Boolean) {
+            Log.i("BaseGameMapActivity@@@", "blocked = $blocked")
+            super.onBlockedStatusChanged(network, blocked)
+        }
+
     }
 
     var networkChangeReceiver: NetworkChangeReceiver? = null

@@ -60,12 +60,18 @@ class GameMapFragment : SupportMapFragment(),
                 map?.setOnMarkerClickListener { true}
             }  })
 
+        viewModel.isTaskCompleted.observe(this,
+            Observer {
+                if (it) map?.setOnMapClickListener(null)
+                else map?.setOnMapClickListener(this)
+            }
+        )
+
         (viewModel as? MultiplayerViewModel)?.playersAnswer?.observe(
             this,
             Observer { showPlayersAnswer(it) })
 
     }
-
 
     override fun onMapReady(map: GoogleMap?) {
         this.map = map
