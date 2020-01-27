@@ -16,6 +16,10 @@ import java.io.IOException
 
 abstract class BaseGameViewModel : ViewModel() {
 
+    companion object {
+        const val DEFAULT_DISTANCE = 800.0
+    }
+
     val isDefaultMapState: MutableLiveData<Boolean> = MutableLiveData()
     val taskAnswer = MutableLiveData<TaskAnswer>()
     val isTaskCompleted: MutableLiveData<Boolean> = MutableLiveData()

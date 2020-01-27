@@ -28,7 +28,7 @@ open class ClassicGameViewModel(
         const val SECONDS_FOR_TASK = 13L
         const val SECONDS_FOR_BONUS = 10L
         const val MAX_POINTS_FOR_DISTANCE = 800.0
-        const val DEFAULT_DISTANCE = 800.0
+
     }
 
 
@@ -120,7 +120,7 @@ open class ClassicGameViewModel(
             return
         }
         gameControler
-            .finishGame(points.value ?: 0, taskCounterLevel.value ?: 0)
+            .finishGame(points.value ?: 0, taskCounterGame.value ?: 0)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -155,7 +155,7 @@ open class ClassicGameViewModel(
     }
 
     private fun calculatePoints(seconds: Long, distance: Double): Int {
-        val limitDistance = getLimitDitance()
+        val limitDistance = getLimitDistance()
         if (distance >= limitDistance) {
             return 0
         }
@@ -163,10 +163,10 @@ open class ClassicGameViewModel(
     }
 
     private fun calculatePointsForDistance(distance: Double): Int {
-        val limitDistance = getLimitDitance()
+        val limitDistance = getLimitDistance()
         return ((1 - (distance / limitDistance))
                 * MAX_POINTS_FOR_DISTANCE).toInt()
     }
 
-    private fun getLimitDitance() = gameMap.distance ?: DEFAULT_DISTANCE
+    private fun getLimitDistance() = gameMap.distance ?: DEFAULT_DISTANCE
 }
