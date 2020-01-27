@@ -66,7 +66,7 @@ class TimeLimitGameViewModel(
              Observable.just(1)
                  .subscribeOn(AndroidSchedulers.mainThread())
                  .observeOn(AndroidSchedulers.mainThread())
-                 .delay(1, TimeUnit.SECONDS)
+                 .delay(2, TimeUnit.SECONDS)
                  .subscribe {
                      nextTask()
                  }
