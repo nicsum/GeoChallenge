@@ -92,6 +92,7 @@ dependencies {
 //    implementation 'com.flaviofaria:kenburnsview:1.0.7'
 
     //okhttp
+
     implementation "com.squareup.okhttp3:okhttp:4.2.2"
     implementation "com.squareup.okhttp3:logging-interceptor:4.2.2"
 

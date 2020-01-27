@@ -3,7 +3,6 @@ package com.example.geochallenge.ui.game
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
-import com.example.geochallenge.R
 import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.game.TaskAnswer
 import com.example.geochallenge.ui.game.multiplayer.MultiplayerViewModel
@@ -11,8 +10,12 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MarkerOptions
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 
 class GameMapFragment : SupportMapFragment(),
@@ -37,37 +40,45 @@ class GameMapFragment : SupportMapFragment(),
 
         (activity as BaseGameMapActivity).activityComponent?.inject(this)
         viewModel = (activity as BaseGameMapActivity).getViewModel()
-
-        viewModel.isDefaultMapState.observe(this, Observer {
+        var l = 1.2
+        l.roundToInt()
+        viewModel.isDefaultMapState.observe(viewLifecycleOwner, Observer {
             Log.i("GameMapFragment", "isDefaultMapState = $it")
-            if (it) {
+            if(it){
                 map?.clear()
                 map?.setOnMapClickListener(this)
                 showStartPosition()
             }
         })
-        viewModel.clickedPosition.observe(this,
-            Observer {
-                it?.let { addMarks(LatLng(it.first, it.second), viewModel.distance.value) }
+        viewModel.clickedPosition.observe(
+            viewLifecycleOwner,
+            Observer {it?.let { addMarks(LatLng(it.first, it.second) , viewModel.distance.value) }
             })
-        viewModel.taskAnswer.observe(this, Observer { answer ->
+
+        viewModel.taskAnswer.observe(viewLifecycleOwner, Observer { answer ->
             if (answer != null) {
-                map?.setOnMarkerClickListener { false }
+                map?.setOnMarkerClickListener { false}
                 showAnswer(answer)
-            } else {
-                map?.setOnMarkerClickListener { true }
+            }
+            else {
+                map?.setOnMarkerClickListener { true}
             }
         })
 
-        viewModel.isTaskCompleted.observe(this,
+        viewModel.isTaskCompleted.observe(viewLifecycleOwner,
             Observer {
                 if (it) map?.setOnMapClickListener(null)
                 else map?.setOnMapClickListener(this)
-            }
-        )
+            })
+
+        viewModel.isGameFinished.observe(viewLifecycleOwner,
+            Observer {
+                if (it) map?.setOnMapClickListener(null)
+                else map?.setOnMapClickListener(this)
+            })
 
         (viewModel as? MultiplayerViewModel)?.playersAnswer?.observe(
-            this,
+            viewLifecycleOwner,
             Observer { showPlayersAnswer(it) })
 
     }
@@ -76,21 +87,14 @@ class GameMapFragment : SupportMapFragment(),
         this.map = map
         map?.setOnMapClickListener(this)
         map?.setOnCameraMoveListener(this)
-        map?.apply { uiSettings.isMapToolbarEnabled = false }
-        map?.setMapStyle(
-            MapStyleOptions.loadRawResourceStyle(
-                context, R.raw.style_json
-            )
-        )
     }
 
     override fun onMapClick(position: LatLng?) {
-        if (position != null) {
+        if(position!=null){
             viewModel.clickedPosition(position.latitude, position.longitude)
             map?.setOnMapClickListener(null)
         }
     }
-
     override fun onCameraMove() {
 
         viewModel.cameraMoved()
@@ -102,8 +106,7 @@ class GameMapFragment : SupportMapFragment(),
         })
 
     }
-
-    private fun showStartPosition() {
+    private fun showStartPosition(){
         val defaultPosition = getStartPosition()
         val zoom = gameMap.zoom?.toFloat() ?: 1.0f
         val location = CameraUpdateFactory.newLatLngZoom(defaultPosition, zoom)
@@ -122,7 +125,7 @@ class GameMapFragment : SupportMapFragment(),
             .title(taskAnswer.task.name)
             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
 
-        map?.let {
+        map?.let{
             it.addMarker(answerMarket)
             zoomMarkets(
                 listOfNotNull(answerPosition, taskAnswer.answer) + (playersAnswers ?: ArrayList())
@@ -142,14 +145,14 @@ class GameMapFragment : SupportMapFragment(),
             }
     }
 
-    private fun zoomMarkets(positionsMarkets: List<LatLng>) {
-        if (positionsMarkets.size == 1) {
+    private fun zoomMarkets(positionsMarkets : List<LatLng>){
+        if(positionsMarkets.size == 1){
             map?.moveCamera(CameraUpdateFactory.newLatLngZoom(positionsMarkets[0], 3.0f))
-        } else {
+        }else{
             val builder = LatLngBounds.Builder()
-            positionsMarkets.forEach { builder.include(it) }
+            positionsMarkets.forEach{ builder.include(it) }
             val padding = 200
-            val cu = CameraUpdateFactory.newLatLngBounds(builder.build(), padding)
+            val cu =  CameraUpdateFactory.newLatLngBounds(builder.build(), padding)
             map?.animateCamera(cu)
         }
     }

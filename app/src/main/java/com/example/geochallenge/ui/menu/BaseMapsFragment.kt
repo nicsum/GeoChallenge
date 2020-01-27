@@ -49,7 +49,7 @@ abstract class BaseMapsFragment : Fragment() {
         recyclerView.layoutManager = linearLayoutManager
         recyclerView.adapter = adapterView
 
-        viewModel.maps.observe(this, Observer {
+        viewModel.maps.observe(viewLifecycleOwner, Observer {
             adapterView.add(it, true)
         })
     }

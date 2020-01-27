@@ -77,7 +77,7 @@ class RegistrationFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.passwordError.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
                 when (it) {
                     AuthErrors.FIELD_PASSWORD_IS_EMPTY -> passwordInput.error =
@@ -90,7 +90,7 @@ class RegistrationFragment : Fragment() {
         )
 
         viewModel.emailError.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
                 when (it) {
                     AuthErrors.FIELD_EMAIL_IS_EMPTY -> emailInput.error =
@@ -105,7 +105,7 @@ class RegistrationFragment : Fragment() {
         )
 
         viewModel.usernameError.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
                 when (it) {
                     AuthErrors.USERNAME_ALREADY_IN_USE ->

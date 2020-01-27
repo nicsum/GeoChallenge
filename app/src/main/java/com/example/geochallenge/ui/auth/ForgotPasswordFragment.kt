@@ -59,7 +59,7 @@ class ForgotPasswordFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.emailError.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
                 when (it) {
                     AuthErrors.FIELD_EMAIL_IS_EMPTY -> emailInputLayout.error =
