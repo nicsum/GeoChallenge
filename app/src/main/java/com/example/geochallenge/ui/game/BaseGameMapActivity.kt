@@ -311,7 +311,7 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
             val message = getMessage()
             return AlertDialog.Builder(context)
                 .setMessage(message)
-                .setPositiveButton(R.string.show_records) { _, _ ->
+                .setPositiveButton(R.string.leaderboard) { _, _ ->
                     listener?.onShowRecords()
                 }.setNeutralButton(R.string.replay) { _, _ ->
                     listener?.onReplay()
