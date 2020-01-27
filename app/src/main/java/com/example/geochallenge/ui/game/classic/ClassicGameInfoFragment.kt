@@ -39,26 +39,26 @@ class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
 
         viewModel = (activity as ClassicGameActivity).viewModel
         viewModel.isTaskCompleted.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
                 nextCityButton.visibility = if (it) View.VISIBLE else View.GONE
             }
         )
         viewModel.neededPoints.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
                 ptsNextLvl.text = it.toString()
             }
         )
 
         viewModel.points.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
                 addPoints(it ?: 0)
         })
 
         viewModel.secondsPassed.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
                 progressBar.setProgress(it.toInt() * 100 / (13000 / 1000))
                 timerTv.text = if (it == null) "" else

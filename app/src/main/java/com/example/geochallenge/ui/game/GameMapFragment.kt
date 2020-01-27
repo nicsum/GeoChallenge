@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 
 class GameMapFragment : SupportMapFragment(),
@@ -39,8 +40,9 @@ class GameMapFragment : SupportMapFragment(),
 
         (activity as BaseGameMapActivity).activityComponent?.inject(this)
         viewModel = (activity as BaseGameMapActivity).getViewModel()
-
-        viewModel.isDefaultMapState.observe(this, Observer {
+        var l = 1.2
+        l.roundToInt()
+        viewModel.isDefaultMapState.observe(viewLifecycleOwner, Observer {
             Log.i("GameMapFragment", "isDefaultMapState = $it")
             if(it){
                 map?.clear()
@@ -48,27 +50,35 @@ class GameMapFragment : SupportMapFragment(),
                 showStartPosition()
             }
         })
-        viewModel.clickedPosition.observe(this,
+        viewModel.clickedPosition.observe(
+            viewLifecycleOwner,
             Observer {it?.let { addMarks(LatLng(it.first, it.second) , viewModel.distance.value) }
             })
-        viewModel.taskAnswer.observe(this, Observer { answer ->
+
+        viewModel.taskAnswer.observe(viewLifecycleOwner, Observer { answer ->
             if (answer != null) {
                 map?.setOnMarkerClickListener { false}
                 showAnswer(answer)
             }
             else {
                 map?.setOnMarkerClickListener { true}
-            }  })
+            }
+        })
 
-        viewModel.isTaskCompleted.observe(this,
+        viewModel.isTaskCompleted.observe(viewLifecycleOwner,
             Observer {
                 if (it) map?.setOnMapClickListener(null)
                 else map?.setOnMapClickListener(this)
-            }
-        )
+            })
+
+        viewModel.isGameFinished.observe(viewLifecycleOwner,
+            Observer {
+                if (it) map?.setOnMapClickListener(null)
+                else map?.setOnMapClickListener(this)
+            })
 
         (viewModel as? MultiplayerViewModel)?.playersAnswer?.observe(
-            this,
+            viewLifecycleOwner,
             Observer { showPlayersAnswer(it) })
 
     }

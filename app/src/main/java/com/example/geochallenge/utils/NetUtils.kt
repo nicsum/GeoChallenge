@@ -9,6 +9,8 @@ import java.net.InetSocketAddress
 import java.net.Socket
 
 fun getGameId(response: Response): String? {
+    val s = setOf('a', 'b')
+    "as".filter { s.contains(it) }.count()
     val jsonData = response.body?.string() ?: return null
     val jobject = JSONObject(jsonData)
     return jobject.getString("gameId")

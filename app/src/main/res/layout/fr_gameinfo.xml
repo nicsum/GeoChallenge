@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/of"
                 android:layout_toRightOf="@+id/of"
-                android:text="@string/ptsNextLvl"
+                tools:text="5000"
                 android:textSize="@dimen/text_h5" />
 
             <TextView

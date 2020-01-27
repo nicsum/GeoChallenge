@@ -48,7 +48,7 @@ class RecordsFragment @Inject constructor() : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.records.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
                 recordsAdapter.add(it, true)
                 recyclerView.smoothScrollToPosition(

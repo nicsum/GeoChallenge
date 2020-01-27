@@ -19,11 +19,12 @@ abstract class BaseGameViewModel : ViewModel() {
     val isDefaultMapState: MutableLiveData<Boolean> = MutableLiveData()
     val taskAnswer = MutableLiveData<TaskAnswer>()
     val isTaskCompleted: MutableLiveData<Boolean> = MutableLiveData()
-    //    val isGameFinished: MutableLiveData<Boolean> = MutableLiveData()
+    val isGameFinished: MutableLiveData<Boolean> = MutableLiveData()
     val clickedPosition: MutableLiveData<Pair<Double, Double>> = MutableLiveData()
     val currentTask: MutableLiveData<CityTask> = MutableLiveData()
     val distance: MutableLiveData<Double> = MutableLiveData()
-    val taskCounter: MutableLiveData<Int> = MutableLiveData()
+    val taskCounterLevel = MutableLiveData(0)
+    val taskCounterGame = MutableLiveData(0)
     val currentLevel: MutableLiveData<Int> = MutableLiveData()
     val isLevelFinished: MutableLiveData<Boolean> = MutableLiveData()
     val error = MutableLiveData<GameError>().also { it.value = GameError.NONE }
@@ -112,7 +113,8 @@ abstract class BaseGameViewModel : ViewModel() {
         clickedPosition.postValue(null)
         isTaskCompleted.postValue(false)
         taskAnswer.postValue(null)
-        taskCounter.postValue(taskCounter.value?.plus(1) ?: 1)
+        taskCounterLevel.postValue(taskCounterLevel.value?.plus(1) ?: 1)
+        taskCounterGame.postValue(taskCounterGame.value?.plus(1) ?: 1)
     }
 
     open fun clickedPosition(latitude: Double, longitude: Double) {
@@ -140,11 +142,13 @@ abstract class BaseGameViewModel : ViewModel() {
         isTaskCompleted.postValue(true)
     }
 
-    open fun finishGame() {}
+    open fun finishGame() {
+        isGameFinished.postValue(true)
+    }
 
     protected open fun levelFinished() {
         isLevelFinished.postValue(true)
-        taskCounter.postValue(0)
+        taskCounterLevel.postValue(0)
     }
 
 

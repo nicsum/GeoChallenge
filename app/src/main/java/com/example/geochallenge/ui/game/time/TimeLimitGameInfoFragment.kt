@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.example.geochallenge.R
 import com.example.geochallenge.ui.game.BaseGameInfoFragment
@@ -14,10 +13,6 @@ import javax.inject.Inject
 
 class TimeLimitGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
 
-    lateinit var timerTv: TextView
-//    lateinit var nextCityButton: Button
-
-    //    @Inject
     lateinit var viewModel: TimeLimitGameViewModel
 
     override fun onCreateView(
@@ -26,23 +21,41 @@ class TimeLimitGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val v = inflater.inflate(R.layout.fr_gameinfo, container, false)
-        timerTv = v.findViewById(R.id.timerTv)
-//        nextCityButton = v.findViewById(R.id.nextCityBtn)
-        return v
+        return inflater.inflate(R.layout.fr_gameinfo, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        ptsNextLvl.visibility = View.GONE
+        of.visibility = View.GONE
+        timerTv.visibility = View.VISIBLE
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
 
-
         viewModel = (activity as TimeLimitGameActivity).viewModel
 
         viewModel.timer.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
-                progressBar.setProgress(it.first.toInt() * 100 / it.second.toInt())
-                pointsText.text = it.first.toString()
-                ptsNextLvl.text = it.second.toString()
+                val time = it.second - it.first
+                if (time >= 0) {
+                    progressBar.setProgress(it.first.toInt() * 100 / it.second.toInt())
+                    timerTv.text = getString(R.string.timer_info, (time))
+                }
+            })
+
+        viewModel.taskCounterGame.observe(
+            viewLifecycleOwner,
+            Observer {
+                pointsText.text = if (it <= 0) "0" else "${it - 1}"
+            }
+        )
+
+        viewModel.isGameFinished.observe(
+            viewLifecycleOwner,
+            Observer {
+                if (it) timerTv.text = getString(R.string.timer_info, 0)
             })
 
 //        nextCityButton.setOnClickListener { viewModel.nextTask() }

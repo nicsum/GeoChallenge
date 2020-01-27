@@ -94,7 +94,7 @@ class LoginFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.passwordError.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
                 when (it) {
                     AuthErrors.FIELD_PASSWORD_IS_EMPTY -> passwordInputLayout.error =
@@ -108,7 +108,7 @@ class LoginFragment : Fragment() {
             }
         )
         viewModel.authError.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
                 when (it) {
                     AuthErrors.INVALID_USER -> emailInputLayout.error =
@@ -121,7 +121,7 @@ class LoginFragment : Fragment() {
         )
 
         viewModel.emailError.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
                 when (it) {
                     AuthErrors.FIELD_EMAIL_IS_EMPTY -> emailInputLayout.error =

@@ -30,7 +30,8 @@ class TimeLimitGameViewModel(
 //    val secondsPassed = MutableLiveData<Long>().also { it.value = 0L }
 
     val timer =
-        MutableLiveData<Pair<Long, Long>>().also { it.value = Pair(0L, DEFAULT_COUNT_TIMER) }
+        MutableLiveData<Pair<Long, Long>>(0L to DEFAULT_COUNT_TIMER)
+
     var timeLeft = DEFAULT_COUNT_TIMER
 
     var timerDisposable: Disposable? = null
@@ -89,11 +90,11 @@ class TimeLimitGameViewModel(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
-                timer.postValue(Pair(0, count))
+                timer.postValue(0L to count)
             }
             .subscribe{
                 val timeLeft = timer.value!!.first + 1
-                timer.postValue(Pair(timeLeft, count))
+                timer.postValue(timeLeft to count)
             }
 
     }
@@ -132,19 +133,21 @@ class TimeLimitGameViewModel(
 
 
     override fun finishGame() {
-        if (taskCounter.value == 0 || taskCounter.value == null) {
+        timerDisposable?.dispose()
+        if (taskCounterLevel.value == 0 || taskCounterLevel.value == null) {
             gameResult.postValue(Pair(0, false))
             super.finishGame()
             return
         }
         gameControler
-            .finishGame(taskCounter.value ?: 0, taskCounter.value ?: 0)
+            .finishGame(taskCounterGame.value?.minus(1) ?: 0, taskCounterGame.value ?: 0)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+                super.finishGame()
                 error.postValue(GameError.NONE)
                 gameInfo.recordId = it?.id
-                val score = if (it.updated) it.score else taskCounter.value ?: 0
+                val score = if (it.updated) it.score else taskCounterGame.value ?: 0
                 gameResult.postValue(Pair(score, it.updated))
             }, {
                 error.postValue(GameError.FINISH_GAME_ERROR)

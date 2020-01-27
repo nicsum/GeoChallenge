@@ -51,24 +51,24 @@ abstract class BaseGameInfoFragment : Fragment() {
 
         updateBtn.setOnClickListener { vm.updateTasks() }
         vm.distance.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
                 distance.text = getDistanceText(it)
             })
 
         vm.currentTask.observe(
-            this,
+            viewLifecycleOwner,
             Observer { cityNameTv.text = if (it == null) "" else "${it.country}, ${it.name}" })
 
-        vm.taskCounter.observe(
-            this,
+        vm.taskCounterLevel.observe(
+            viewLifecycleOwner,
             Observer { taskCounterTv.text = getString((R.string.location_d_text), it) })
         vm.currentLevel.observe(
-            this,
+            viewLifecycleOwner,
             Observer { currentLevelTv.text = getString((R.string.level_d_text), it) })
 
         vm.isLoadingVisible.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
                 if (it) {
                     loadingView.visibility = View.VISIBLE
@@ -79,7 +79,7 @@ abstract class BaseGameInfoFragment : Fragment() {
         )
 
         vm.isErrorVisible.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
                 if (it) {
                     errorView.visibility = View.VISIBLE
@@ -89,7 +89,7 @@ abstract class BaseGameInfoFragment : Fragment() {
             }
         )
         vm.error.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
                 when (it) {
                     GameError.CONNECTION_ERROR -> errorMessage.text =
@@ -103,7 +103,7 @@ abstract class BaseGameInfoFragment : Fragment() {
         )
 
         vm.isGameInfoVisible.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
 
                 if (it) gameInfoView.visibility = View.VISIBLE
