@@ -3,6 +3,7 @@ package com.example.geochallenge.ui.game
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
+import com.example.geochallenge.R
 import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.game.TaskAnswer
 import com.example.geochallenge.ui.game.multiplayer.MultiplayerViewModel
@@ -10,10 +11,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -87,6 +85,12 @@ class GameMapFragment : SupportMapFragment(),
         this.map = map
         map?.setOnMapClickListener(this)
         map?.setOnCameraMoveListener(this)
+        map?.apply { uiSettings.isMapToolbarEnabled = false }
+        map?.setMapStyle(
+            MapStyleOptions.loadRawResourceStyle(
+                context, R.raw.style_json
+            )
+        )
     }
 
     override fun onMapClick(position: LatLng?) {

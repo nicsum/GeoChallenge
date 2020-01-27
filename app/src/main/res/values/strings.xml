@@ -10,7 +10,7 @@
     <string name="level_d_text" translatable="false">%1$d,\u0020</string>
     <string name="location_d_text" translatable="false">%1$d/5</string>
     <string name="distance_info">До города %1$s</string>
-    <string name="timer_info">Осталось %d сек.</string>
+    <string name="timer_info">Таймер %d сек.</string>
     <string name="answer_exit">Хотите выйти из игры?</string>
     <string name="game_is_finished">Игра окончена</string>
     <string name="result_game_message_with_congratulations">Поздравляем! Вы набрали %1$d очков. Это ваш лучший результат</string>
