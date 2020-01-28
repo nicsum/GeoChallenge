@@ -4,7 +4,6 @@ package com.example.geochallenge.ui.game.street
 import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.controlers.GameControler
 import com.example.geochallenge.ui.game.BaseGameViewModel
-import io.reactivex.Completable
 import io.reactivex.Single
 
 class StreetGameViewModel(val gameControler: GameControler) : BaseGameViewModel() {
@@ -13,7 +12,7 @@ class StreetGameViewModel(val gameControler: GameControler) : BaseGameViewModel(
         return gameControler.getNextTask()
     }
 
-    override fun prepareNewLevel(newLevel: Int): Completable {
+    override fun prepareNewLevel(newLevel: Int): Single<Int> {
 
         return gameControler.prepareForLevel(newLevel)
     }

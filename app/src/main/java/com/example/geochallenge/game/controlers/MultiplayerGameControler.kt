@@ -10,6 +10,9 @@ import javax.inject.Inject
 class MultiplayerGameControler @Inject constructor() : GameControler {
 
 
+    companion object {
+        const val DEFAULT_MAX_COUNT_FOR_LEVEL = 5
+    }
     var haveNextTask = true
 
     lateinit var e: SingleEmitter<CityTask>
@@ -24,8 +27,8 @@ class MultiplayerGameControler @Inject constructor() : GameControler {
         return Single.create<CityTask> { e = it }
     }
 
-    override fun prepareForLevel(level: Int): Completable {
-        return Completable.complete()
+    override fun prepareForLevel(level: Int): Single<Int> {
+        return Single.just(DEFAULT_MAX_COUNT_FOR_LEVEL)
     }
 
     override fun haveTaskForCurrentLevel(): Boolean {

@@ -7,7 +7,7 @@ import io.reactivex.Single
 
 interface GameControler {
     fun getNextTask(): Single<CityTask>
-    fun prepareForLevel(level: Int): Completable
+    fun prepareForLevel(level: Int): Single<Int>
     fun haveTaskForCurrentLevel(): Boolean
     fun finishGame(score: Int, countTask: Int): Single<PostResultsResponce>
     fun postGameStats(taskName: String, distance: Double): Completable

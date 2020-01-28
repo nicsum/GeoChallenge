@@ -23,16 +23,16 @@ class SinglePlayerGameControler @Inject constructor(
         return Single.just(iteratorTasksForCurrentLevel.next())
     }
 
-    override fun prepareForLevel(level: Int): Completable {
+    override fun prepareForLevel(level: Int): Single<Int> {
         return geochallengeService.getRandomCityTasksByLevel(
             level,
             gameInfo.countTaskForLevel,
             gameInfo.mapId,
             gameInfo.tasksLang
         )
-            .flatMapCompletable {
+            .flatMap {
                 iteratorTasksForCurrentLevel = it.iterator()
-                Completable.complete()
+                Single.just(it.size)
             }
     }
 

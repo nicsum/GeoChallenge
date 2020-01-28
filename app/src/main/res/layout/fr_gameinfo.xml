@@ -172,7 +172,17 @@
                 android:layout_toEndOf="@+id/currentLevelText"
                 android:layout_toRightOf="@+id/currentLevelText"
                 android:textColor="#1F1F1F"
-                tools:text="@string/location_d_text" />
+                tools:text="@string/task_counter_text" />
+
+            <TextView
+                android:id="@+id/maxCountTasksText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/timerTv"
+                android:layout_toEndOf="@+id/taskCounterText"
+                android:layout_toRightOf="@+id/taskCounterText"
+                android:textColor="#1F1F1F"
+                tools:text="5" />
 
         </RelativeLayout>
 

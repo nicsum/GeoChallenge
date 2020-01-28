@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.TaskAnswer
 import com.example.geochallenge.utils.CalculateUtils
-import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -29,6 +28,7 @@ abstract class BaseGameViewModel : ViewModel() {
     val distance: MutableLiveData<Double> = MutableLiveData()
     val taskCounterLevel = MutableLiveData(0)
     val taskCounterGame = MutableLiveData(0)
+    val maxCountTasksForLevel = MutableLiveData(0)
     val currentLevel: MutableLiveData<Int> = MutableLiveData()
     val isLevelFinished: MutableLiveData<Boolean> = MutableLiveData()
     val error = MutableLiveData<GameError>().also { it.value = GameError.NONE }
@@ -48,10 +48,14 @@ abstract class BaseGameViewModel : ViewModel() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { showLoading() }
-            .subscribe({
+            .doOnSuccess {
                 error.postValue(GameError.NONE)
+                maxCountTasksForLevel.postValue(it)
                 isLevelFinished.postValue(false)
-                nextTask()
+            }
+            .subscribe({
+                if (it > 0) nextTask()
+                else finishGame()
             }, {
                 resolveError(it)
                 Log.e("SimpleGameViewModel", it.message)
@@ -64,12 +68,15 @@ abstract class BaseGameViewModel : ViewModel() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doFinally { currentLevel.postValue(newLevel) }
-            .doOnSubscribe {
-                showLoading()
+            .doOnSubscribe { showLoading() }
+            .doOnSuccess {
+                error.postValue(GameError.NONE)
+                maxCountTasksForLevel.postValue(it)
+                isLevelFinished.postValue(false)
             }
             .subscribe({
-                error.postValue(GameError.NONE)
-                nextTask()
+                if (it > 0) nextTask()
+                else finishGame()
             }, {
                 resolveError(it)
                 Log.e("SimpleGameViewModel", it.message)
@@ -185,7 +192,7 @@ abstract class BaseGameViewModel : ViewModel() {
     }
 
     abstract fun getNextTask(): Single<CityTask>
-    abstract fun prepareNewLevel(newLevel: Int): Completable
+    abstract fun prepareNewLevel(newLevel: Int): Single<Int>
 
     abstract fun haveTaskForCurrentLevel(): Boolean
 

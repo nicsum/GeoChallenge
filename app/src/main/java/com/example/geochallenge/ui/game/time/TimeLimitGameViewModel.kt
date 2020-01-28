@@ -10,7 +10,6 @@ import com.example.geochallenge.game.controlers.GameControler
 import com.example.geochallenge.ui.game.BaseGameViewModel
 import com.example.geochallenge.ui.game.GameError
 import com.google.android.gms.maps.model.LatLng
-import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -126,7 +125,7 @@ class TimeLimitGameViewModel(
             .doOnSuccess { startTimer(timeLeft) }
     }
 
-    override fun prepareNewLevel(newLevel: Int): Completable {
+    override fun prepareNewLevel(newLevel: Int): Single<Int> {
         return gameControler.prepareForLevel(newLevel)
     }
 

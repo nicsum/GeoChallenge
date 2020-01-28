@@ -8,7 +8,7 @@
     <string name="logout">Выйти из профиля</string>
     <string name="settings">Настройки</string>
     <string name="level_d_text" translatable="false">%1$d,\u0020</string>
-    <string name="location_d_text" translatable="false">%1$d/5</string>
+    <string name="task_counter_text" translatable="false">%1$d/</string>
     <string name="distance_info">До города %1$s</string>
     <string name="timer_info">Таймер %d сек.</string>
     <string name="answer_exit">Хотите выйти из игры?</string>

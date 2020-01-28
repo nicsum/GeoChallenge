@@ -10,6 +10,7 @@ import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.geochallenge.R
+import kotlinx.android.synthetic.main.fr_gameinfo.*
 
 
 abstract class BaseGameInfoFragment : Fragment() {
@@ -60,9 +61,16 @@ abstract class BaseGameInfoFragment : Fragment() {
             viewLifecycleOwner,
             Observer { cityNameTv.text = if (it == null) "" else "${it.country}, ${it.name}" })
 
+        vm.maxCountTasksForLevel.observe(
+            viewLifecycleOwner,
+            Observer {
+                maxCountTasksText.text = it.toString()
+            }
+        )
         vm.taskCounterLevel.observe(
             viewLifecycleOwner,
-            Observer { taskCounterTv.text = getString((R.string.location_d_text), it) })
+            Observer { taskCounterTv.text = getString((R.string.task_counter_text), it) })
+
         vm.currentLevel.observe(
             viewLifecycleOwner,
             Observer { currentLevelTv.text = getString((R.string.level_d_text), it) })
