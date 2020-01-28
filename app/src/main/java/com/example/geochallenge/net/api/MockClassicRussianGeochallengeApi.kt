@@ -86,7 +86,8 @@ object MockClassicRussianGeochallengeApi :
     }
 
     override fun getMaps(): Single<List<GameMap>> {
-        val map = GameMap(1, "Russia", "Россия", "russia", null, null, true, false, null, null)
+        val map =
+            GameMap(1, "Russia", "Россия", "russia", null, null, true, false, null, null, null)
 
         return Single.just(listOf(map))
     }

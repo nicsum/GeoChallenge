@@ -1,6 +1,7 @@
 package com.example.geochallenge.ui.menu.rv
 
 import android.view.View
+import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
@@ -12,6 +13,7 @@ import com.example.geochallenge.R
 import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.ui.menu.OnClickMapListener
 import com.example.geochallenge.ui.settings.SettingsManager
+import com.squareup.picasso.Picasso
 
 class GameMapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -21,8 +23,13 @@ class GameMapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     lateinit var lang: String
 
     fun bind(map: GameMap, listener: OnClickMapListener) {
-        this.map = map
+        Picasso.with(itemView.context)
+            .load(map.imageUrl)
+            .placeholder(R.drawable.menu_map_bg)
+            .error(R.drawable.menu_map_bg)
+            .into(itemView.findViewById<ImageView>(R.id.card_bg_image))
 
+        this.map = map
         val mapTv = itemView.findViewById<TextView>(R.id.mapText)
         langsRadioGroup = itemView.findViewById(R.id.langsRadioGroup)
         val enRadioButton = itemView.findViewById<RadioButton>(R.id.radio_en)

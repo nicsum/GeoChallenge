@@ -13,6 +13,7 @@ class GameMap(
     @SerializedName("lang_ru") var langRu: Boolean,
     @SerializedName("lang_en") var langEn: Boolean,
     @SerializedName("zoom") var zoom: Double?,
-    @SerializedName("distance") var distance: Double?
+    @SerializedName("distance") var distance: Double?,
+    @SerializedName("image") var imageUrl: String?
 
 )
