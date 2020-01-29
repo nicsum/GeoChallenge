@@ -6,10 +6,11 @@ import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.GameInfo
 import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.game.TaskAnswer
-import com.example.geochallenge.game.controlers.GameControler
+import com.example.geochallenge.game.controlers.GameController
 import com.example.geochallenge.ui.game.BaseGameViewModel
 import com.example.geochallenge.ui.game.GameError
 import com.google.android.gms.maps.model.LatLng
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,7 +19,7 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 class TimeLimitGameViewModel(
-    val gameControler: GameControler,
+    private val gameController: GameController,
     val gameMap: GameMap,
     val gameInfo: GameInfo
 ) : BaseGameViewModel() {
@@ -30,12 +31,12 @@ class TimeLimitGameViewModel(
 //    val stillHaveTime = MutableLiveData<Long>()
 //    val secondsPassed = MutableLiveData<Long>().also { it.value = 0L }
 
+    private var timeLeft = DEFAULT_COUNT_TIMER
+
+    private var timerDisposable: Disposable? = null
+
     val timer =
         MutableLiveData<Pair<Long, Long>>(0L to DEFAULT_COUNT_TIMER)
-
-    var timeLeft = DEFAULT_COUNT_TIMER
-
-    var timerDisposable: Disposable? = null
 
 
     override fun clickedPosition(latitude: Double, longitude: Double, distance: Double) {
@@ -48,7 +49,7 @@ class TimeLimitGameViewModel(
         val answer = TaskAnswer(cityTask!!, LatLng(latitude, longitude))
 
          cityTask?.name?.let {
-             gameControler.postGameStats(it, distance)
+             gameController.postGameStats(it, distance)
                  .subscribeOn(Schedulers.io())
                  .observeOn(AndroidSchedulers.mainThread())
                  .onErrorComplete()
@@ -62,13 +63,13 @@ class TimeLimitGameViewModel(
              timeLeft = 0
          } else {
              timeLeft = resultTime
-             Observable.just(1)
+             addDisposable(Completable.complete()
                  .subscribeOn(AndroidSchedulers.mainThread())
                  .observeOn(AndroidSchedulers.mainThread())
                  .delay(2, TimeUnit.SECONDS)
                  .subscribe {
                      nextTask()
-                 }
+                 })
          }
      }
 
@@ -83,7 +84,7 @@ class TimeLimitGameViewModel(
          nextLevel()
      }
 
-    fun startTimer(count: Long) {
+    private fun startTimer(count: Long) {
         timerDisposable?.dispose()
         timerDisposable = Observable
             .intervalRange(0, count + 1, 1, 1, TimeUnit.SECONDS)
@@ -120,17 +121,17 @@ class TimeLimitGameViewModel(
     }
 
     override fun getNextTask(): Single<CityTask> {
-        return gameControler
+        return gameController
             .getNextTask()
             .doOnSuccess { startTimer(timeLeft) }
     }
 
     override fun prepareNewLevel(newLevel: Int): Single<Int> {
-        return gameControler.prepareForLevel(newLevel)
+        return gameController.prepareForLevel(newLevel)
     }
 
     override fun haveTaskForCurrentLevel(): Boolean {
-        return gameControler.haveTaskForCurrentLevel()
+        return gameController.haveTaskForCurrentLevel()
     }
 
     override fun finishGame() {
@@ -140,7 +141,7 @@ class TimeLimitGameViewModel(
             super.finishGame()
             return
         }
-        gameControler
+        addDisposable(gameController
             .finishGame(taskCounterGame.value?.minus(1) ?: 0, taskCounterGame.value ?: 0)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -152,8 +153,8 @@ class TimeLimitGameViewModel(
                 gameResult.postValue(Pair(score, it.updated))
             }, {
                 error.postValue(GameError.FINISH_GAME_ERROR)
-                Log.i("tag", it.message)
             })
+        )
     }
 
     private fun getLimitDistance() = gameMap.distance ?: DEFAULT_DISTANCE

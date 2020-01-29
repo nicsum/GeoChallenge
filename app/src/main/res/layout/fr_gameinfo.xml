@@ -54,7 +54,6 @@
             android:gravity="center"
             android:maxLines="1"
             android:paddingStart="12dp"
-            android:paddingLeft="12dp"
             android:paddingEnd="12dp"
             android:textColor="#fff"
             android:textStyle="bold"
@@ -100,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/pointsText"
-                android:layout_toRightOf="@+id/pointsText"
+
                 android:text="@string/of"
                 android:textSize="@dimen/text_h5" />
 
@@ -109,7 +108,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/of"
-                android:layout_toRightOf="@+id/of"
                 tools:text="5000"
                 android:textSize="@dimen/text_h5" />
 
@@ -120,9 +118,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="0dp"
                 android:layout_toEndOf="@+id/ptsNextLvl"
-                android:layout_toRightOf="@+id/ptsNextLvl"
                 android:paddingStart="4dp"
-                android:paddingLeft="4dp"
                 android:paddingEnd="4dp"
                 android:text="@string/pts"
                 android:textSize="@dimen/text_h6" />
@@ -160,7 +156,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/timerTv"
                 android:layout_toEndOf="@+id/levelText"
-                android:layout_toRightOf="@+id/levelText"
                 android:textColor="#1F1F1F"
                 tools:text="@string/level_d_text" />
 
@@ -170,7 +165,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/timerTv"
                 android:layout_toEndOf="@+id/currentLevelText"
-                android:layout_toRightOf="@+id/currentLevelText"
                 android:textColor="#1F1F1F"
                 tools:text="@string/task_counter_text" />
 
@@ -180,7 +174,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/timerTv"
                 android:layout_toEndOf="@+id/taskCounterText"
-                android:layout_toRightOf="@+id/taskCounterText"
                 android:textColor="#1F1F1F"
                 tools:text="5" />
 

@@ -5,7 +5,7 @@ import com.google.firebase.auth.FirebaseUser
 import javax.inject.Inject
 
 @LoggedUserScope
-class UserDataRepository @Inject constructor(val firebaseUser: FirebaseUser) {
+class UserDataRepository @Inject constructor(private val firebaseUser: FirebaseUser) {
 
 
     val username: String

@@ -26,11 +26,8 @@ import com.example.geochallenge.di.menu.MenuComponent
 import com.example.geochallenge.game.GameInfo
 import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.ui.game.classic.ClassicGameActivity
-import com.example.geochallenge.ui.game.multiplayer.MultiplayerGameActivity
-import com.example.geochallenge.ui.game.street.StreetGameActivity
 import com.example.geochallenge.ui.game.time.TimeLimitGameActivity
 import com.example.geochallenge.ui.menu.vm.MenuMapsViewModel
-import com.example.geochallenge.ui.records.RecordsActivity
 import com.example.geochallenge.ui.splash.SplashActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -182,14 +179,14 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
         menuComponent = null
     }
 
-    fun signOut() {
+    private fun signOut() {
         (application as AppDelegate).destroyUserComponent()
         splash()
         finish()
     }
 
 
-    fun splash() {
+    private fun splash() {
         val intent = Intent(this, SplashActivity::class.java)
         startActivity(intent)
     }
@@ -211,9 +208,8 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
         if (gameMapIsSelected) return
 
         gameMapIsSelected = true
-        val navId = findNavController(R.id.nav_host_fragment).currentDestination?.id
 
-        val mode = when (navId) {
+        val mode = when (findNavController(R.id.nav_host_fragment).currentDestination?.id) {
             R.id.nav_solo -> "solo"
             R.id.nav_time -> "time"
             else -> null
@@ -225,8 +221,6 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
         val intent = when (mode) {
             "solo" -> Intent(this, ClassicGameActivity::class.java)
             "time" -> Intent(this, TimeLimitGameActivity::class.java)
-            "mp" -> Intent(this, MultiplayerGameActivity::class.java)
-            "street" -> Intent(this, StreetGameActivity::class.java)
             else -> null
         } ?: return
         startActivity(intent)
@@ -240,10 +234,6 @@ class MenuActivity : AppCompatActivity(), OnClickMapListener {
             .createGameComponent(gameInfo, map)
     }
 
-    fun showTableOfRecords() {
-        val intent = Intent(this, RecordsActivity::class.java)
-        startActivity(intent)
-    }
 
     private fun getGameInfo(mode: String, mapId: Int, lang: String) = GameInfo(mode, mapId, 5, lang)
 

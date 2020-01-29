@@ -8,7 +8,6 @@ import com.example.geochallenge.ui.records.RecordsViewModelFactory
 import com.example.geochallenge.ui.utils.LinearLayoutManagerWithSmoothScroller
 import dagger.Module
 import dagger.Provides
-import io.reactivex.disposables.CompositeDisposable
 
 
 @Module
@@ -27,11 +26,6 @@ class RecordsModule {
         return LinearLayoutManagerWithSmoothScroller(activity)
     }
 
-    @Provides
-    @RecordsScope
-    fun provideCompositeDisposable(): CompositeDisposable {
-        return CompositeDisposable()
-    }
 
 }
 

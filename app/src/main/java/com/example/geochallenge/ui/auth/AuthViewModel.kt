@@ -13,9 +13,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: FirebaseFirestore) :
     ViewModel() {
 
-    var currentUsername = ""
-    var currentEmail = ""
-    var currentPassword = ""
+    private var currentUsername = ""
+    private var currentEmail = ""
+    private var currentPassword = ""
 
     val usernameError =
         MutableLiveData<AuthErrors>().also { it.value = AuthErrors.FIELD_USERNAME_IS_EMPTY }
@@ -198,7 +198,7 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
             }
             is FirebaseFirestoreException ->
                 if (e.code == FirebaseFirestoreException.Code.UNAVAILABLE) {
-                    this.authError.postValue(AuthErrors.CONNECTION_FAILD)
+                    this.authError.postValue(AuthErrors.CONNECTION_FAILED)
                 }
             is FirebaseAuthInvalidUserException -> authError.postValue(AuthErrors.INVALID_USER)
             is FirebaseTooManyRequestsException -> authError.postValue(AuthErrors.TO_MANY_REQUESTS)

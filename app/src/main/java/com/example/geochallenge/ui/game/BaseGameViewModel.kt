@@ -9,6 +9,8 @@ import com.example.geochallenge.game.TaskAnswer
 import com.example.geochallenge.utils.CalculateUtils
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 import java.io.IOException
@@ -19,6 +21,7 @@ abstract class BaseGameViewModel : ViewModel() {
         const val DEFAULT_DISTANCE = 800.0
     }
 
+    private val compositeDisposable = CompositeDisposable()
     val isDefaultMapState: MutableLiveData<Boolean> = MutableLiveData()
     val taskAnswer = MutableLiveData<TaskAnswer>()
     val isTaskCompleted: MutableLiveData<Boolean> = MutableLiveData()
@@ -44,7 +47,7 @@ abstract class BaseGameViewModel : ViewModel() {
     }
 
     open fun updateTasks() {
-        prepareNewLevel(currentLevel.value ?: 1)
+        addDisposable(prepareNewLevel(currentLevel.value ?: 1)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { showLoading() }
@@ -58,13 +61,13 @@ abstract class BaseGameViewModel : ViewModel() {
                 else finishGame()
             }, {
                 resolveError(it)
-                Log.e("SimpleGameViewModel", it.message)
             })
+        )
     }
     protected open fun nextLevel() {
         val level = currentLevel.value ?: 0
         val newLevel = if (level == 0) 1 else level + 1
-        prepareNewLevel(newLevel)
+        addDisposable(prepareNewLevel(newLevel)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doFinally { currentLevel.postValue(newLevel) }
@@ -79,8 +82,8 @@ abstract class BaseGameViewModel : ViewModel() {
                 else finishGame()
             }, {
                 resolveError(it)
-                Log.e("SimpleGameViewModel", it.message)
             })
+        )
     }
 
     protected open fun resolveError(e: Throwable) {
@@ -91,7 +94,6 @@ abstract class BaseGameViewModel : ViewModel() {
             else -> error.postValue(GameError.ANY)
         }
         showError()
-        Log.e("BaseGameViewModel", e.message)
     }
 
     open fun nextTask() {
@@ -102,7 +104,7 @@ abstract class BaseGameViewModel : ViewModel() {
             levelFinished()
             return
         }
-        getNextTask()
+        addDisposable(getNextTask()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { showLoading() }
@@ -114,8 +116,8 @@ abstract class BaseGameViewModel : ViewModel() {
                 showGameInfo()
             }, {
                 resolveError(it)
-                Log.e("SimpleGameViewModel", it.message)
             })
+        )
     }
 
     open fun onStartTask(task: CityTask) {
@@ -189,6 +191,15 @@ abstract class BaseGameViewModel : ViewModel() {
     private fun setTask(task: CityTask) {
         this.cityTask = task
         this.currentTask.postValue(task)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.dispose()
+    }
+
+    protected fun addDisposable(d: Disposable) {
+        compositeDisposable.add(d)
     }
 
     abstract fun getNextTask(): Single<CityTask>

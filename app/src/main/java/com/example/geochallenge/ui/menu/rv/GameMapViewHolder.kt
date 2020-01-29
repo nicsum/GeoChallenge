@@ -18,16 +18,19 @@ import com.squareup.picasso.Picasso
 class GameMapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     lateinit var map: GameMap
-    lateinit var langsRadioGroup: RadioGroup
-
-    lateinit var lang: String
+    private lateinit var langsRadioGroup: RadioGroup
+    private lateinit var lang: String
 
     fun bind(map: GameMap, listener: OnClickMapListener) {
-        Picasso.with(itemView.context)
-            .load(map.imageUrl)
-            .placeholder(R.drawable.menu_map_bg)
-            .error(R.drawable.menu_map_bg)
-            .into(itemView.findViewById<ImageView>(R.id.card_bg_image))
+        try {
+            Picasso.with(itemView.context)
+                .load(map.imageUrl)
+                .placeholder(R.drawable.menu_map_bg)
+                .error(R.drawable.menu_map_bg)
+                .into(itemView.findViewById<ImageView>(R.id.card_bg_image))
+        } catch (e: Exception) {
+        }
+
 
         this.map = map
         val mapTv = itemView.findViewById<TextView>(R.id.mapText)
@@ -44,7 +47,7 @@ class GameMapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .appComponent
             .getSettingsManager()
 
-        langsRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+        langsRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             lang = when (checkedId) {
                 R.id.radio_en -> SettingsManager.ENGLISH_LANG_CODE
                 R.id.radio_ru -> SettingsManager.RUSSIAN_LANG_CODE

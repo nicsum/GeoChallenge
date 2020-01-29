@@ -28,7 +28,7 @@ abstract class BaseMapsFragment : Fragment() {
     @Inject
     lateinit var linearLayoutManager: LinearLayoutManager
 
-    lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,

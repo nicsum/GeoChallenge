@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.ConnectivityManager.NetworkCallback
 import android.net.Network
@@ -22,8 +21,6 @@ import androidx.lifecycle.Observer
 import com.example.geochallenge.AppDelegate
 import com.example.geochallenge.R
 import com.example.geochallenge.di.activity.GameActivityComponent
-import com.example.geochallenge.net.NetworkChangeReceiver
-import com.example.geochallenge.net.NetworkIsChangeListener
 import com.example.geochallenge.ui.game.classic.ClassicGameActivity
 import com.example.geochallenge.ui.game.time.TimeLimitGameActivity
 import com.example.geochallenge.ui.records.RecordsActivity
@@ -55,7 +52,7 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
         }
     }
 
-    var networkCallback: NetworkCallback = @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private var networkCallback: NetworkCallback = @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     object : NetworkCallback() {
         override fun onAvailable(network: Network?) {
             hideNetworkIsNotAvailableMessage()
@@ -72,12 +69,11 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
 
     }
 
-    var networkChangeReceiver: NetworkChangeReceiver? = null
 
-    var isFirstStartActivity: Boolean = false
+    private var isFirstStartActivity: Boolean = false
+    private var snackbar: Snackbar? = null
 
     var activityComponent: GameActivityComponent? = null
-    var snackbar: Snackbar? = null
 
     abstract fun getViewModel(): BaseGameViewModel
 
@@ -100,16 +96,6 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
                 .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
                 .build()
             cm.registerNetworkCallback(request, networkCallback)
-        } else {
-            networkChangeReceiver = NetworkChangeReceiver()
-            val filter = IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
-            registerReceiver(networkChangeReceiver, filter)
-            networkChangeReceiver?.bind(object : NetworkIsChangeListener {
-                override fun onChange(isAvailable: Boolean) {
-                    if (isAvailable) hideNetworkIsNotAvailableMessage()
-                    else showNetworkIsNotAvailableMessage()
-                }
-            })
         }
     }
 
@@ -119,12 +105,7 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             cm.unregisterNetworkCallback(networkCallback)
-        } else {
-            unregisterReceiver(networkChangeReceiver)
-            networkChangeReceiver?.unbind()
-            networkChangeReceiver = null
         }
-
     }
 
     override fun onStart() {
@@ -227,7 +208,7 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
 
     class AnswerExitDialog : DialogFragment() {
 
-        var listener: AnswerExitListener? = null
+        private var listener: AnswerExitListener? = null
 
         override fun onAttach(context: Context) {
             super.onAttach(context)
@@ -255,7 +236,7 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
     }
 
     class TryFinishGameDialog : DialogFragment() {
-        var listener: FinishGameListener? = null
+        private var listener: FinishGameListener? = null
         override fun onAttach(context: Context) {
             super.onAttach(context)
             listener = (context as BaseGameMapActivity).tryFinishGameListener
@@ -281,9 +262,9 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
     }
 
     class ResultGameDialog : DialogFragment() {
-        var listener: FinishGameListener? = null
-        var score: Int? = null
-        var isMyBestResult: Boolean? = null
+        private var listener: FinishGameListener? = null
+        private var score: Int? = null
+        private var isMyBestResult: Boolean? = null
         override fun onAttach(context: Context) {
             super.onAttach(context)
             context as BaseGameMapActivity

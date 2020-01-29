@@ -50,22 +50,22 @@
         <Button
             android:text="@string/login"
             android:id="@+id/loginBtn"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="150dp"
             android:layout_height="45dp"
             android:textColor="#FFFF"
             android:textAllCaps="true"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
             android:background="@color/colorAccent"
             android:layout_marginEnd="10dp" />
 
         <Button
             android:text="@string/register"
             android:id="@+id/registerBtn"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="150dp"
             android:layout_height="45dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
             android:textColor="#FFFF"
             android:background="@color/colorAccent"
             android:layout_marginStart="10dp" />

@@ -6,7 +6,7 @@ import dagger.Binds
 import dagger.Module
 
 
-@Module(includes = arrayOf(NetworkModule::class, DataBaseModule::class))
+@Module
 abstract class AppModule {
 
 

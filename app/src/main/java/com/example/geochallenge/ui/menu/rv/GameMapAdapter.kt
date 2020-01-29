@@ -8,7 +8,7 @@ import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.ui.menu.OnClickMapListener
 import javax.inject.Inject
 
-class GameMapAdapter @Inject constructor(val listener: OnClickMapListener) :
+class GameMapAdapter @Inject constructor(private val listener: OnClickMapListener) :
     RecyclerView.Adapter<GameMapViewHolder>() {
 
     private val maps = ArrayList<GameMap>()
@@ -23,7 +23,7 @@ class GameMapAdapter @Inject constructor(val listener: OnClickMapListener) :
     }
 
     override fun onBindViewHolder(holder: GameMapViewHolder, position: Int) {
-        holder.bind(maps.get(position), listener)
+        holder.bind(maps[position], listener)
     }
 
     fun add(maps: List<GameMap>, refresh: Boolean) {

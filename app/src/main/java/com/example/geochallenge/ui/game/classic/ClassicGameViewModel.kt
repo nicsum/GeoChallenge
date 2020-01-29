@@ -6,7 +6,7 @@ import com.example.geochallenge.game.CityTask
 import com.example.geochallenge.game.GameInfo
 import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.game.TaskAnswer
-import com.example.geochallenge.game.controlers.GameControler
+import com.example.geochallenge.game.controlers.GameController
 import com.example.geochallenge.ui.game.BaseGameViewModel
 import com.example.geochallenge.ui.game.GameError
 import com.google.android.gms.maps.model.LatLng
@@ -18,7 +18,7 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 open class ClassicGameViewModel(
-    val gameControler: GameControler,
+    private val gameController: GameController,
     private val gameMap: GameMap,
     val gameInfo: GameInfo
 ) : BaseGameViewModel() {
@@ -31,25 +31,25 @@ open class ClassicGameViewModel(
     }
 
 
-    val maxPointsForLevel = gameInfo.countTaskForLevel *
+    private val maxPointsForLevel = gameInfo.countTaskForLevel *
             (SECONDS_FOR_BONUS.toInt() * 20 + MAX_POINTS_FOR_DISTANCE)
 
-    val secondsPassed = MutableLiveData<Long>().also { it.value = 0L }
-    val neededPoints = MutableLiveData<Int>().also { neededPointsForNextLevel() }
+    val secondsPassed = MutableLiveData(0L)
+    val neededPoints = MutableLiveData<Int>(neededPointsForNextLevel())
 
     var points = MutableLiveData<Int>()
 
 
 //    var pointsForCurrentLevel = MutableLiveData<Int>()
 
-    var neededPointsForNextLevel = neededPointsForNextLevel()
+    private var neededPointsForNextLevel = neededPointsForNextLevel()
 
-    var timerDisposable: Disposable? = null
+    private var timerDisposable: Disposable? = null
 
     override fun onStartTask(task: CityTask) {
         super.onStartTask(task)
         neededPoints.postValue(neededPointsForNextLevel)
-        startTimerFromCount(SECONDS_FOR_TASK)
+        startTimerFromCount()
 //        pointsForCurrentLevel.postValue(0)
     }
 
@@ -64,7 +64,7 @@ open class ClassicGameViewModel(
 //            .postValue((pointsForCurrentLevel.value ?: 0) + pointsForCurrentTask)
 
         cityTask?.name?.let {
-            gameControler.postGameStats(it, distance).subscribeOn(Schedulers.io())
+            gameController.postGameStats(it, distance).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorComplete()
                 .subscribe()
@@ -85,11 +85,11 @@ open class ClassicGameViewModel(
         super.finishTask()
     }
 
-    fun startTimerFromCount(count: Long) {
+    private fun startTimerFromCount() {
         timerDisposable?.dispose()
 
         timerDisposable = Observable
-            .intervalRange(0, count + 1, 1, 1, TimeUnit.SECONDS)
+            .intervalRange(0, SECONDS_FOR_TASK + 1, 1, 1, TimeUnit.SECONDS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnComplete {
@@ -118,7 +118,7 @@ open class ClassicGameViewModel(
             gameResult.postValue(Pair(0, false))
             return
         }
-        gameControler
+        addDisposable(gameController
             .finishGame(points.value ?: 0, taskCounterGame.value ?: 0)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -130,18 +130,19 @@ open class ClassicGameViewModel(
             }, {
                 error.postValue(GameError.FINISH_GAME_ERROR)
             })
+        )
     }
 
     override fun getNextTask(): Single<CityTask> {
-        return gameControler.getNextTask()
+        return gameController.getNextTask()
     }
 
     override fun prepareNewLevel(newLevel: Int): Single<Int> {
-        return gameControler.prepareForLevel(newLevel)
+        return gameController.prepareForLevel(newLevel)
     }
 
     override fun haveTaskForCurrentLevel(): Boolean {
-        return gameControler.haveTaskForCurrentLevel()
+        return gameController.haveTaskForCurrentLevel()
     }
 
     private fun getTimeBonus(seconds: Long): Long {

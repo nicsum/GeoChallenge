@@ -16,9 +16,9 @@ import javax.inject.Inject
 
 
 class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
-    lateinit var pointsTv: TextView
-    lateinit var timerTv: TextView
-    lateinit var progressBar: FillProgressLayout
+    private lateinit var pointsTv: TextView
+    private lateinit var timerTv: TextView
+    private lateinit var progressBar: FillProgressLayout
 
     //    @Inject
     lateinit var viewModel: ClassicGameViewModel
@@ -86,9 +86,9 @@ class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
         }
         val scoreAnimator = ValueAnimator.ofInt(oldValue, value)
         scoreAnimator.animatedValue
-        scoreAnimator.setDuration(3000)
+        scoreAnimator.duration = 3000
         scoreAnimator.addUpdateListener { animation ->
-            pointsTv.setText(animation.getAnimatedValue().toString())
+            pointsTv.text = animation.animatedValue.toString()
         }
         scoreAnimator.start()
     }

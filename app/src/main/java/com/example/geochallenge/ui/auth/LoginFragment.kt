@@ -19,14 +19,14 @@ import javax.inject.Inject
 
 class LoginFragment : Fragment() {
 
-    lateinit var emailInputLayout: TextInputLayout
-    lateinit var emailInputEditText: TextInputEditText
-    lateinit var passwordInputLayout: TextInputLayout
-    lateinit var passwordInputEditText: TextInputEditText
-    lateinit var loginBtn: Button
-    lateinit var registerBtn: Button
-    lateinit var forgotPasswordBtn: Button
-    lateinit var signInBtn: SignInButton
+    private lateinit var emailInputLayout: TextInputLayout
+    private lateinit var emailInputEditText: TextInputEditText
+    private lateinit var passwordInputLayout: TextInputLayout
+    private lateinit var passwordInputEditText: TextInputEditText
+    private lateinit var loginBtn: Button
+    private lateinit var registerBtn: Button
+    private lateinit var forgotPasswordBtn: Button
+    private lateinit var signInBtn: SignInButton
 
     @Inject
     lateinit var googleSignInClient: GoogleSignInClient
@@ -88,7 +88,6 @@ class LoginFragment : Fragment() {
         super.onAttach(context)
         (context as AuthActivity).authComponent.inject(this)
 
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -102,8 +101,9 @@ class LoginFragment : Fragment() {
                     AuthErrors.SHORT_PASSWORD -> passwordInputLayout.error =
                         getString(R.string.short_password_warning)
                     AuthErrors.WRONG_PASSWORD -> passwordInputLayout.error =
-                        getString(R.string.short_password_warning)
+                        getString(R.string.password_is_not_correct)
                     AuthErrors.NONE -> passwordInputLayout.error = null
+                    else -> showErrorMessage(it)
                 }
             }
         )
@@ -116,6 +116,7 @@ class LoginFragment : Fragment() {
                     AuthErrors.TO_MANY_REQUESTS -> emailInputLayout.error =
                         getString(R.string.to_many_requests_warning)
                     AuthErrors.NONE -> emailInputLayout.error = null
+                    else -> showErrorMessage(it)
                 }
             }
         )
@@ -131,10 +132,15 @@ class LoginFragment : Fragment() {
                     AuthErrors.EMAIL_ALREADY_IN_USE -> emailInputLayout.error =
                         getString(R.string.email_already_in_use_warning)
                     AuthErrors.NONE -> emailInputLayout.error = null
+                    else -> showErrorMessage(it)
                 }
             }
         )
 
+    }
+
+    private fun showErrorMessage(error: AuthErrors) {
+        (activity as? AuthActivity)?.showAuthError(error)
     }
 
     private fun signIn() {

@@ -6,14 +6,13 @@ import androidx.lifecycle.Observer
 import com.example.geochallenge.R
 import com.example.geochallenge.game.GameMap
 import com.example.geochallenge.game.TaskAnswer
-import com.example.geochallenge.ui.game.multiplayer.MultiplayerViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import javax.inject.Inject
-import kotlin.math.roundToInt
+
 
 
 class GameMapFragment : SupportMapFragment(),
@@ -38,8 +37,6 @@ class GameMapFragment : SupportMapFragment(),
 
         (activity as BaseGameMapActivity).activityComponent?.inject(this)
         viewModel = (activity as BaseGameMapActivity).getViewModel()
-        var l = 1.2
-        l.roundToInt()
         viewModel.isDefaultMapState.observe(viewLifecycleOwner, Observer {
             Log.i("GameMapFragment", "isDefaultMapState = $it")
             if(it){
@@ -75,9 +72,6 @@ class GameMapFragment : SupportMapFragment(),
                 else map?.setOnMapClickListener(this)
             })
 
-        (viewModel as? MultiplayerViewModel)?.playersAnswer?.observe(
-            viewLifecycleOwner,
-            Observer { showPlayersAnswer(it) })
 
     }
 
@@ -104,7 +98,7 @@ class GameMapFragment : SupportMapFragment(),
         viewModel.cameraMoved()
     }
 
-    fun addMarks(position: LatLng?, distance: Double?) {
+    private fun addMarks(position: LatLng?, distance: Double?) {
         map?.addMarker(position?.let {
             MarkerOptions().position(it).title(distance.toString())
         })

@@ -7,8 +7,8 @@ import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 
 class MenuMapsViewModelFactory @Inject constructor(
-    val firebaseAuth: FirebaseAuth,
-    val geochallengeService: GeochallengeService
+    private val firebaseAuth: FirebaseAuth,
+    private val geochallengeService: GeochallengeService
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return modelClass

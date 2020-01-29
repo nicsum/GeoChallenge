@@ -17,10 +17,10 @@ import javax.inject.Inject
 
 class RegistrationFragment : Fragment() {
 
-    lateinit var passwordInputEditText: TextInputEditText
-    lateinit var emailInputEditText: TextInputEditText
-    lateinit var usernameInputEditText: TextInputEditText
-    lateinit var registrationBtn: Button
+    private lateinit var passwordInputEditText: TextInputEditText
+    private lateinit var emailInputEditText: TextInputEditText
+    private lateinit var usernameInputEditText: TextInputEditText
+    private lateinit var registrationBtn: Button
 
     @Inject
     lateinit var viewModel: AuthViewModel
@@ -85,6 +85,7 @@ class RegistrationFragment : Fragment() {
                     AuthErrors.SHORT_PASSWORD -> passwordInput.error =
                         getString(R.string.short_password_warning)
                     AuthErrors.NONE -> passwordInput.error = null
+                    else -> showErrorMessage(it)
                 }
             }
         )
@@ -100,6 +101,7 @@ class RegistrationFragment : Fragment() {
                     AuthErrors.EMAIL_ALREADY_IN_USE -> emailInput.error =
                         getString(R.string.email_already_in_use_warning)
                     AuthErrors.NONE -> emailInput.error = null
+                    else -> showErrorMessage(it)
                 }
             }
         )
@@ -117,8 +119,13 @@ class RegistrationFragment : Fragment() {
                     AuthErrors.FIELD_USERNAME_IS_EMPTY ->
                         usernameInput.error = getString(R.string.enter_your_username)
                     AuthErrors.NONE -> usernameInput.error = null
+                    else -> showErrorMessage(it)
                 }
             }
         )
+    }
+
+    private fun showErrorMessage(error: AuthErrors) {
+        (activity as? AuthActivity)?.showAuthError(error)
     }
 }

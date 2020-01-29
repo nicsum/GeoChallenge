@@ -14,8 +14,8 @@ import javax.inject.Inject
 
 class RecordsFragment @Inject constructor() : Fragment() {
 
-    lateinit var recyclerView: RecyclerView
-    lateinit var loadingView: View
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var loadingView: View
 
     @Inject
     lateinit var viewModel: RecordsViewModel

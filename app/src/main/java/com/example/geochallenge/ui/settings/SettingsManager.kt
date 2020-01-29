@@ -6,7 +6,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-class SettingsManager @Inject constructor(val appDelegate: AppDelegate) {
+class SettingsManager @Inject constructor(private val appDelegate: AppDelegate) {
 
     companion object {
         const val RUSSIAN_LANG_CODE = "ru"

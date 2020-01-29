@@ -1,10 +1,8 @@
 package com.example.geochallenge.ui.records
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.geochallenge.data.GeochallengeService
-import com.example.geochallenge.data.records.RecordsDataSourceFactory
 import com.example.geochallenge.game.GameInfo
 import com.example.geochallenge.game.Record
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,19 +11,16 @@ import io.reactivex.schedulers.Schedulers
 
 class RecordsViewModel(
     private val geochallengeService: GeochallengeService,
-    private val gameInfo: GameInfo,
-    private val recordsDataSourceFactory: RecordsDataSourceFactory,
-    val compositeDisposable: CompositeDisposable
-
+    private val gameInfo: GameInfo
 ) :
     ViewModel() {
 
-
+    private val compositeDisposable = CompositeDisposable()
     val records = MutableLiveData<List<Record>>()
     val loadingIsVisible = MutableLiveData<Boolean>()
 
     fun loadRecords() {
-        geochallengeService
+        compositeDisposable.add(geochallengeService
             .getAllRecords(gameInfo.mode, gameInfo.mapId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -34,8 +29,14 @@ class RecordsViewModel(
             .subscribe({
                 records.postValue(it)
             }, {
-                Log.d("RecordsViewModel", it.message)
+
             })
+        )
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.dispose()
     }
 
 

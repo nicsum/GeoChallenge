@@ -7,7 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 
 class AuthViewModelFactory
-@Inject constructor(val firebaseAuth: FirebaseAuth, val db: FirebaseFirestore) :
+@Inject constructor(private val firebaseAuth: FirebaseAuth, private val db: FirebaseFirestore) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return modelClass

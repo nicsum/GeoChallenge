@@ -15,15 +15,15 @@ import kotlinx.android.synthetic.main.fr_gameinfo.*
 
 abstract class BaseGameInfoFragment : Fragment() {
 
-    lateinit var distance: TextView
-    lateinit var cityNameTv: TextView
-    lateinit var taskCounterTv: TextView
-    lateinit var currentLevelTv: TextView
-    lateinit var gameInfoView: RelativeLayout
-    lateinit var nextCityButton: Button
-    lateinit var errorView: View
-    lateinit var errorMessage: TextView
-    lateinit var updateBtn: ImageButton
+    protected lateinit var nextCityButton: Button
+    protected lateinit var distance: TextView
+    private lateinit var cityNameTv: TextView
+    private lateinit var taskCounterTv: TextView
+    private lateinit var currentLevelTv: TextView
+    private lateinit var gameInfoView: RelativeLayout
+    private lateinit var errorView: View
+    private lateinit var errorMessage: TextView
+    private lateinit var updateBtn: ImageButton
 
     lateinit var loadingView: View
 
@@ -104,7 +104,7 @@ abstract class BaseGameInfoFragment : Fragment() {
                         resources.getString(R.string.game_error_connection)
                     GameError.SERVER_ERROR -> errorMessage.text =
                         resources.getString(R.string.game_error_server)
-                    GameError.ANY -> errorMessage.text =
+                    else -> errorMessage.text =
                         resources.getString(R.string.game_error_any)
                 }
             }

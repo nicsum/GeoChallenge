@@ -17,9 +17,9 @@ import javax.inject.Inject
 
 class ForgotPasswordFragment : Fragment() {
 
-    lateinit var submitBtn: Button
-    lateinit var emailInputLayout: TextInputLayout
-    lateinit var emailInputEditText: TextInputEditText
+    private lateinit var submitBtn: Button
+    private lateinit var emailInputLayout: TextInputLayout
+    private lateinit var emailInputEditText: TextInputEditText
 
     @Inject
     lateinit var viewModel: AuthViewModel
@@ -67,10 +67,14 @@ class ForgotPasswordFragment : Fragment() {
                     AuthErrors.NOT_CORRECT_EMAIL -> emailInputLayout.error =
                         getString(R.string.email_is_not_correct)
                     AuthErrors.NONE -> emailInputLayout.error = null
-                    else -> emailInputEditText.error = getString(R.string.error)
+                    else -> showErrorMessage(getString(R.string.error))
                 }
             }
         )
 
+    }
+
+    private fun showErrorMessage(message: String) {
+        (activity as? AuthActivity)?.showAuthError(message)
     }
 }

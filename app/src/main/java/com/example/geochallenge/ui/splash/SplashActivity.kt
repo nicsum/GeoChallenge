@@ -49,7 +49,7 @@ class SplashActivity : AppCompatActivity() {
         finish()
     }
 
-    fun startGameMenu() {
+    private fun startGameMenu() {
         val intent = Intent(this, MenuActivity::class.java)
         startActivity(intent)
         finish()

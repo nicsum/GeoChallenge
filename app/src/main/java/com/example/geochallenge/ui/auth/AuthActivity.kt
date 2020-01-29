@@ -3,7 +3,6 @@ package com.example.geochallenge.ui.auth
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -33,8 +32,8 @@ class AuthActivity : AppCompatActivity() {
 
     lateinit var authComponent: AuthComponent
 
-    lateinit var loadingView: View
-    lateinit var screenView: View
+    private lateinit var loadingView: View
+    private lateinit var screenView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         authComponent = (applicationContext as AppDelegate)
@@ -73,17 +72,10 @@ class AuthActivity : AppCompatActivity() {
                 else hideLoading()
             })
 
-        viewModel.authError.observe(
-            this,
-            Observer {
-                if (it != AuthErrors.NONE) {
-                    showAuthError()
-                }
-            }
-        )
+
     }
 
-    fun showLoginScreen() {
+    private fun showLoginScreen() {
         viewModel.clearField()
         val loginFragment = LoginFragment()
         supportFragmentManager
@@ -112,7 +104,7 @@ class AuthActivity : AppCompatActivity() {
             .commit()
     }
 
-    fun startGameMenu() {
+    private fun startGameMenu() {
         if (!createUserComponent()) return
         val intent = Intent(this, MenuActivity::class.java)
         startActivity(intent)
@@ -137,10 +129,9 @@ class AuthActivity : AppCompatActivity() {
                 viewModel.authWithGoogle(account!!)
             } catch (e: ApiException) {
                 if (e.statusCode == CommonStatusCodes.NETWORK_ERROR) viewModel.authError.postValue(
-                    AuthErrors.CONNECTION_FAILD
+                    AuthErrors.CONNECTION_FAILED
                 )
                 else viewModel.authError.postValue(AuthErrors.ANY)
-                Log.e("AuthActivity", e.message)
             }
 
         }
@@ -161,23 +152,36 @@ class AuthActivity : AppCompatActivity() {
         loadingView.visibility = View.GONE
     }
 
-    private fun showAuthError() {
-        AuthErrorMessageDialog().show(supportFragmentManager, "ErrorMessageDialog")
+    fun showAuthError(message: String) {
+        AuthErrorMessageDialog()
+            .errorMessage(message)
+            .show(supportFragmentManager, "ErrorMessageDialog")
+    }
+
+    fun showAuthError(error: AuthErrors) {
+        val message = when (error) {
+            AuthErrors.CONNECTION_FAILED -> R.string.auth_error_connection
+            AuthErrors.TO_MANY_REQUESTS -> R.string.auth_error_too_many_requests
+            AuthErrors.INVALID_USER -> R.string.invalid_user_warning
+            else -> R.string.auth_error
+        }.let { getString(it) }
+        AuthErrorMessageDialog()
+            .errorMessage(message)
+            .show(supportFragmentManager, "ErrorMessageDialog")
     }
 
     class AuthErrorMessageDialog : DialogFragment() {
 
+        fun errorMessage(message: String): AuthErrorMessageDialog {
+            this.message = message
+            return this
+        }
 
-        var message: String? = null
+        private var message: String? = null
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
             val context = activity ?: return super.onCreateDialog(savedInstanceState)
-            val authError = (context as? AuthActivity)?.viewModel?.authError?.value
-            message = when (authError) {
-                AuthErrors.CONNECTION_FAILD -> R.string.auth_error_connection
-                AuthErrors.TO_MANY_REQUESTS -> R.string.auth_error_too_many_requests
-                AuthErrors.INVALID_USER -> R.string.auth_error
-                else -> R.string.error
-            }.let { getString(it) }
+//            val authError = (context as? AuthActivity)?.viewModel?.authError?.value
+//
             return AlertDialog.Builder(context)
                 .setMessage(message)
                 .setPositiveButton(R.string.ok) { _, _ ->

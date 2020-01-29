@@ -14,7 +14,7 @@ class RecordsActivity : AppCompatActivity(){
     lateinit var fragment: RecordsFragment
 
 
-    lateinit var recordsComponent: RecordsComponent
+    private lateinit var recordsComponent: RecordsComponent
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

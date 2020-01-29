@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 
-@Module(includes = arrayOf(DataBaseModule::class))
+@Module
 class NetworkModule {
 
     @Provides
@@ -64,12 +64,5 @@ class NetworkModule {
         return retrofit.create(GeochallengeApi::class.java)
     }
 
-//    @Provides
-//    @Singleton
-//    fun provideApiService(dao: GeoChallengeDao): GeochallengeApi {
-//        val mc = MockClassicRussianGeochallengeApi
-//        mc.dao = dao
-//        return mc
-//    }
 
 }
