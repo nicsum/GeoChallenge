@@ -8,25 +8,25 @@
 
     <fragment
         android:id="@+id/nav_solo"
-        android:name="com.example.geochallenge.ui.menu.ClassicMapsFragment"
+        android:name="ru.geochallengegame.app.ui.menu.ClassicMapsFragment"
         android:label="@string/start_simple_game"
         tools:layout="@layout/fr_classic_maps" />
 
     <fragment
         android:id="@+id/nav_time"
-        android:name="com.example.geochallenge.ui.menu.TimeMapsFragment"
+        android:name="ru.geochallengegame.app.ui.menu.TimeMapsFragment"
         android:label="@string/start_limit_time_game"
         tools:layout="@layout/fr_time_maps" />
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.example.geochallenge.ui.settings.SettingsFragment"
+        android:name="ru.geochallengegame.app.ui.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fr_settings" />
 
     <fragment
         android:id="@+id/nav_about"
-        android:name="com.example.geochallenge.ui.menu.AboutFragment"
+        android:name="ru.geochallengegame.app.ui.menu.AboutFragment"
         android:label="@string/about"
         tools:layout="@layout/fr_about" />
 

@@ -1,0 +1,18 @@
+package ru.geochallengegame.app.ui.auth
+
+enum class AuthErrors {
+    NONE,
+    ANY,
+    CONNECTION_FAILED,
+    USERNAME_ALREADY_IN_USE,
+    EMAIL_ALREADY_IN_USE,
+    NOT_CORRECT_EMAIL,
+    SHORT_PASSWORD,
+    FIELD_USERNAME_IS_EMPTY,
+    FIELD_PASSWORD_IS_EMPTY,
+    FIELD_EMAIL_IS_EMPTY,
+    WRONG_PASSWORD,
+    INVALID_USER,
+    TO_MANY_REQUESTS
+//    WRONG_EMAIL
+}

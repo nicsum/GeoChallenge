@@ -19,7 +19,7 @@ android {
         jvmTarget = "1.8"
     }
     defaultConfig {
-        applicationId "com.example.geochallenge"
+        applicationId "ru.geochallengegame"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
@@ -33,7 +33,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 
@@ -68,8 +68,7 @@ dependencies {
 
     implementation 'androidx.multidex:multidex:2.0.1'
     //firebase
-//    implementation 'com.google.firebase:firebase-analytics:17.2.1'
-//    implementation 'com.google.firebase:firebase-database:19.2.0'
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation 'com.google.firebase:firebase-auth:19.2.0'
     implementation 'com.google.firebase:firebase-firestore:21.3.1'
 

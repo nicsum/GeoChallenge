@@ -31,7 +31,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.example.geochallenge.ui.game.FillProgressLayout
+        <ru.geochallengegame.app.ui.game.FillProgressLayout
             android:id="@+id/progressBar"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -45,7 +45,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
-        </com.example.geochallenge.ui.game.FillProgressLayout>
+        </ru.geochallengegame.app.ui.game.FillProgressLayout>
 
         <TextView
             android:id="@+id/cityNameText"
