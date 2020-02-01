@@ -1,6 +1,5 @@
 package ru.geochallengegame.app.ui.game.classic
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import io.reactivex.Observable
@@ -75,10 +74,6 @@ open class ClassicGameViewModel(
         val answer = TaskAnswer(cityTask!!, LatLng(latitude, longitude))
         taskAnswer.postValue(answer)
         finishTask()
-        Log.i(
-            "ClassicGameViewModelTag",
-            "distance = $distance, seconds = $seconds , points = $pointsForCurrentTask"
-        )
     }
 
     override fun finishTask() {

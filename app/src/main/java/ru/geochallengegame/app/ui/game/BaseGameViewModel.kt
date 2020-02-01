@@ -1,6 +1,5 @@
 package ru.geochallengegame.app.ui.game
 
-import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -101,7 +100,6 @@ abstract class BaseGameViewModel : ViewModel() {
 
     open fun nextTask() {
 
-        Log.i("BaseGameViewModel", Thread.currentThread().name)
 
         if (!haveTaskForCurrentLevel()) {
             levelFinished()

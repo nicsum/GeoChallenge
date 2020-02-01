@@ -1,6 +1,5 @@
 package ru.geochallengegame.app.ui.game.time
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import io.reactivex.Completable
@@ -42,7 +41,6 @@ class TimeLimitGameViewModel(
 
     override fun clickedPosition(latitude: Double, longitude: Double, distance: Double) {
          super.clickedPosition(latitude, longitude, distance)
-         Log.i("BaseGameViewModel", Thread.currentThread().name)
          //calculate time
          val timeBonus = getTimeBonus(distance)
          val resultTime = timer.value!!.second - timer.value!!.first + timeBonus

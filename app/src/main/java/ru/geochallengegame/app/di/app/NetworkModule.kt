@@ -1,6 +1,5 @@
 package ru.geochallengegame.app.di.app
 
-import android.util.Log
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -22,7 +21,7 @@ class NetworkModule {
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         val logger = object : HttpLoggingInterceptor.Logger {
             override fun log(message: String) {
-                Log.i("GeochallengeNetwork", message)
+//                Log.i("GeochallengeNetwork", message)
             }
         }
 

@@ -1,96 +1,96 @@
 <resources>
     <string name="app_name">GeoChallenge</string>
-    <string name="start_simple_game">Соло</string>
-    <string name="start_limit_distance_game">Играть на рекорд</string>
-    <string name="table_records">Рекорды</string>
-    <string name="mode">Россия</string>
-    <string name="multiplayer">Мультиплеер</string>
-    <string name="logout">Выйти из профиля</string>
-    <string name="settings">Настройки</string>
+    <string name="start_limit_distance_game">Game for distance</string>
+    <string name="table_records">Best Results</string>
+    <string name="mode">Russia</string>
+    <string name="multiplayer">Multiplayer</string>
+    <string name="logout">Exit from profile</string>
+    <string name="settings">Settings</string>
     <string name="level_d_text" translatable="false">%1$d,\u0020</string>
     <string name="task_counter_text" translatable="false">%1$d/</string>
-    <string name="distance_info">До города %1$s</string>
-    <string name="timer_info">Таймер %d сек.</string>
-    <string name="answer_exit">Хотите выйти из игры?</string>
-    <string name="game_is_finished">Игра окончена</string>
-    <string name="result_game_message_with_congratulations">Поздравляем! Вы набрали %1$d очков. Это ваш лучший результат</string>
-    <string name="result_game_message">Вы набрали %1$d очков.</string>
+    <string name="distance_info">Until city %1$s</string>
+    <string name="timer_info">%d seconds left</string>
+    <string name="answer_exit">Are You sure want to exit?</string>
+    <string name="game_is_finished">Game Over</string>
+    <string name="result_game_message_with_congratulations">Congratulations! You have new best result! Your score is %1$d</string>
+    <string name="result_game_message">Your score is %1$d</string>
 
-    <string name="solo_title">Соло</string>
-    <string name="solo_subtitle">Игра на очки</string>
+    <string name="solo_title">Solo</string>
+    <string name="solo_subtitle">Game for points</string>
 
-    <string name="time_title">ТаймТриал</string>
-    <string name="time_subtitle">Игра на время</string>
+    <string name="time_title">TimeTrial</string>
+    <string name="time_subtitle">Game for time</string>
 
-    <string name="cancel">Отмена</string>
-    <string name="yes">Да</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
     <string name="ok" translatable="false">OK</string>
-    <string name="get_registered">Зарегистрироваться</string>
-    <string name="are_already_registered">Вы уже зарегистрированы?</string>
-    <string name="e_mail">Почта</string>
-    <string name="password">Пароль</string>
-    <string name="username_hint">Ваш ник</string>
-    <string name="login">Войти</string>
-    <string name="register">Регистарция</string>
-    <string name="i_forgot_password">Забыли пароль?</string>
-    <string name="or">ИЛИ</string>
+    <string name="get_registered">Registration</string>
+    <string name="are_already_registered">Already registered?</string>
+    <string name="e_mail">Email</string>
+    <string name="password">Password</string>
+    <string name="username_hint">Your Nickname</string>
+    <string name="login">Enter</string>
+    <string name="register">Registration</string>
+    <string name="i_forgot_password">Forgot password?</string>
+    <string name="or">OR</string>
 
 
     <!-- pref lang tasks -->
-    <string name="pref_lang_tasks_title">Язык географической точки</string>
-    <string name="pref_lang_tasks_summary">Устанавливает язык названий географических точек</string>
-    <string name="pref_lang_tasks_dialog_title">Установите язык названий географических точек</string>
+    <string name="pref_lang_tasks_title">Geo Name language</string>
+    <string name="pref_lang_tasks_summary">Setup language for Geo Names</string>
+    <string name="pref_lang_tasks_dialog_title">Select language for Geo Names</string>
 
-    <string name="update">Обновить</string>
+    <string name="update">Refresh</string>
     <string name="cv_img_desc" translatable="false">CardView Image Background</string>
     <string name="lang_en" translatable="false">English</string>
-    <string name="lang_ru">Русский</string>
-    <string name="level">Уровень:</string>
-    <string name="next">Далее</string>
-    <string name="lang_interface">Язык интерфейса</string>
+    <string name="lang_ru">Russian</string>
+    <string name="level">Level:</string>
+    <string name="next">Next</string>
+    <string name="lang_interface">Interface Language</string>
     <string name="map_image_desc" translatable="false">Map Image</string>
-    <string name="try_again">Попробовать еще</string>
-    <string name="replay">Переиграть</string>
-    <string name="exit">Выйти</string>
+    <string name="try_again">Try again</string>
+    <string name="replay">Restart</string>
+    <string name="exit">Exit</string>
     <string name="pts" translatable="false">PTS</string>
 
-    <string name="error">Ошибка</string>
+    <string name="error">Error</string>
 
     <!-- auth warnings-->
-    <string name="auth_error_connection">Не удается установить соединение.\nПроверьте наличие Интернета</string>
-    <string name="auth_error_too_many_requests">Слишком много запросов.\nПопробуйте позже</string>
-    <string name="auth_error">Не удалось вас авторизировать. Попробуйте позже</string>
-    <string name="enter_your_email">Введите свою почту</string>
-    <string name="enter_your_password">Введите пароль</string>
-    <string name="enter_your_username">Введите свой ник</string>
-    <string name="short_password_warning">Длина пароля должна быть не меньше 6 знаков</string>
-    <string name="email_is_not_correct">Почта введена неверно</string>
-    <string name="password_is_not_correct">Пароль введен неверно</string>
-    <string name="invalid_user_warning">Пользователь с этой почтой не зарегистрирован</string>
-    <string name="to_many_requests_warning">Сервер пока в шоке от количества ваших запросов.\nПопробуйте позже</string>
-    <string name="email_already_in_use_warning">Пользователь с таким почтой уже зарегистрирован</string>
-    <string name="username_already_in_use_warning">Никнейм %1$s уже занят</string>
+    <string name="auth_error_connection">Can\'t connect. Check internet connection</string>
+    <string name="auth_error_too_many_requests">Too many requests. Try again later</string>
+    <string name="auth_error">Can\'t authorize. Try again later</string>
+    <string name="enter_your_email">Insert Your Email</string>
+    <string name="enter_your_password">Insert Your Password</string>
+    <string name="enter_your_username">Insert Your Nickname</string>
+    <string name="short_password_warning">6 symbols is minimum</string>
+    <string name="email_is_not_correct">Incorrect Email</string>
+    <string name="password_is_not_correct">Incorrect Password</string>
+    <string name="invalid_user_warning">No user with this Email</string>
+    <string name="to_many_requests_warning">Too many requests. Try again later</string>
+    <string name="email_already_in_use_warning">User with this Email already exist</string>
+    <string name="username_already_in_use_warning">Nickname %1$s already exist</string>
 
     <!-- game errors-->
-    <string name="game_error_connection">Не удается установить соединение.\nПроверьте наличие Интернета</string>
-    <string name="game_error_finish_game">Не удалось сохранить ваш результат.\nПроверьте Интернет</string>
-    <string name="game_error_server">Не удается установить соединение.\nПопробуйте обновить</string>
-    <string name="game_error_any">Извините, что-то пошло не так.\nПопробуйте обновить или перезайти в игру</string>
-    <string name="game_warning_internet_is_not_available">Интернет недоступен.\nПроверьте соединение</string>
+    <string name="game_error_connection">No connection. Check if internet available</string>
+    <string name="game_error_finish_game">Can\'t save Your score. Check internet connection</string>
+    <string name="game_error_server">Can\'t connect</string>
+    <string name="game_error_any">Something wrong. Try to refresh or restart game</string>
+    <string name="game_warning_internet_is_not_available">No Internet Access</string>
     <string name="of" translatable="false">/</string>
     <string name="zero" translatable="false">0</string>
-    <string name="until">До места:</string>
+    <string name="until">Until point:</string>
     <string name="ptsNextLvl" translatable="false">5000</string>
     <string name="maptext" translatable="false">mapText</string>
     <!-- menu error   -->
-    <string name="menu_error">Не удалось загрузить карты. Проверьте Интеренет и попробуйте обновить или перезайти в игру</string>
-    <string name="leaderboard">Таблица Лидеров</string>
-    <string name="submit_new_password_link">Сгенерировать новую ссылку на пароль</string>
-    <string name="start_limit_time_game">ТаймТриал</string>
-    <string name="time_is_over">Время закончилось</string>
-    <string name="about">О программе</string>
-    <string name="about_main">\tGeoChallengeGame - Игра на развитие географической интуиции. Отгадывайте города и достопремичательности на карте всего мира. Соревнуйтесь с друзьями в рейтинговых таблицах и различных режимах. Бросьте вызов самому себе на карте мира, отгадав более 8000 локаций!</string>
-    <string name="about_solo">\tНаберите, как можно больше очков. Для перехода на следующий уровень вам потребуется преодолеть определенный порог. Очки засчитываются за точность и скорость отгадывания. Для перехода на новый уровень необходимо набрать 2500 очков.\nМаксимальное количество очков за уровень: 5000\nПри максимальной точности угадывания, можно заработать 800 очков\nПри максимальной скорости угадывания, можно заработать 200 очков</string>
-    <string name="about_time">\tПостарайтесь угадать, как можно больше городов за отведенное время. Время добавляется или отнимается в зависимости от точности вашего ответа\nПервоначальное время на угадывание: 30 секунд\nЗа точное отгадывание локации: +10 секунд\nЗа неверное отгадывание: -10 секунд</string>
-    <string name="about_version">Версия приложения</string>
+    <string name="menu_error">Cannot load maps. Check internet connection or relaunch game</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="submit_new_password_link">Submit New Password Link</string>
+    <string name="time_is_over">Time is over</string>
+    <string name="about">About</string>
+    <string name="about_solo">"Score as many points as you can. For the next level you need at least 2500 points. Points count for speed and accuracy. Max points you can score at level: 5000. Max points at location for accuracy is: 800 Max points at location for speed is: 200 "</string>
+    <string name="about_time">Try to guess as many location as you can for a limited time game. Time is added or subtrаcted based on your accuracy. Start limit is: 30 secs For accurate guessing location: +10 secs For incorrect guessing: -10 secs</string>
+    <string name="about_version">Application Version</string>
+    <string name="about_main">GeoChallengeGame - A game for the development of your geographical intuition. Guess cities and attractions on the map of the whole world. Get competiton with your friends in leaderboard and various modes. Challenge yourself on the world map by guessing over 8,000 locations!</string>
+    <string name="about_devs_text">Developers</string>
+    <string name="about_devs" translatable="false">Rexedead and Danbidan</string>
 </resources>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GeoChallenge</string>
+    <string name="answer_exit">Opravdu chceš ukončit hru?</string>
+    <string name="are_already_registered">Již registrován?</string>
+    <string name="auth_error">Nemohu autorizovat, opakuj později</string>
+    <string name="auth_error_connection">Nemohu se připojit, zkontroluj internetové připojení</string>
+    <string name="auth_error_too_many_requests">Příliš mnoho žádostí, opakuj později</string>
+
+    <string name="cancel">Cancel</string>
+
+    <string name="distance_info">Until city %1$s</string>
+
+    <string name="e_mail">Email</string>
+
+    <string name="email_already_in_use_warning">Uživatel s tímto emailem již existuje</string>
+
+    <string name="email_is_not_correct">Neplatný Email</string>
+
+    <string name="enter_your_email">Vlož svůj Email</string>
+
+    <string name="enter_your_password">Vlož svoje heslo</string>
+
+    <string name="enter_your_username">Vlož svoji přezdívku</string>
+
+    <string name="error">Error</string>
+
+    <string name="exit">Exit</string>
+
+    <string name="game_error_any">Něco je špatně. Zkus obnovit, nebo restartovat hru</string>
+
+    <string name="game_error_connection">Chyba připojení. Zkontroluj internetové připojení</string>
+
+    <string name="game_error_finish_game">Nemohu uložit tvé skóre. Zkontroluj internetové připojení</string>
+
+    <string name="game_error_server">Nemohu se připojit</string>
+
+    <string name="game_is_finished">Konec hry</string>
+
+    <string name="game_warning_internet_is_not_available">Připojení není dostupné</string>
+
+    <string name="get_registered">Registrace</string>
+
+    <string name="i_forgot_password">Zapoměl jsi heslo?</string>
+
+    <string name="invalid_user_warning">Žádný uživatel s tímto Emailem</string>
+
+    <string name="lang_interface">Volba jazyka</string>
+
+    <string name="lang_ru">Russian</string>
+
+    <string name="leaderboard">Leaderboard</string>
+
+    <string name="level">Level:</string>
+
+    <string name="login">Enter</string>
+
+    <string name="logout">Opustit profil</string>
+
+    <string name="menu_error">Nemohu nahrát mapy. Zkontroluj internetové připojení nebo restartuj hru</string>
+
+    <string name="mode">Russia</string>
+
+    <string name="multiplayer">Multiplayer</string>
+
+    <string name="next">Další</string>
+
+    <string name="or">Nebo</string>
+
+    <string name="password">Heslo</string>
+
+    <string name="password_is_not_correct">Neplatné heslo</string>
+
+    <string name="pref_lang_tasks_dialog_title">Zvol jazyk pro Geo Jména</string>
+
+    <string name="pref_lang_tasks_summary">Nastav jazyk pro  Geo Jména</string>
+
+    <string name="pref_lang_tasks_title">Geo Jména jazyk</string>
+
+    <string name="register">Registrace</string>
+
+    <string name="replay">Restart</string>
+
+    <string name="result_game_message">Tvé skóre je %1$d</string>
+
+    <string name="result_game_message_with_congratulations">Gratulujeme! Tvůj nejlepší výsledek! Tvé skóre je %1$d</string>
+
+    <string name="settings">Nastavení</string>
+
+    <string name="short_password_warning">6 znaků je minimum</string>
+
+    <string name="solo_subtitle">Hra na body</string>
+
+    <string name="solo_title">Solo</string>
+
+    <string name="submit_new_password_link">Potvrď nové heslo</string>
+
+    <string name="table_records">Nejlepší výsledky</string>
+
+    <string name="time_subtitle">Hra na čas</string>
+
+    <string name="time_title">TimeTrial</string>
+
+    <string name="timer_info">%d sekund zbývá</string>
+
+    <string name="to_many_requests_warning">Příliš mnoho žádostí. Opakuj později</string>
+
+    <string name="try_again">Znova</string>
+
+    <string name="until">Do bodu:</string>
+
+    <string name="update">Obnov</string>
+
+    <string name="username_already_in_use_warning">Přezdívka %1$s již existuje</string>
+
+    <string name="username_hint">Tvoje přezdívka</string>
+
+    <string name="yes">Ano</string>
+
+    <string name="start_limit_distance_game">Hra na vzdálenost</string>
+
+    <string name="time_is_over">Čas je u konce</string>
+
+    <string name="about">About</string>
+
+    <string name="about_version">Verze Aplikace</string>
+
+    <string name="about_main">GeoChallengeGame - Hra, která prověří tvoje geografické znalosti. Odhaluj města, či památky na mapě celého světa. Porovnávej své výsledky s přateli a utkej se s nimi v různých herních režimech. Otestuj své znalosti na více než 8000 lokací.</string>
+
+    <string name="about_time">Odhalte co nejvíce lokací v omezeném čase. Čas se přičítá, nebo odečítá, na základě vaší přesnosti.\nPočáteční limit: 30 secs\nZa přesnou lokaci: +10 secs\nZa nepřesnou lokaci: -10 secs</string>
+
+    <string name="about_solo">Získej co nejvíce bodů. Pro další level potřebuješ 2500 bodů.\nBody se přičítají za přesnost a rychlost.\nMAximum bodů, které můžeš dosáhnout za level: 5000.\nMaximum bodů za přesnost určení lokace: 800\nMaximum bodů za rychlost určení lokace: 200\n</string>
+
+    <string name="about_devs_text">Vývojáři</string>
+</resources>

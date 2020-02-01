@@ -1,6 +1,5 @@
 package ru.geochallengegame.app.ui.auth
 
-import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -149,7 +148,6 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
                 isSignIn.postValue(true)
             }
             .addOnFailureListener {
-                Log.e("AuthViewModel", it.message.toString())
                 resolveError(it)
             }.addOnCompleteListener {
                 loadingIsVisible.postValue(false)
@@ -179,7 +177,6 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
                 } else {
                     loadingIsVisible.postValue(false)
                     resolveError(it.exception)
-                    Log.e("AuthViewModel", it.exception?.message.toString())
                 }
             }
     }
