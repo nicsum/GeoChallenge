@@ -92,5 +92,5 @@
     <string name="about_version">Application Version</string>
     <string name="about_main">GeoChallengeGame - A game for the development of your geographical intuition. Guess cities and attractions on the map of the whole world. Get competiton with your friends in leaderboard and various modes. Challenge yourself on the world map by guessing over 8,000 locations!</string>
     <string name="about_devs_text">Developers</string>
-    <string name="about_devs" translatable="false">Rexedead and Danbidan</string>
+    <string name="about_devs" translatable="false">Rexedead and Danbi</string>
 </resources>

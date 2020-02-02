@@ -139,7 +139,7 @@ class TimeLimitGameViewModel(
 
     override fun finishGame() {
         timerDisposable?.dispose()
-        if (taskCounterLevel.value == 0 || taskCounterLevel.value == null) {
+        if (taskCounterGame.value == 1 || taskCounterGame.value == null) {
             gameResult.postValue(Pair(0, false))
             super.finishGame()
             return
