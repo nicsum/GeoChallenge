@@ -62,6 +62,10 @@ class GeochallengeStorage @Inject constructor(val api: GeochallengeApi) :
         return api.getMaps()
     }
 
+    override fun getMaps(mode: String): Single<List<GameMap>> {
+        return api.getMaps(mode)
+    }
+
     override fun getTopAfter(
         position: Int,
         limit: Int,

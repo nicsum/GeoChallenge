@@ -14,15 +14,17 @@ class MenuMapsViewModel(
     private val geochallengeService: GeochallengeService
 ) : ViewModel() {
 
+    private var mode: String? = null
     private val compositeDisposable = CompositeDisposable()
     val maps = MutableLiveData<List<GameMap>>()
     val loadingIsVisible = MutableLiveData<Boolean>()
     val errorIsVisible = MutableLiveData<Boolean>()
     val isSignOut = MutableLiveData<Boolean>()
 
+
     fun loadMaps() {
         compositeDisposable.add(geochallengeService
-            .getMaps()
+            .getMaps(mode!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { loadingIsVisible.postValue(true) }
@@ -39,6 +41,10 @@ class MenuMapsViewModel(
     fun logout() {
         firebaseAuth.signOut()
         isSignOut.postValue(true)
+    }
+
+    fun selectMode(mode: String?) {
+        this.mode = mode
     }
 
     override fun onCleared() {

@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -40,6 +41,7 @@ class MenuActivity : AppCompatActivity(),
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var refreshLayout: SwipeRefreshLayout
     private var gameMapIsSelected = false
+
 
     @Inject
     lateinit var viewModel: MenuMapsViewModel
@@ -71,6 +73,11 @@ class MenuActivity : AppCompatActivity(),
         refreshLayout.setOnRefreshListener {
             viewModel.loadMaps()
         }
+
+        findNavController(R.id.nav_host_fragment)
+            .addOnDestinationChangedListener { _, destination, _ ->
+                viewModel.selectMode(getCurrentMode(destination))
+            }
 //        appBarConfiguration = AppBarConfiguration(
 //            setOf(R.id.nav_solo, R.id.nav_time, R.id.nav_settings), drawerLayout
 //        )
@@ -210,11 +217,7 @@ class MenuActivity : AppCompatActivity(),
 
         gameMapIsSelected = true
 
-        val mode = when (findNavController(R.id.nav_host_fragment).currentDestination?.id) {
-            R.id.nav_solo -> "solo"
-            R.id.nav_time -> "time"
-            else -> null
-        } ?: return
+        val mode = getCurrentMode() ?: return
         startGame(map, mode, lang)
     }
 
@@ -233,6 +236,18 @@ class MenuActivity : AppCompatActivity(),
         val gameInfo = getGameInfo(mode, map.id, lang)
         (applicationContext as AppDelegate)
             .createGameComponent(gameInfo, map)
+    }
+
+    private fun getCurrentMode(): String? {
+        return getCurrentMode(findNavController(R.id.nav_host_fragment).currentDestination)
+    }
+
+    private fun getCurrentMode(distenation: NavDestination?): String? {
+        return when (distenation?.id) {
+            R.id.nav_solo -> "solo"
+            R.id.nav_time -> "time"
+            else -> null
+        }
     }
 
 

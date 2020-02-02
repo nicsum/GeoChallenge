@@ -56,6 +56,9 @@ interface GeochallengeApi {
     @GET("/getMaps")
     fun getMaps(): Single<List<GameMap>>
 
+    @GET("/getMaps")
+    fun getMaps(@Query("mode") mode: String): Single<List<GameMap>>
+
 
     @GET("/gettopafter")
     fun getTopAfter(

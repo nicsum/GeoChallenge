@@ -68,7 +68,7 @@ class GameMapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         ruRadioButton.isVisible = map.langRu
         enRadioButton.isVisible = map.langEn
-//        val enIsDefault = defaultLang == SettingsManager.ENGLISH_LANG_CODE
+
         val ruIsDefault = defaultLang == SettingsManager.RUSSIAN_LANG_CODE
         if (ruIsDefault) {
             if (!map.langRu) {

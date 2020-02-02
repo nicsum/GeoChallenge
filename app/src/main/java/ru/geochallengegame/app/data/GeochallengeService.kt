@@ -29,6 +29,7 @@ interface GeochallengeService {
 
     fun getAllRecords(mode: String, mapId: Int): Single<List<Record>>
     fun getMaps(): Single<List<GameMap>>
+    fun getMaps(mode: String): Single<List<GameMap>>
 
     fun getTopAfter(
         position: Int,
