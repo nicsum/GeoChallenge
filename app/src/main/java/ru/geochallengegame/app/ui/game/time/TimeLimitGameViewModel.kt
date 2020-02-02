@@ -47,7 +47,12 @@ class TimeLimitGameViewModel(
         val answer = TaskAnswer(cityTask!!, LatLng(latitude, longitude))
 
          cityTask?.name?.let {
-             gameController.postGameStats(it, distance, currentLevel.value!!)
+             gameController.postGameStats(
+                 it,
+                 distance,
+                 currentLevel.value!!,
+                 timer.value!!.first.toInt()
+             )
                  .subscribeOn(Schedulers.io())
                  .observeOn(AndroidSchedulers.mainThread())
                  .onErrorComplete()

@@ -28,7 +28,7 @@ class MenuMapsViewModel(
             .doOnSubscribe { loadingIsVisible.postValue(true) }
             .doFinally { loadingIsVisible.postValue(false) }
             .subscribe({
-                maps.postValue(it)
+                maps.postValue(it.sortedBy { task -> task.id })
                 errorIsVisible.postValue(false)
             }, {
                 errorIsVisible.postValue(true)

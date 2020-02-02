@@ -63,7 +63,7 @@ open class ClassicGameViewModel(
 //            .postValue((pointsForCurrentLevel.value ?: 0) + pointsForCurrentTask)
 
         cityTask?.name?.let {
-            gameController.postGameStats(it, distance, currentLevel.value!!)
+            gameController.postGameStats(it, distance, currentLevel.value!!, seconds.toInt())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onErrorComplete()
@@ -74,6 +74,7 @@ open class ClassicGameViewModel(
         val answer = TaskAnswer(cityTask!!, LatLng(latitude, longitude))
         taskAnswer.postValue(answer)
         finishTask()
+
     }
 
     override fun finishTask() {

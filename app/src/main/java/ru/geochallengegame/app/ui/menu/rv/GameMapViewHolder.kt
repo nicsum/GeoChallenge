@@ -39,7 +39,10 @@ class GameMapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val enRadioButton = itemView.findViewById<RadioButton>(R.id.radio_en)
         val ruRadioButton = itemView.findViewById<RadioButton>(R.id.radio_ru)
 
-        mapTv.text = if (Locale.getDefault().country == "ru") map.mapRu else map.mapEn
+        mapTv.text = if (Locale.getDefault().language == "ru")
+            map.mapRu
+        else
+            map.mapEn
         itemView.setOnClickListener {
             listener.onClickGameMap(map, lang)
         }

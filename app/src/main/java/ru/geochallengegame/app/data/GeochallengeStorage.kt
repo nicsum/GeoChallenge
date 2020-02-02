@@ -102,9 +102,11 @@ class GeochallengeStorage @Inject constructor(val api: GeochallengeApi) :
         mapId: Int,
         taskName: String,
         distance: Double,
-        level: Int
+        level: Int,
+        seconds: Int,
+        username: String
     ): Completable {
-        return api.postStats(mapId, taskName, distance, level)
+        return api.postStats(mapId, taskName, distance, level, seconds, username)
     }
 
 }
