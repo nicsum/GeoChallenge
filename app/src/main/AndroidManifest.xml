@@ -35,6 +35,7 @@
         <activity android:name=".app.ui.auth.AuthActivity" />
         <activity android:name=".app.ui.settings.SettingsActivity" />
         <activity android:name=".app.ui.game.endless.EndlessGameActivity" />
+        <activity android:name=".app.ui.game.hundred.HungredGameActivity" />
 
     </application>
 

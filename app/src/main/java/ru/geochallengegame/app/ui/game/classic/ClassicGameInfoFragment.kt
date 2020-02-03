@@ -13,13 +13,13 @@ import ru.geochallengegame.app.ui.game.BaseGameViewModel
 import javax.inject.Inject
 
 
-class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
+open class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
 //    private lateinit var pointsTv: TextView
 //    private lateinit var timerTv: TextView
 //    private lateinit var progressBar: FillProgressLayout
 
     //    @Inject
-    lateinit var viewModel: ClassicGameViewModel
+//    lateinit var viewModel: ClassicGameViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +31,7 @@ class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
 
-        viewModel = (activity as ClassicGameActivity).viewModel
+        val viewModel = getViewModel() as ClassicGameViewModel
         viewModel.isTaskCompleted.observe(
             viewLifecycleOwner,
             Observer {
@@ -68,7 +68,7 @@ class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
     }
 
     override fun getViewModel(): BaseGameViewModel {
-        return viewModel
+        return (activity as ClassicGameActivity).viewModel
     }
 
     private fun addPoints(value: Int) {
