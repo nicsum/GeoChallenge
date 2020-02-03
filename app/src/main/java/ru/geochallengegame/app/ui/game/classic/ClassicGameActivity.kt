@@ -7,7 +7,7 @@ import ru.geochallengegame.app.ui.game.BaseGameMapActivity
 import ru.geochallengegame.app.ui.game.BaseGameViewModel
 import javax.inject.Inject
 
-class ClassicGameActivity : BaseGameMapActivity() {
+open class ClassicGameActivity : BaseGameMapActivity() {
 
     @Inject
     lateinit var fragment: ClassicGameInfoFragment
@@ -16,18 +16,20 @@ class ClassicGameActivity : BaseGameMapActivity() {
     lateinit var viewModel: ClassicGameViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        activityComponent = (application as AppDelegate)
-            .gameComponent
-            ?.gameActivityComponent()
-            ?.create(this)
-        activityComponent?.inject(this)
-
+        inject()
         super.onCreate(savedInstanceState)
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.game_info_container, fragment)
             .commit()
+    }
+
+    private fun inject() {
+        activityComponent = (application as AppDelegate)
+            .gameComponent
+            ?.gameActivityComponent()
+            ?.create(this)
+        activityComponent?.inject(this)
     }
 
     override fun getViewModel(): BaseGameViewModel {

@@ -8,6 +8,8 @@ import ru.geochallengegame.app.ui.game.classic.ClassicGameViewModel
 import ru.geochallengegame.app.ui.game.classic.ClassicGameViewModelFactory
 import ru.geochallengegame.app.ui.game.endless.EndlessGameViewModel
 import ru.geochallengegame.app.ui.game.endless.EndlessGameViewModelFactory
+import ru.geochallengegame.app.ui.game.hundred.HungredGameViewModel
+import ru.geochallengegame.app.ui.game.hundred.HungredGameViewModelFactory
 import ru.geochallengegame.app.ui.game.time.TimeLimitGameViewModel
 import ru.geochallengegame.app.ui.game.time.TimeLimitGameViewModelFactory
 
@@ -37,6 +39,14 @@ class GameActivityModule {
         factory: EndlessGameViewModelFactory
     ): EndlessGameViewModel {
         return ViewModelProvider(activity, factory).get(EndlessGameViewModel::class.java)
+    }
+
+    @Provides
+    fun provideHungredGameViewModule(
+        activity: BaseGameMapActivity,
+        factory: HungredGameViewModelFactory
+    ): HungredGameViewModel {
+        return ViewModelProvider(activity, factory).get(HungredGameViewModel::class.java)
     }
 
 //    @Provides

@@ -64,6 +64,10 @@
     <string name="endless_title">Endless</string>
     <string name="endless_subtitle">Game for points</string>
 
+    <string name="hungred_title">Fatal 100</string>
+    <string name="hungred_subtitle">Fatal 100</string>
+
+
     <string name="timer_info">Таймер %d сек.</string>
     <string name="to_many_requests_warning">Сервер пока в шоке от количества ваших запросов.\nПопробуйте позже</string>
     <string name="try_again">Попробовать еще</string>

@@ -7,6 +7,7 @@ import ru.geochallengegame.app.ui.game.BaseGameMapActivity
 import ru.geochallengegame.app.ui.game.GameMapFragment
 import ru.geochallengegame.app.ui.game.classic.ClassicGameActivity
 import ru.geochallengegame.app.ui.game.endless.EndlessGameActivity
+import ru.geochallengegame.app.ui.game.hundred.HungredGameActivity
 import ru.geochallengegame.app.ui.game.time.TimeLimitGameActivity
 
 
@@ -31,5 +32,6 @@ interface GameActivityComponent {
     fun inject(activity: ClassicGameActivity)
     fun inject(activity: TimeLimitGameActivity)
     fun inject(activity: EndlessGameActivity)
+    fun inject(activity: HungredGameActivity)
     fun inject(fragment: GameMapFragment)
 }

@@ -19,6 +19,11 @@
             android:id="@+id/nav_endless"
             android:icon="@drawable/ic_menu_time"
             android:title="@string/endless_title" />
+
+        <item
+            android:id="@+id/nav_hungred"
+            android:icon="@drawable/ic_menu_time"
+            android:title="@string/hungred_title" />
     </group>
 
     <group

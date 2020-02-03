@@ -31,6 +31,7 @@ import ru.geochallengegame.app.game.GameInfo
 import ru.geochallengegame.app.game.GameMap
 import ru.geochallengegame.app.ui.game.classic.ClassicGameActivity
 import ru.geochallengegame.app.ui.game.endless.EndlessGameActivity
+import ru.geochallengegame.app.ui.game.hundred.HungredGameActivity
 import ru.geochallengegame.app.ui.game.time.TimeLimitGameActivity
 import ru.geochallengegame.app.ui.menu.vm.MenuMapsViewModel
 import ru.geochallengegame.app.ui.splash.SplashActivity
@@ -97,6 +98,7 @@ class MenuActivity : AppCompatActivity(),
                 R.id.nav_solo,
                 R.id.nav_time,
                 R.id.nav_endless,
+                R.id.nav_hungred,
                 R.id.nav_settings,
                 R.id.nav_about
             ), drawerLayout
@@ -233,6 +235,7 @@ class MenuActivity : AppCompatActivity(),
             "solo" -> Intent(this, ClassicGameActivity::class.java)
             "time" -> Intent(this, TimeLimitGameActivity::class.java)
             "endless" -> Intent(this, EndlessGameActivity::class.java)
+            "fatal100" -> Intent(this, HungredGameActivity::class.java)
             else -> null
         } ?: return
         startActivity(intent)
@@ -255,6 +258,7 @@ class MenuActivity : AppCompatActivity(),
             R.id.nav_solo -> "solo"
             R.id.nav_time -> "time"
             R.id.nav_endless -> "endless"
+            R.id.nav_hungred -> "fatal100"
             else -> null
         }
     }
