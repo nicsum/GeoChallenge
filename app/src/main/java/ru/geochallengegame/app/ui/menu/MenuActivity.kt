@@ -2,6 +2,7 @@ package ru.geochallengegame.app.ui.menu
 
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -61,9 +62,7 @@ class MenuActivity : AppCompatActivity(),
 
         menuComponent?.inject(this)
 
-
         super.onCreate(savedInstanceState)
-
 
         setContentView(R.layout.ac_menu)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -83,18 +82,7 @@ class MenuActivity : AppCompatActivity(),
             .addOnDestinationChangedListener { _, destination, _ ->
                 viewModel.selectMode(getCurrentMode(destination))
             }
-//        appBarConfiguration = AppBarConfiguration(
-//            setOf(R.id.nav_solo, R.id.nav_time, R.id.nav_settings), drawerLayout
-//        )
 
-//        var fragment = supportFragmentManager.findFragmentById(R.id.container)
-//
-//        if(fragment == null){
-//            fragment = MenuFragment()
-//            changeFragment(fragment)
-//        }
-
-//        setupActionBarWithNavController(navController, appBarConfiguration)
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -174,7 +162,7 @@ class MenuActivity : AppCompatActivity(),
         viewModel.gameInfoIsVisible.observe(
             this,
             Observer {
-                if (it) getInfoMessage(getCurrentMode())
+                if (it) showInfoDialog()
             })
 
     }
@@ -196,15 +184,26 @@ class MenuActivity : AppCompatActivity(),
             return true
         }
         if (item.itemId == R.id.modeInfo) {
-            getInfoMessage(getCurrentMode())?.let {
-                MessageDialog()
-                    .modeMessage(it)
-                    .show(supportFragmentManager, "MessageDialog")
-            }
+            viewModel.info()
             return true
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+
+    private fun showInfoDialog() {
+        MessageDialog()
+            .show(supportFragmentManager, "MessageDialog")
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val dialog = supportFragmentManager
+            .findFragmentByTag("MessageDialog") as? MessageDialog ?: return
+        supportFragmentManager.beginTransaction().remove(dialog).commit()
+        
     }
 
     override fun onDestroy() {
@@ -279,37 +278,38 @@ class MenuActivity : AppCompatActivity(),
         }
     }
 
-    private fun getInfoMessage(mode: String?): String? {
-        return when (mode) {
-            "solo" -> "waefgrg"
-            "time" -> "ddd"
-            else -> null
-        }
-    }
-
 
     private fun getGameInfo(mode: String, mapId: Int, lang: String) = GameInfo(mode, mapId, 5, lang)
 
+
     class MessageDialog : DialogFragment() {
 
-
-        fun modeMessage(message: String): MessageDialog {
-            this.message = message
-            return this
-        }
-
-        private var message: String? = null
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-            val context = activity ?: return super.onCreateDialog(savedInstanceState)
-
+            val context =
+                (activity as? MenuActivity) ?: return super.onCreateDialog(savedInstanceState)
+            val mode = context.getCurrentMode()
+            val message = getInfoMessage(mode)
             return AlertDialog.Builder(context)
                 .setMessage(message)
                 .setPositiveButton(R.string.ok) { _, _ ->
-                    (context as? MenuActivity)?.viewModel?.iReadModeInfo()
+                    context.viewModel.iReadModeInfo()
                 }
                 .create()
         }
 
+        override fun onCancel(dialog: DialogInterface) {
+            super.onCancel(dialog)
+            (context as MenuActivity).viewModel.iReadModeInfo()
+        }
+
+        private fun getInfoMessage(mode: String?): String? {
+            //TODO
+            return when (mode) {
+                "solo" -> "waefgrg"
+                "time" -> "ddd"
+                else -> null
+            }
+        }
     }
 
 }

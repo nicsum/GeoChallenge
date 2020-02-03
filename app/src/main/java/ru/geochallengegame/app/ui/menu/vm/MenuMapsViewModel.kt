@@ -44,6 +44,10 @@ class MenuMapsViewModel(
         isSignOut.postValue(true)
     }
 
+    fun info() {
+        gameInfoIsVisible.postValue(true)
+    }
+
     fun selectMode(mode: String?) {
         this.mode = mode
     }
@@ -54,6 +58,6 @@ class MenuMapsViewModel(
     }
 
     fun iReadModeInfo() {
-        gameInfoIsVisible.postValue(true)
+        gameInfoIsVisible.postValue(false)
     }
 }
