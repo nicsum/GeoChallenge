@@ -20,6 +20,7 @@ class MenuMapsViewModel(
     val loadingIsVisible = MutableLiveData<Boolean>()
     val errorIsVisible = MutableLiveData<Boolean>()
     val isSignOut = MutableLiveData<Boolean>()
+    val gameInfoIsVisible = MutableLiveData<Boolean>()
 
 
     fun loadMaps() {
@@ -50,5 +51,9 @@ class MenuMapsViewModel(
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.dispose()
+    }
+
+    fun iReadModeInfo() {
+        gameInfoIsVisible.postValue(true)
     }
 }
