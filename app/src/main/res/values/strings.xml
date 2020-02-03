@@ -21,6 +21,9 @@
     <string name="time_title">TimeTrial</string>
     <string name="time_subtitle">Game for time</string>
 
+    <string name="endless_title">Endless</string>
+    <string name="endless_subtitle">Game for points</string>
+
     <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
     <string name="ok" translatable="false">OK</string>

@@ -14,6 +14,11 @@
             android:id="@+id/nav_time"
             android:icon="@drawable/ic_menu_time"
             android:title="@string/time_title" />
+
+        <item
+            android:id="@+id/nav_endless"
+            android:icon="@drawable/ic_menu_time"
+            android:title="@string/endless_title" />
     </group>
 
     <group

@@ -34,6 +34,7 @@
         <activity android:name=".app.ui.game.time.TimeLimitGameActivity" />
         <activity android:name=".app.ui.auth.AuthActivity" />
         <activity android:name=".app.ui.settings.SettingsActivity" />
+        <activity android:name=".app.ui.game.endless.EndlessGameActivity" />
 
     </application>
 

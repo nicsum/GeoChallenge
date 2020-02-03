@@ -30,6 +30,7 @@ import ru.geochallengegame.app.di.menu.MenuComponent
 import ru.geochallengegame.app.game.GameInfo
 import ru.geochallengegame.app.game.GameMap
 import ru.geochallengegame.app.ui.game.classic.ClassicGameActivity
+import ru.geochallengegame.app.ui.game.endless.EndlessGameActivity
 import ru.geochallengegame.app.ui.game.time.TimeLimitGameActivity
 import ru.geochallengegame.app.ui.menu.vm.MenuMapsViewModel
 import ru.geochallengegame.app.ui.splash.SplashActivity
@@ -92,7 +93,13 @@ class MenuActivity : AppCompatActivity(),
 //        setupActionBarWithNavController(navController, appBarConfiguration)
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_solo, R.id.nav_time, R.id.nav_settings), drawerLayout
+            setOf(
+                R.id.nav_solo,
+                R.id.nav_time,
+                R.id.nav_endless,
+                R.id.nav_settings,
+                R.id.nav_about
+            ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
@@ -225,6 +232,7 @@ class MenuActivity : AppCompatActivity(),
         val intent = when (mode) {
             "solo" -> Intent(this, ClassicGameActivity::class.java)
             "time" -> Intent(this, TimeLimitGameActivity::class.java)
+            "endless" -> Intent(this, EndlessGameActivity::class.java)
             else -> null
         } ?: return
         startActivity(intent)
@@ -246,6 +254,7 @@ class MenuActivity : AppCompatActivity(),
         return when (distenation?.id) {
             R.id.nav_solo -> "solo"
             R.id.nav_time -> "time"
+            R.id.nav_endless -> "endless"
             else -> null
         }
     }

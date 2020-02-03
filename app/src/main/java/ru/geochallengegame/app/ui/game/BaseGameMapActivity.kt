@@ -22,13 +22,14 @@ import ru.geochallengegame.R
 import ru.geochallengegame.app.AppDelegate
 import ru.geochallengegame.app.di.activity.GameActivityComponent
 import ru.geochallengegame.app.ui.game.classic.ClassicGameActivity
+import ru.geochallengegame.app.ui.game.hundred.HungredGameActivity
 import ru.geochallengegame.app.ui.game.time.TimeLimitGameActivity
 import ru.geochallengegame.app.ui.records.RecordsActivity
 
 
 abstract class BaseGameMapActivity : AppCompatActivity() {
 
-    private val answerExitListener = object :
+    protected open val answerExitListener = object :
         AnswerExitListener {
         override fun onExit() {
             getViewModel().finishGame()
@@ -173,12 +174,13 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
         when (gameInfo.mode) {
             "solo" -> startActivity(Intent(this, ClassicGameActivity::class.java))
             "time" -> startActivity(Intent(this, TimeLimitGameActivity::class.java))
+            "fatal100" -> startActivity(Intent(this, HungredGameActivity::class.java))
             else -> throw IllegalArgumentException("unknown mode")
         }
         finish()
     }
 
-    private fun hardExit() {
+    protected fun hardExit() {
         (application as AppDelegate).destroyGameComponent()
         finish()
     }
@@ -192,7 +194,7 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
         showAnswerExitDialog()
     }
 
-    private fun showAnswerExitDialog() {
+    protected fun showAnswerExitDialog() {
         AnswerExitDialog()
             .show(supportFragmentManager, "AnswerExitDialog")
     }
@@ -202,7 +204,7 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
             .show(supportFragmentManager, "TryFinishGameDialog")
     }
 
-    private fun showResultGameDialog() {
+    protected open fun showResultGameDialog() {
         ResultGameDialog()
             .show(supportFragmentManager, "ResultGameDialog")
     }

@@ -60,6 +60,10 @@
     <string name="time_is_over">Время закончилось</string>
     <string name="time_subtitle">Игра на время</string>
     <string name="time_title">ТаймТриал</string>
+    //!!!!
+    <string name="endless_title">Endless</string>
+    <string name="endless_subtitle">Game for points</string>
+
     <string name="timer_info">Таймер %d сек.</string>
     <string name="to_many_requests_warning">Сервер пока в шоке от количества ваших запросов.\nПопробуйте позже</string>
     <string name="try_again">Попробовать еще</string>

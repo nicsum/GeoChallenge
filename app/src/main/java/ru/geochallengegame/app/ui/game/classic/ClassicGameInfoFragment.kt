@@ -5,20 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fr_gameinfo.*
 import ru.geochallengegame.R
 import ru.geochallengegame.app.ui.game.BaseGameInfoFragment
 import ru.geochallengegame.app.ui.game.BaseGameViewModel
-import ru.geochallengegame.app.ui.game.FillProgressLayout
 import javax.inject.Inject
 
 
 class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
-    private lateinit var pointsTv: TextView
-    private lateinit var timerTv: TextView
-    private lateinit var progressBar: FillProgressLayout
+//    private lateinit var pointsTv: TextView
+//    private lateinit var timerTv: TextView
+//    private lateinit var progressBar: FillProgressLayout
 
     //    @Inject
     lateinit var viewModel: ClassicGameViewModel
@@ -28,11 +26,7 @@ class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v = inflater.inflate(R.layout.fr_gameinfo, container, false)
-        pointsTv = v.findViewById(R.id.pointsText)
-        timerTv = v.findViewById(R.id.timerTv)
-        progressBar = v.findViewById(R.id.progressBar)
-        return v
+        return inflater.inflate(R.layout.fr_gameinfo, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -80,7 +74,7 @@ class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
     private fun addPoints(value: Int) {
 
         val oldValue = try {
-            pointsTv.text.toString().toInt()
+            pointsText.text.toString().toInt()
         } catch (e: Exception) {
             0
         }
@@ -88,7 +82,7 @@ class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
         scoreAnimator.animatedValue
         scoreAnimator.duration = 3000
         scoreAnimator.addUpdateListener { animation ->
-            pointsTv.text = animation.animatedValue.toString()
+            pointsText.text = animation.animatedValue.toString()
         }
         scoreAnimator.start()
     }
