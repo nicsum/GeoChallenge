@@ -17,7 +17,7 @@
 
         <item
             android:id="@+id/nav_endless"
-            android:icon="@drawable/ic_menu_time"
+            android:icon="@drawable/ic_menu_endless"
             android:title="@string/endless_title" />
     </group>
 

@@ -1,6 +1,7 @@
 package ru.geochallengegame.app.ui.menu
 
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -9,10 +10,12 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
@@ -166,7 +169,11 @@ class MenuActivity : AppCompatActivity(),
                     signOut()
             }
         )
-
+        viewModel.gameInfoIsVisible.observe(
+            this,
+            Observer {
+                if (it) getInfoMessage(getCurrentMode())
+            })
 
     }
 
@@ -176,16 +183,25 @@ class MenuActivity : AppCompatActivity(),
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if(FirebaseAuth.getInstance().currentUser !=null)
+        if (FirebaseAuth.getInstance().currentUser != null)
             menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.logout){
+        if (item.itemId == R.id.logout) {
             viewModel.logout()
             return true
         }
+        if (item.itemId == R.id.modeInfo) {
+            getInfoMessage(getCurrentMode())?.let {
+                MessageDialog()
+                    .modeMessage(it)
+                    .show(supportFragmentManager, "MessageDialog")
+            }
+            return true
+        }
+
         return super.onOptionsItemSelected(item)
     }
 
@@ -215,7 +231,7 @@ class MenuActivity : AppCompatActivity(),
 //    }
 
 
-    fun showMessage(msg: String){
+    fun showMessage(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
@@ -259,8 +275,37 @@ class MenuActivity : AppCompatActivity(),
         }
     }
 
+    private fun getInfoMessage(mode: String?): String? {
+        return when (mode) {
+            "solo" -> "waefgrg"
+            "time" -> "ddd"
+            else -> null
+        }
+    }
+
 
     private fun getGameInfo(mode: String, mapId: Int, lang: String) = GameInfo(mode, mapId, 5, lang)
 
+    class MessageDialog : DialogFragment() {
+
+
+        fun modeMessage(message: String): MessageDialog {
+            this.message = message
+            return this
+        }
+
+        private var message: String? = null
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            val context = activity ?: return super.onCreateDialog(savedInstanceState)
+
+            return AlertDialog.Builder(context)
+                .setMessage(message)
+                .setPositiveButton(R.string.ok) { _, _ ->
+                    (context as? MenuActivity)?.viewModel?.iReadModeInfo()
+                }
+                .create()
+        }
+
+    }
 
 }
