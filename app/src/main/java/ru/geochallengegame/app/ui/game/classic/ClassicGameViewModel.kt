@@ -12,15 +12,15 @@ import ru.geochallengegame.app.game.GameInfo
 import ru.geochallengegame.app.game.GameMap
 import ru.geochallengegame.app.game.TaskAnswer
 import ru.geochallengegame.app.game.controlers.GameController
-import ru.geochallengegame.app.ui.game.BaseGameViewModel
 import ru.geochallengegame.app.ui.game.GameError
+import ru.geochallengegame.app.ui.game.WithStatisticGameViewModel
 import java.util.concurrent.TimeUnit
 
 open class ClassicGameViewModel(
     private val gameController: GameController,
     private val gameMap: GameMap,
     val gameInfo: GameInfo
-) : BaseGameViewModel() {
+) : WithStatisticGameViewModel(gameController) {
 
     companion object{
         const val SECONDS_FOR_TASK = 13L
@@ -61,16 +61,6 @@ open class ClassicGameViewModel(
         points.postValue((points.value ?: 0) + pointsForCurrentTask)
 //        pointsForCurrentLevel
 //            .postValue((pointsForCurrentLevel.value ?: 0) + pointsForCurrentTask)
-
-        cityTask?.name?.let {
-            gameController.postGameStats(it, distance, currentLevel.value!!, seconds.toInt())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .onErrorComplete()
-                .subscribe()
-        }
-
-
         val answer = TaskAnswer(cityTask!!, LatLng(latitude, longitude))
         taskAnswer.postValue(answer)
         finishTask()
@@ -94,6 +84,7 @@ open class ClassicGameViewModel(
                 finishTask()
             }
             .subscribe {
+                statistic.seconds = it.toInt()
                 secondsPassed.postValue(it)
             }
     }
@@ -111,8 +102,10 @@ open class ClassicGameViewModel(
     }
 
     override fun finishGame() {
+        if (!isTaskCompleted.value!!) finishTask()
         if (points.value == 0 || points.value == null) {
             gameResult.postValue(Pair(0, false))
+            super.finishGame()
             return
         }
         addDisposable(gameController

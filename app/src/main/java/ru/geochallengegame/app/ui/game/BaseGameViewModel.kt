@@ -206,6 +206,7 @@ abstract class BaseGameViewModel : ViewModel() {
     abstract fun getNextTask(): Single<CityTask>
     abstract fun prepareNewLevel(newLevel: Int): Single<Int>
 
+
     abstract fun haveTaskForCurrentLevel(): Boolean
 
 }

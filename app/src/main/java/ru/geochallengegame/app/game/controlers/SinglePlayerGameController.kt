@@ -50,21 +50,20 @@ class SinglePlayerGameController @Inject constructor(
     override fun postGameStats(
         taskName: String,
         distance: Double,
-        level: Int,
-        seconds: Int
+        level: Int?,
+        seconds: Int?
     ): Completable {
         val username = userDataRepository.username
         return geochallengeService.postStats(
             gameInfo.mapId,
             taskName,
             distance,
+            gameInfo.mode,
             level,
             seconds,
             username
         )
     }
-
-
 //    override fun finishGameWithPostRecord(score: Int, countTask: Int): Completable {
 //        if (score == 0) return Completable.complete()
 //        val userId = userDataRepository.uid

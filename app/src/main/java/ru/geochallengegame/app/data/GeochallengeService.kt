@@ -56,8 +56,10 @@ interface GeochallengeService {
         mapId: Int,
         taskName: String,
         distance: Double,
-        level: Int,
-        seconds: Int,
-        username: String
+        mode: String,
+        level: Int?,
+        seconds: Int?,
+        username: String?
     ): Completable
+
 }

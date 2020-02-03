@@ -29,6 +29,7 @@ class TimeLimitGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
         ptsNextLvl.visibility = View.GONE
         of.visibility = View.GONE
         timerTv.visibility = View.VISIBLE
+        nextCityBtn.visibility = View.GONE
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

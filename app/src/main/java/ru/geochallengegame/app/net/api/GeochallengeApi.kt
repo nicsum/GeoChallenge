@@ -92,9 +92,10 @@ interface GeochallengeApi {
         @Field("map_id") mapId: Int,
         @Field("cname") taskName: String,
         @Field("distance") distance: Double,
-        @Field("level") level: Int,
-        @Field("seconds") seconds: Int,
-        @Field("username") username: String
+        @Field("level") level: Int?,
+        @Field("seconds") seconds: Int?,
+        @Field("username") username: String?,
+        @Field("mode") mode: String
 
     ): Completable
 }

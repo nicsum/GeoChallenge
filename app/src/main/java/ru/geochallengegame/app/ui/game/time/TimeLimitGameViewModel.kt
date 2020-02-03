@@ -13,15 +13,15 @@ import ru.geochallengegame.app.game.GameInfo
 import ru.geochallengegame.app.game.GameMap
 import ru.geochallengegame.app.game.TaskAnswer
 import ru.geochallengegame.app.game.controlers.GameController
-import ru.geochallengegame.app.ui.game.BaseGameViewModel
 import ru.geochallengegame.app.ui.game.GameError
+import ru.geochallengegame.app.ui.game.WithStatisticGameViewModel
 import java.util.concurrent.TimeUnit
 
 class TimeLimitGameViewModel(
     private val gameController: GameController,
     val gameMap: GameMap,
     val gameInfo: GameInfo
-) : BaseGameViewModel() {
+) : WithStatisticGameViewModel(gameController) {
 
     companion object {
         const val DEFAULT_COUNT_TIMER: Long = 30
@@ -46,19 +46,6 @@ class TimeLimitGameViewModel(
          val resultTime = timer.value!!.second - timer.value!!.first + timeBonus
         val answer = TaskAnswer(cityTask!!, LatLng(latitude, longitude))
 
-         cityTask?.name?.let {
-             gameController.postGameStats(
-                 it,
-                 distance,
-                 currentLevel.value!!,
-                 timer.value!!.first.toInt()
-             )
-                 .subscribeOn(Schedulers.io())
-                 .observeOn(AndroidSchedulers.mainThread())
-                 .onErrorComplete()
-                 .subscribe()
-         }
-
          taskAnswer.postValue(answer)
 
          if (resultTime <= 0) {
@@ -73,6 +60,7 @@ class TimeLimitGameViewModel(
                  .subscribe {
                      nextTask()
                  })
+             finishTask()
          }
      }
 
@@ -98,8 +86,9 @@ class TimeLimitGameViewModel(
                 timer.postValue(0L to count)
             }
             .subscribe{
-                val timeLeft = timer.value!!.first + 1
-                timer.postValue(timeLeft to count)
+                statistic.seconds = it.toInt()
+//                val timeLeft = timer.value!!.first + 1
+                timer.postValue(it to count)
             }
 
     }
@@ -139,6 +128,7 @@ class TimeLimitGameViewModel(
 
     override fun finishGame() {
         timerDisposable?.dispose()
+        if (!isTaskCompleted.value!!) finishTask()
         if (taskCounterGame.value == 1 || taskCounterGame.value == null) {
             gameResult.postValue(Pair(0, false))
             super.finishGame()
