@@ -22,7 +22,7 @@
 
         <item
             android:id="@+id/nav_hungred"
-            android:icon="@drawable/ic_menu_time"
+            android:icon="@drawable/ic_menu_fatal"
             android:title="@string/hungred_title" />
     </group>
 
