@@ -6,10 +6,10 @@ import dagger.Provides
 import ru.geochallengegame.app.ui.game.BaseGameMapActivity
 import ru.geochallengegame.app.ui.game.classic.ClassicGameViewModel
 import ru.geochallengegame.app.ui.game.classic.ClassicGameViewModelFactory
-import ru.geochallengegame.app.ui.game.endless.EndlessGameViewModel
-import ru.geochallengegame.app.ui.game.endless.EndlessGameViewModelFactory
 import ru.geochallengegame.app.ui.game.hundred.HungredGameViewModel
 import ru.geochallengegame.app.ui.game.hundred.HungredGameViewModelFactory
+import ru.geochallengegame.app.ui.game.immortal.ImmortalGameViewModel
+import ru.geochallengegame.app.ui.game.immortal.ImmortalGameViewModelFactory
 import ru.geochallengegame.app.ui.game.time.TimeLimitGameViewModel
 import ru.geochallengegame.app.ui.game.time.TimeLimitGameViewModelFactory
 
@@ -36,9 +36,9 @@ class GameActivityModule {
     @Provides
     fun provideEndlessGameViewModule(
         activity: BaseGameMapActivity,
-        factory: EndlessGameViewModelFactory
-    ): EndlessGameViewModel {
-        return ViewModelProvider(activity, factory).get(EndlessGameViewModel::class.java)
+        factory: ImmortalGameViewModelFactory
+    ): ImmortalGameViewModel {
+        return ViewModelProvider(activity, factory).get(ImmortalGameViewModel::class.java)
     }
 
     @Provides

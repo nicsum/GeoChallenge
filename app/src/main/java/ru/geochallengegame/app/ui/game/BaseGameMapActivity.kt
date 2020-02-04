@@ -22,8 +22,8 @@ import ru.geochallengegame.R
 import ru.geochallengegame.app.AppDelegate
 import ru.geochallengegame.app.di.activity.GameActivityComponent
 import ru.geochallengegame.app.ui.game.classic.ClassicGameActivity
-import ru.geochallengegame.app.ui.game.endless.EndlessGameActivity
 import ru.geochallengegame.app.ui.game.hundred.HungredGameActivity
+import ru.geochallengegame.app.ui.game.immortal.ImmortalGameActivity
 import ru.geochallengegame.app.ui.game.time.TimeLimitGameActivity
 import ru.geochallengegame.app.ui.records.RecordsActivity
 
@@ -110,6 +110,7 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
         }
     }
 
+
     override fun onStart() {
         super.onStart()
         getViewModel().gameResult.observe(this, Observer {
@@ -117,17 +118,6 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
                 showResultGameDialog()
             }
         })
-//        getViewModel().isGameFinished.observe(this, Observer {
-//            if (it) {
-//                Toast.makeText(
-//                    this,
-//                    getString(R.string.game_is_finished),
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//                startActivity(Intent(this, RecordsActivity::class.java))
-//                finish()
-//            }
-//        })
 
         getViewModel().error.observe(
             this,
@@ -175,7 +165,7 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
         when (gameInfo.mode) {
             "solo" -> startActivity(Intent(this, ClassicGameActivity::class.java))
             "time" -> startActivity(Intent(this, TimeLimitGameActivity::class.java))
-            "endless" -> startActivity(Intent(this, EndlessGameActivity::class.java))
+            "endless" -> startActivity(Intent(this, ImmortalGameActivity::class.java))
             "fatal100" -> startActivity(Intent(this, HungredGameActivity::class.java))
             else -> throw IllegalArgumentException("unknown mode")
         }

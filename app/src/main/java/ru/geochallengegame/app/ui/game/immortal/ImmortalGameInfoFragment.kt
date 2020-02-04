@@ -1,4 +1,4 @@
-package ru.geochallengegame.app.ui.game.endless
+package ru.geochallengegame.app.ui.game.immortal
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,10 +11,10 @@ import ru.geochallengegame.app.ui.game.BaseGameInfoFragment
 import ru.geochallengegame.app.ui.game.BaseGameViewModel
 import javax.inject.Inject
 
-class EndlessGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
+class ImmortalGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
 
 
-    lateinit var viewModel: EndlessGameViewModel
+    lateinit var viewModel: ImmortalGameViewModel
 
     override fun getViewModel(): BaseGameViewModel {
         return viewModel
@@ -36,7 +36,7 @@ class EndlessGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
 
-        viewModel = (activity as EndlessGameActivity).viewModel
+        viewModel = (activity as ImmortalGameActivity).viewModel
 
         viewModel.isTaskCompleted.observe(
             viewLifecycleOwner,

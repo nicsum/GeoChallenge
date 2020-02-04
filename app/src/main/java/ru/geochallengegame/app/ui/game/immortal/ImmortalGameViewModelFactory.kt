@@ -1,4 +1,4 @@
-package ru.geochallengegame.app.ui.game.endless
+package ru.geochallengegame.app.ui.game.immortal
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -8,7 +8,7 @@ import ru.geochallengegame.app.game.controlers.GameController
 import ru.geochallengegame.app.game.controlers.SinglePlayerGameController
 import javax.inject.Inject
 
-class EndlessGameViewModelFactory @Inject constructor(
+class ImmortalGameViewModelFactory @Inject constructor(
     private val gameController: SinglePlayerGameController,
     private val gameMap: GameMap,
     private val gameInfo: GameInfo

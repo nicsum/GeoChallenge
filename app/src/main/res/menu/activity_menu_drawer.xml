@@ -16,9 +16,9 @@
             android:title="@string/time_title" />
 
         <item
-            android:id="@+id/nav_endless"
+            android:id="@+id/nav_immortal"
             android:icon="@drawable/ic_menu_endless"
-            android:title="@string/endless_title" />
+            android:title="@string/immortal_title" />
 
         <item
             android:id="@+id/nav_hungred"

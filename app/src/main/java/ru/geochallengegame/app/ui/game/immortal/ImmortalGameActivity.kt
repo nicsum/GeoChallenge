@@ -1,4 +1,4 @@
-package ru.geochallengegame.app.ui.game.endless
+package ru.geochallengegame.app.ui.game.immortal
 
 import android.os.Bundle
 import ru.geochallengegame.R
@@ -8,12 +8,12 @@ import ru.geochallengegame.app.ui.game.BaseGameMapActivity
 import ru.geochallengegame.app.ui.game.BaseGameViewModel
 import javax.inject.Inject
 
-class EndlessGameActivity : BaseGameMapActivity() {
+class ImmortalGameActivity : BaseGameMapActivity() {
     @Inject
-    lateinit var fragment: EndlessGameInfoFragment
+    lateinit var fragment: ImmortalGameInfoFragment
 
     @Inject
-    lateinit var viewModel: EndlessGameViewModel
+    lateinit var viewModel: ImmortalGameViewModel
 
     override val answerExitListener: AnswerExitListener
         get() = object : AnswerExitListener {

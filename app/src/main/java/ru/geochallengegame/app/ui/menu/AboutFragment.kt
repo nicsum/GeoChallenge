@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fr_about.*
 import ru.geochallengegame.BuildConfig
@@ -12,7 +11,6 @@ import ru.geochallengegame.R
 
 class AboutFragment : Fragment() {
 
-    lateinit var versionTextView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,

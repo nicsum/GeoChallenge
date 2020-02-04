@@ -14,7 +14,7 @@
     <string name="about_time">Постарайтесь угадать, как можно больше городов за отведенное время. Время добавляется или отнимается в зависимости от точности вашего ответа\nПервоначальное время на угадывание: 30 секунд\nЗа точное отгадывание локации: +10 секунд За неверное отгадывание: -10 секунд</string>
     <string name="distance_info">До города %1$s</string>
     <string name="e_mail">Почта</string>
-    <string name="email_already_in_use_warning">Пользователь с таким почтой уже зарегистрирован</string>
+    <string name="email_already_in_use_warning">Пользователь с такой почтой уже зарегистрирован</string>
     <string name="email_is_not_correct">Почта введена неверно</string>
     <string name="enter_your_email">Введите свою почту</string>
     <string name="enter_your_password">Введите пароль</string>
@@ -61,8 +61,8 @@
     <string name="time_subtitle">Игра на время</string>
     <string name="time_title">ТаймТриал</string>
     //!!!!
-    <string name="endless_title">Endless</string>
-    <string name="endless_subtitle">Game for points</string>
+    <string name="immortal_title">Immortal</string>
+    <string name="immortal_subtitle">Game for points</string>
 
     <string name="hungred_title">Fatal 100</string>
     <string name="hungred_subtitle">Fatal 100</string>

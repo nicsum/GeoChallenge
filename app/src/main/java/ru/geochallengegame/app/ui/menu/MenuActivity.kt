@@ -34,8 +34,8 @@ import ru.geochallengegame.app.di.menu.MenuComponent
 import ru.geochallengegame.app.game.GameInfo
 import ru.geochallengegame.app.game.GameMap
 import ru.geochallengegame.app.ui.game.classic.ClassicGameActivity
-import ru.geochallengegame.app.ui.game.endless.EndlessGameActivity
 import ru.geochallengegame.app.ui.game.hundred.HungredGameActivity
+import ru.geochallengegame.app.ui.game.immortal.ImmortalGameActivity
 import ru.geochallengegame.app.ui.game.time.TimeLimitGameActivity
 import ru.geochallengegame.app.ui.menu.vm.MenuMapsViewModel
 import ru.geochallengegame.app.ui.splash.SplashActivity
@@ -88,7 +88,7 @@ class MenuActivity : AppCompatActivity(),
             setOf(
                 R.id.nav_solo,
                 R.id.nav_time,
-                R.id.nav_endless,
+                R.id.nav_immortal,
                 R.id.nav_hungred,
                 R.id.nav_settings,
                 R.id.nav_about
@@ -127,10 +127,6 @@ class MenuActivity : AppCompatActivity(),
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
 
 
-    }
-
-    override fun onResume() {
-        super.onResume()
         gameMapIsSelected = false
 
         viewModel.loadingIsVisible.observe(
@@ -164,7 +160,11 @@ class MenuActivity : AppCompatActivity(),
             Observer {
                 if (it) showInfoDialog()
             })
+    }
 
+    override fun onRestart() {
+        super.onRestart()
+        gameMapIsSelected = false
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -203,7 +203,7 @@ class MenuActivity : AppCompatActivity(),
         val dialog = supportFragmentManager
             .findFragmentByTag("MessageDialog") as? MessageDialog ?: return
         supportFragmentManager.beginTransaction().remove(dialog).commit()
-        
+
     }
 
     override fun onDestroy() {
@@ -249,7 +249,7 @@ class MenuActivity : AppCompatActivity(),
         val intent = when (mode) {
             "solo" -> Intent(this, ClassicGameActivity::class.java)
             "time" -> Intent(this, TimeLimitGameActivity::class.java)
-            "endless" -> Intent(this, EndlessGameActivity::class.java)
+            "endless" -> Intent(this, ImmortalGameActivity::class.java) //TODO rename
             "fatal100" -> Intent(this, HungredGameActivity::class.java)
             else -> null
         } ?: return
@@ -272,7 +272,7 @@ class MenuActivity : AppCompatActivity(),
         return when (distenation?.id) {
             R.id.nav_solo -> "solo"
             R.id.nav_time -> "time"
-            R.id.nav_endless -> "endless"
+            R.id.nav_immortal -> "endless" //TODO rename
             R.id.nav_hungred -> "fatal100"
             else -> null
         }

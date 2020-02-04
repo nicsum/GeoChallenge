@@ -20,7 +20,7 @@ open class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment(
 
     //    @Inject
 //    lateinit var viewModel: ClassicGameViewModel
-
+    var scoreAnimator: ValueAnimator? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,7 +30,6 @@ open class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment(
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-
         val viewModel = getViewModel() as ClassicGameViewModel
         viewModel.isTaskCompleted.observe(
             viewLifecycleOwner,
@@ -67,24 +66,33 @@ open class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment(
         super.onActivityCreated(savedInstanceState)
     }
 
+
+    override fun onDestroy() {
+        super.onDestroy()
+        scoreAnimator?.removeAllUpdateListeners()
+        scoreAnimator = null
+    }
+
     override fun getViewModel(): BaseGameViewModel {
         return (activity as ClassicGameActivity).viewModel
     }
 
     private fun addPoints(value: Int) {
-
         val oldValue = try {
             pointsText.text.toString().toInt()
         } catch (e: Exception) {
             0
         }
-        val scoreAnimator = ValueAnimator.ofInt(oldValue, value)
-        scoreAnimator.animatedValue
-        scoreAnimator.duration = 3000
-        scoreAnimator.addUpdateListener { animation ->
+        if (oldValue == value) return
+
+        if (scoreAnimator != null) scoreAnimator?.removeAllUpdateListeners()
+        scoreAnimator = ValueAnimator.ofInt(oldValue, value)
+
+        scoreAnimator?.duration = 3000
+        scoreAnimator?.addUpdateListener { animation ->
             pointsText.text = animation.animatedValue.toString()
         }
-        scoreAnimator.start()
+        scoreAnimator?.start()
     }
 
 }

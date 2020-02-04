@@ -1,4 +1,4 @@
-package ru.geochallengegame.app.ui.game.endless
+package ru.geochallengegame.app.ui.game.immortal
 
 import com.google.android.gms.maps.model.LatLng
 import io.reactivex.Single
@@ -9,7 +9,7 @@ import ru.geochallengegame.app.game.TaskAnswer
 import ru.geochallengegame.app.game.controlers.GameController
 import ru.geochallengegame.app.ui.game.WithStatisticGameViewModel
 
-class EndlessGameViewModel(
+class ImmortalGameViewModel(
     private val gameController: GameController,
     private val gameMap: GameMap,
     val gameInfo: GameInfo
@@ -30,6 +30,7 @@ class EndlessGameViewModel(
 
     override fun finishGame() {
         if (!isTaskCompleted.value!!) finishTask()
+        gameResult.postValue(Pair(0, false))
         super.finishGame()
     }
 

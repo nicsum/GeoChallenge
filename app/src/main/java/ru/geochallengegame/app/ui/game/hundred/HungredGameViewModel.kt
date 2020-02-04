@@ -26,4 +26,6 @@ class HungredGameViewModel(
             finishGame()
         } else super.clickedPosition(latitude, longitude, distance)
     }
+
+
 }

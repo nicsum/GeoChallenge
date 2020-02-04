@@ -26,9 +26,7 @@ open class ClassicGameViewModel(
         const val SECONDS_FOR_TASK = 13L
         const val SECONDS_FOR_BONUS = 10L
         const val MAX_POINTS_FOR_DISTANCE = 800.0
-
     }
-
 
     private val maxPointsForLevel = gameInfo.countTaskForLevel *
             (SECONDS_FOR_BONUS.toInt() * 20 + MAX_POINTS_FOR_DISTANCE)
@@ -38,8 +36,6 @@ open class ClassicGameViewModel(
 
     var points = MutableLiveData<Int>()
 
-
-//    var pointsForCurrentLevel = MutableLiveData<Int>()
 
     private var neededPointsForNextLevel = neededPointsForNextLevel()
 
