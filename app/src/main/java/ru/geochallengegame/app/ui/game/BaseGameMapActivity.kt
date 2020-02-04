@@ -259,6 +259,8 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
     }
 
     class ResultGameDialog : DialogFragment() {
+
+        private var blocked = false
         private var listener: FinishGameListener? = null
         private var score: Int? = null
         private var isMyBestResult: Boolean? = null
@@ -290,12 +292,22 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
             return AlertDialog.Builder(context)
                 .setMessage(message)
                 .setPositiveButton(R.string.leaderboard) { _, _ ->
-                    listener?.onShowRecords()
+                    if (!blocked) {
+                        listener?.onShowRecords()
+                        blocked = true
+                    }
                 }.setNeutralButton(R.string.replay) { _, _ ->
-                    listener?.onReplay()
+                    if (!blocked) {
+                        listener?.onReplay()
+                        blocked = true
+                    }
+
                 }
                 .setNegativeButton(R.string.exit) { _, _ ->
-                    listener?.onExit()
+                    if (!blocked) {
+                        listener?.onExit()
+                        blocked = true
+                    }
                 }
                 .create()
         }

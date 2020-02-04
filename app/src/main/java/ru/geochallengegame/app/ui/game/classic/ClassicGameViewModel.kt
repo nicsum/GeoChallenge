@@ -76,13 +76,18 @@ open class ClassicGameViewModel(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnComplete {
-                taskAnswer.postValue(TaskAnswer(cityTask!!))
-                finishTask()
+                timerOver()
             }
             .subscribe {
                 statistic.seconds = it.toInt()
                 secondsPassed.postValue(it)
             }
+    }
+
+    protected open fun timerOver() {
+        statistic.seconds = -1
+        taskAnswer.postValue(TaskAnswer(cityTask!!))
+        finishTask()
     }
 
     override fun levelFinished() {

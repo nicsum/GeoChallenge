@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
@@ -46,7 +47,9 @@ class MenuActivity : AppCompatActivity(),
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var refreshLayout: SwipeRefreshLayout
-    private var gameMapIsSelected = false
+    private var blocked = false
+
+    var actionMenu: Menu? = null
 
 
     @Inject
@@ -80,7 +83,21 @@ class MenuActivity : AppCompatActivity(),
 
         findNavController(R.id.nav_host_fragment)
             .addOnDestinationChangedListener { _, destination, _ ->
-                viewModel.selectMode(getCurrentMode(destination))
+                when (destination.id) {
+                    R.id.nav_about -> {
+                        actionMenu?.get(0)?.isVisible = false
+                        refreshLayout.isEnabled = false
+                    }
+                    R.id.nav_settings -> {
+                        actionMenu?.get(0)?.isVisible = false
+                        refreshLayout.isEnabled = false
+                    }
+                    else -> {
+                        viewModel.selectMode(getCurrentMode(destination))
+                        actionMenu?.get(0)?.isVisible = true
+                        refreshLayout.isEnabled = true
+                    }
+                }
             }
 
 
@@ -127,7 +144,7 @@ class MenuActivity : AppCompatActivity(),
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
 
 
-        gameMapIsSelected = false
+        blocked = false
 
         viewModel.loadingIsVisible.observe(
             this,
@@ -164,7 +181,7 @@ class MenuActivity : AppCompatActivity(),
 
     override fun onRestart() {
         super.onRestart()
-        gameMapIsSelected = false
+        blocked = false
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -173,15 +190,22 @@ class MenuActivity : AppCompatActivity(),
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if (FirebaseAuth.getInstance().currentUser != null)
+        if (FirebaseAuth.getInstance().currentUser != null) {
             menuInflater.inflate(R.menu.main_menu, menu)
+            actionMenu = menu
+        }
+
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.logout) {
-            viewModel.logout()
-            return true
+            if (!blocked) {
+                viewModel.logout()
+                blocked = true
+                return true
+            } else super.onOptionsItemSelected(item)
+
         }
         if (item.itemId == R.id.modeInfo) {
             viewModel.info()
@@ -237,9 +261,9 @@ class MenuActivity : AppCompatActivity(),
     }
 
     override fun onClickGameMap(map: GameMap, lang: String) {
-        if (gameMapIsSelected) return
+        if (blocked) return
 
-        gameMapIsSelected = true
+        blocked = true
 
         val mode = getCurrentMode() ?: return
         startGame(map, mode, lang)

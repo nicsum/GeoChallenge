@@ -1,6 +1,10 @@
 package ru.geochallengegame.app.ui.game.immortal
 
+import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
 import ru.geochallengegame.R
 import ru.geochallengegame.app.AppDelegate
 import ru.geochallengegame.app.ui.game.AnswerExitListener
@@ -18,14 +22,14 @@ class ImmortalGameActivity : BaseGameMapActivity() {
     override val answerExitListener: AnswerExitListener
         get() = object : AnswerExitListener {
             override fun onExit() {
-                hardExit()
+                exit()
             }
 
             override fun onCancel() {}
         }
 
     override fun showResultGameDialog() {
-        showAnswerExitDialog()
+        ResultGameDialog().show(supportFragmentManager, "ResultGameDialog")
     }
 
     override fun getViewModel(): BaseGameViewModel {
@@ -43,5 +47,29 @@ class ImmortalGameActivity : BaseGameMapActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.game_info_container, fragment)
             .commit()
+    }
+
+    private fun exit() {
+        hardExit()
+    }
+
+
+    class ResultGameDialog : DialogFragment() {
+
+        override fun onCancel(dialog: DialogInterface) {
+            (activity as ImmortalGameActivity).exit()
+        }
+
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            val context = activity as ImmortalGameActivity
+            return AlertDialog.Builder(context)
+                .setMessage(R.string.result_game_message_level_are_over)
+                .setPositiveButton(R.string.exit) { _, _ ->
+                    (activity as ImmortalGameActivity).exit()
+                }
+                .create()
+        }
+
+
     }
 }

@@ -53,10 +53,10 @@ interface GeochallengeService {
     ): Single<List<Record>>
 
     fun postStats(
-        mapId: Int,
-        taskName: String,
-        distance: Double,
-        mode: String,
+        mapId: Int?,
+        taskName: String?,
+        distance: Double?,
+        mode: String?,
         level: Int?,
         seconds: Int?,
         username: String?

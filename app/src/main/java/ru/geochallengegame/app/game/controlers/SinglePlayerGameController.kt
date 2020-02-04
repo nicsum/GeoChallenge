@@ -48,8 +48,8 @@ class SinglePlayerGameController @Inject constructor(
     }
 
     override fun postGameStats(
-        taskName: String,
-        distance: Double,
+        taskName: String?,
+        distance: Double?,
         level: Int?,
         seconds: Int?
     ): Completable {

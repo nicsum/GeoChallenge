@@ -103,6 +103,8 @@
     //!!!
     <string name="immortal_title">Immortal</string>
     <string name="immortal_subtitle">Game for points</string>
+    <string name="result_game_message_level_are_over">Уровни закончились. \n Гордиться не чем, этот мод для девочек</string>
+
 
     <string name="hungred_title">Fatal 100</string>
     <string name="hungred_subtitle">Fatal 100</string>

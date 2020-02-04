@@ -27,5 +27,10 @@ class HungredGameViewModel(
         } else super.clickedPosition(latitude, longitude, distance)
     }
 
+    override fun timerOver() {
+        taskAnswer.postValue(TaskAnswer(cityTask!!))
+        finishGame()
+    }
+
 
 }

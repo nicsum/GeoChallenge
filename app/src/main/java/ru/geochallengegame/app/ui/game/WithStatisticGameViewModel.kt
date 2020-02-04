@@ -12,19 +12,15 @@ abstract class WithStatisticGameViewModel(val controller: GameController) : Base
     protected var statistic = GameStatistic()
     override fun finishTask() {
         super.finishTask()
-        try {
-            controller.postGameStats(
-                statistic.taskName ?: throw Exception(),
-                statistic.distance ?: throw Exception(),
-                statistic.level ?: throw Exception(),
-                statistic.seconds
-            ).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .onErrorComplete()
-                .subscribe()
-        } catch (e: Exception) {
-        }
-
+        controller.postGameStats(
+            statistic.taskName,
+            statistic.distance,
+            statistic.level,
+            statistic.seconds
+        ).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .onErrorComplete()
+            .subscribe()
     }
 
     override fun clickedPosition(latitude: Double, longitude: Double, distance: Double) {
