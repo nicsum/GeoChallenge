@@ -5,16 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import ru.geochallengegame.R
 import ru.geochallengegame.app.AppDelegate
 import ru.geochallengegame.app.di.records.RecordsComponent
-import javax.inject.Inject
 
 
 class RecordsActivity : AppCompatActivity(){
 
-    @Inject
-    lateinit var fragment: RecordsFragment
 
-
-    private lateinit var recordsComponent: RecordsComponent
+    lateinit var recordsComponent: RecordsComponent
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,15 +24,16 @@ class RecordsActivity : AppCompatActivity(){
 
         super.onCreate(savedInstanceState)
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container, fragment)
-            .commit()
         setContentView(R.layout.ac_records)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, RecordsFragment())
+            .commit()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onBackPressed() {
+        super.onBackPressed()
         (applicationContext as AppDelegate).destroyGameComponent()
     }
+
 
 }

@@ -12,7 +12,7 @@ import ru.geochallengegame.R
 import ru.geochallengegame.app.game.GameInfo
 import javax.inject.Inject
 
-class RecordsFragment @Inject constructor() : Fragment() {
+class RecordsFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var loadingView: View
@@ -29,6 +29,7 @@ class RecordsFragment @Inject constructor() : Fragment() {
     @Inject
     lateinit var recordsAdapter: RecordsAdapter
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,7 +39,6 @@ class RecordsFragment @Inject constructor() : Fragment() {
         val v = inflater.inflate(R.layout.fr_records, container, false)
         recyclerView = v.findViewById(R.id.records_rv)
         loadingView = v.findViewById(R.id.loading)
-        initAdapter()
 //        initState()
         return v
     }
@@ -47,6 +47,8 @@ class RecordsFragment @Inject constructor() : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        (activity as RecordsActivity).recordsComponent.inject(this)
+        initAdapter()
         viewModel.records.observe(
             viewLifecycleOwner,
             Observer {
