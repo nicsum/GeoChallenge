@@ -23,12 +23,12 @@
 
     //!!!
     <string name="immortal_title">Immortal</string>
-    <string name="immortal_subtitle">Game for points</string>
-    <string name="result_game_message_level_are_over">Уровни закончились. \n Гордиться не чем, этот мод для девочек</string>
+    <string name="immortal_subtitle">God mode</string>
+    <string name="result_game_message_level_are_over">End of levels</string>
 
 
     <string name="hungred_title">Fatal 100</string>
-    <string name="hungred_subtitle">Fatal 100</string>
+    <string name="hungred_subtitle">Hardcore mode</string>
 
 
     <string name="cancel">Cancel</string>
@@ -97,10 +97,12 @@
     <string name="submit_new_password_link">Submit New Password Link</string>
     <string name="time_is_over">Time is over</string>
     <string name="about">About</string>
-    <string name="about_solo">"Score as many points as you can. For the next level you need at least 2500 points. Points count for speed and accuracy. Max points you can score at level: 5000. Max points at location for accuracy is: 800 Max points at location for speed is: 200 "</string>
-    <string name="about_time">Try to guess as many location as you can for a limited time game. Time is added or subtrаcted based on your accuracy. Start limit is: 30 secs For accurate guessing location: +10 secs For incorrect guessing: -10 secs</string>
+    <string name="about_solo">Score as many points as you can.\nFor the next level you need at least 2500 points.\nPoints count for speed and accuracy.\nMax points you can score at level: 5000.\n13 seconds to act.\nMax points at location for accuracy is: 800.\nMax points at location for speed is: 200.\nAnswer radius:\n-World: 1000 km\n-Capitals, USA, Russia: 800 km.\n-Germany, India, Japan, UK, Spain: 200 km.\n-Mexico: 250 km.\n-China, Brazil: 300 km.\n-Saint-Petersburg: 1 km.</string>
+    <string name="about_time">Try to guess as many location as you can for a limited time game.\nTime is added or subtrаcted based on your accuracy.\nStart limit is: 30 secs For accurate guessing location: +10 secs For incorrect guessing: -10 secs\nAnswer radius:\n-World: 1000 km\n-Capitals, USA, Russia: 800 km.\n-Germany, India, Japan, UK, Spain: 200 km.\n-Mexico: 250 km.\n-China, Brazil: 300 km.\n-Saint-Petersburg: 1 km.</string>
+    <string name="about_immortal">Play any map in God Mode.\nNo time for answer, no leaderboard, no score.\nTest your skill and enjoy the ride.</string>
+    <string name="about_fatal">Hardcore mode.\n13 seconds to act, but if Your answer radius bigger than 100 km - instant game over</string>
     <string name="about_version">Application Version</string>
-    <string name="about_main">GeoChallengeGame - A game for the development of your geographical intuition. Guess cities and attractions on the map of the whole world. Get competiton with your friends in leaderboard and various modes. Challenge yourself on the world map by guessing over 8,000 locations!</string>
+    <string name="about_main">A game for the development of your geographical intuition. Guess cities and attractions on the map of the whole world. Get competiton with your friends in leaderboard and various modes. Challenge yourself on the world map by guessing over 8,000 locations!</string>
     <string name="about_devs_text">Developers</string>
     <string name="about_devs" translatable="false">Rexedead and Danbi</string>
 </resources>
