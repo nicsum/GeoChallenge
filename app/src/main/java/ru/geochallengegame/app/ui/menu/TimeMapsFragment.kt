@@ -13,7 +13,7 @@ class TimeMapsFragment : BaseMapsFragment() {
 
     override fun getLayout(): Int {
 
-        return R.layout.fr_time_maps
+        return R.layout.fr_menu_maps
     }
 
 }

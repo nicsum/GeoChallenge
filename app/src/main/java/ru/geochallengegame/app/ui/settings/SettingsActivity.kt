@@ -16,4 +16,6 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState, persistentState)
         setContentView(R.layout.ac_settings)
     }
+
+
 }

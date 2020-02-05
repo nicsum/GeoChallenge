@@ -11,6 +11,6 @@ class HungredMapsFragment : BaseMapsFragment() {
     }
 
     override fun getLayout(): Int {
-        return R.layout.fr_classic_maps
+        return R.layout.fr_menu_maps
     }
 }

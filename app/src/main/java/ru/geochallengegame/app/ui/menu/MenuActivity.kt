@@ -9,13 +9,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
@@ -25,7 +23,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -46,11 +43,7 @@ class MenuActivity : AppCompatActivity(),
     OnClickMapListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var refreshLayout: SwipeRefreshLayout
     private var blocked = false
-
-    var actionMenu: Menu? = null
-
 
     @Inject
     lateinit var viewModel: MenuMapsViewModel
@@ -75,31 +68,13 @@ class MenuActivity : AppCompatActivity(),
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
 
-        refreshLayout = findViewById(R.id.refreshLayout)
-
-        refreshLayout.setOnRefreshListener {
-            viewModel.loadMaps()
-        }
-
         findNavController(R.id.nav_host_fragment)
             .addOnDestinationChangedListener { _, destination, _ ->
-                when (destination.id) {
-                    R.id.nav_about -> {
-                        actionMenu?.get(0)?.isVisible = false
-                        refreshLayout.isEnabled = false
-                    }
-                    R.id.nav_settings -> {
-                        actionMenu?.get(0)?.isVisible = false
-                        refreshLayout.isEnabled = false
-                    }
-                    else -> {
-                        viewModel.selectMode(getCurrentMode(destination))
-                        actionMenu?.get(0)?.isVisible = true
-                        refreshLayout.isEnabled = true
-                    }
+                val mode = getCurrentMode(destination)
+                if (mode != null) {
+                    viewModel.selectMode(mode)
                 }
             }
-
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -143,14 +118,7 @@ class MenuActivity : AppCompatActivity(),
         drawerLayout.drawerElevation = 0f
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
 
-
         blocked = false
-
-        viewModel.loadingIsVisible.observe(
-            this,
-            Observer {
-                refreshLayout.isRefreshing = it
-            })
 
         viewModel.errorIsVisible.observe(
             this,
@@ -177,6 +145,7 @@ class MenuActivity : AppCompatActivity(),
             Observer {
                 if (it) showInfoDialog()
             })
+
     }
 
     override fun onRestart() {
@@ -192,10 +161,9 @@ class MenuActivity : AppCompatActivity(),
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         if (FirebaseAuth.getInstance().currentUser != null) {
             menuInflater.inflate(R.menu.main_menu, menu)
-            actionMenu = menu
-        }
 
-        return true
+        }
+        return false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -207,14 +175,13 @@ class MenuActivity : AppCompatActivity(),
             } else super.onOptionsItemSelected(item)
 
         }
-        if (item.itemId == R.id.modeInfo) {
-            viewModel.info()
-            return true
-        }
+//        if (item.itemId == R.id.modeInfo) {
+//            viewModel.info()
+//            return true
+//        }
 
         return super.onOptionsItemSelected(item)
     }
-
 
     private fun showInfoDialog() {
         MessageDialog()
@@ -247,24 +214,9 @@ class MenuActivity : AppCompatActivity(),
         startActivity(intent)
     }
 
-
-//    private fun changeFragment(newFragment: Fragment){
-//        supportFragmentManager
-//            .beginTransaction()
-//            .add(R.id.container, newFragment)
-//            .commit()
-//    }
-
-
-    fun showMessage(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-    }
-
     override fun onClickGameMap(map: GameMap, lang: String) {
         if (blocked) return
-
         blocked = true
-
         val mode = getCurrentMode() ?: return
         startGame(map, mode, lang)
     }
@@ -302,9 +254,7 @@ class MenuActivity : AppCompatActivity(),
         }
     }
 
-
     private fun getGameInfo(mode: String, mapId: Int, lang: String) = GameInfo(mode, mapId, 5, lang)
-
 
     class MessageDialog : DialogFragment() {
 

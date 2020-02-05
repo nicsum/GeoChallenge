@@ -1,7 +1,9 @@
 package ru.geochallengegame.app.ui.menu
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fr_about.*
 import ru.geochallengegame.BuildConfig
@@ -19,11 +21,6 @@ class AboutFragment : Fragment() {
         return inflater.inflate(R.layout.fr_about, container, false)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main_menu, menu)
-
-        menu.getItem(0).isVisible = false
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

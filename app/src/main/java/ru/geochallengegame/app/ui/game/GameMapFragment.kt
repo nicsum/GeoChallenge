@@ -77,7 +77,7 @@ class GameMapFragment : SupportMapFragment(),
         this.map?.apply {
             setOnMapClickListener(this@GameMapFragment)
             setOnCameraMoveListener(this@GameMapFragment)
-            uiSettings.isMapToolbarEnabled = false
+            uiSettings.isMapToolbarEnabled = true
 
             if (customStyle == null) {
                 setMapStyle(
