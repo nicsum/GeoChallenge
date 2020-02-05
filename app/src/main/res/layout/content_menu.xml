@@ -25,6 +25,4 @@
         app:navGraph="@navigation/menu_navigation"
         tools:ignore="FragmentTagUsage" />
 
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

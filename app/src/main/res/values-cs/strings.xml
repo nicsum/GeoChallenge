@@ -55,7 +55,7 @@
 
     <string name="login">Enter</string>
 
-    <string name="logout">Opustit profil</string>
+    <string name="logout">Opustit</string>
 
     <string name="menu_error">Nemohu nahrát mapy. Zkontroluj internetové připojení nebo restartuj hru</string>
 

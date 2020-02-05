@@ -26,7 +26,6 @@ abstract class BaseMapsFragment : Fragment() {
     @Inject
     lateinit var linearLayoutManager: LinearLayoutManager
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,10 +39,15 @@ abstract class BaseMapsFragment : Fragment() {
         refreshLayout.setOnRefreshListener { viewModel.loadMaps() }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.modeInfo) {
+            viewModel.info()
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.maps_menu, menu)
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -67,4 +71,5 @@ abstract class BaseMapsFragment : Fragment() {
         super.onStart()
         viewModel.loadMaps()
     }
+
 }

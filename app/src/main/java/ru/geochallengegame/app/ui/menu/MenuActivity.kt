@@ -6,8 +6,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -25,7 +23,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import ru.geochallengegame.R
 import ru.geochallengegame.app.AppDelegate
 import ru.geochallengegame.app.di.menu.MenuComponent
@@ -40,7 +37,7 @@ import ru.geochallengegame.app.ui.splash.SplashActivity
 import javax.inject.Inject
 
 class MenuActivity : AppCompatActivity(),
-    OnClickMapListener {
+    OnClickMapListener, SignOutable {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var blocked = false
@@ -83,7 +80,8 @@ class MenuActivity : AppCompatActivity(),
                 R.id.nav_immortal,
                 R.id.nav_hungred,
                 R.id.nav_settings,
-                R.id.nav_about
+                R.id.nav_about,
+                R.id.nav_signout
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -137,7 +135,7 @@ class MenuActivity : AppCompatActivity(),
             this,
             Observer {
                 if (it)
-                    signOut()
+                    exitFromProfile()
             }
         )
         viewModel.gameInfoIsVisible.observe(
@@ -156,31 +154,6 @@ class MenuActivity : AppCompatActivity(),
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if (FirebaseAuth.getInstance().currentUser != null) {
-            menuInflater.inflate(R.menu.main_menu, menu)
-
-        }
-        return false
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.logout) {
-            if (!blocked) {
-                viewModel.logout()
-                blocked = true
-                return true
-            } else super.onOptionsItemSelected(item)
-
-        }
-//        if (item.itemId == R.id.modeInfo) {
-//            viewModel.info()
-//            return true
-//        }
-
-        return super.onOptionsItemSelected(item)
     }
 
     private fun showInfoDialog() {
@@ -202,13 +175,16 @@ class MenuActivity : AppCompatActivity(),
         menuComponent = null
     }
 
-    private fun signOut() {
+    override fun signOut() {
+        viewModel.logout()
+    }
+
+
+    private fun exitFromProfile() {
         (application as AppDelegate).destroyUserComponent()
         splash()
         finish()
     }
-
-
     private fun splash() {
         val intent = Intent(this, SplashActivity::class.java)
         startActivity(intent)
@@ -225,7 +201,7 @@ class MenuActivity : AppCompatActivity(),
         val intent = when (mode) {
             "solo" -> Intent(this, ClassicGameActivity::class.java)
             "time" -> Intent(this, TimeLimitGameActivity::class.java)
-            "endless" -> Intent(this, ImmortalGameActivity::class.java) //TODO rename
+            "immortal" -> Intent(this, ImmortalGameActivity::class.java)
             "fatal100" -> Intent(this, HungredGameActivity::class.java)
             else -> null
         } ?: return
@@ -248,7 +224,7 @@ class MenuActivity : AppCompatActivity(),
         return when (distenation?.id) {
             R.id.nav_solo -> "solo"
             R.id.nav_time -> "time"
-            R.id.nav_immortal -> "endless" //TODO rename
+            R.id.nav_immortal -> "immortal"
             R.id.nav_hungred -> "fatal100"
             else -> null
         }
@@ -277,12 +253,11 @@ class MenuActivity : AppCompatActivity(),
         }
 
         private fun getInfoMessage(mode: String?): String? {
-            //TODO
             return when (mode) {
                 "solo" -> resources.getString(R.string.about_solo)
                 "time" -> resources.getString(R.string.about_time)
                 "fatal100" -> resources.getString(R.string.about_fatal)
-                "endless" -> resources.getString(R.string.about_immortal)
+                "immortal" -> resources.getString(R.string.about_immortal)
                 else -> null
             }
         }

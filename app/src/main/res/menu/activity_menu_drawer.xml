@@ -40,5 +40,16 @@
 
     </group>
 
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/group_signout">
+
+        <item
+            android:id="@+id/nav_signout"
+            android:icon="@drawable/ic_logout_black_24dp"
+            android:title="@string/logout" />
+
+    </group>
+
 
 </menu>

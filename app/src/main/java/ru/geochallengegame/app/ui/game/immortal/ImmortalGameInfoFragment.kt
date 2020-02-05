@@ -31,8 +31,9 @@ class ImmortalGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
         v.findViewById<TextView>(R.id.of).visibility = View.GONE
         v.findViewById<TextView>(R.id.ptsNextLvl).visibility = View.GONE
         v.findViewById<TextView>(R.id.pts).visibility = View.GONE
-        return inflater.inflate(R.layout.fr_gameinfo, container, false)
+        return v
     }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
 

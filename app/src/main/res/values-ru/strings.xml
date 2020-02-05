@@ -36,7 +36,7 @@
     <string name="leaderboard">Таблица Лидеров</string>
     <string name="level">Уровень:</string>
     <string name="login">Войти</string>
-    <string name="logout">Выйти из профиля</string>
+    <string name="logout">Выйти</string>
     <string name="menu_error">Не удалось загрузить карты.\nПроверьте Интеренет и попробуйте обновить или перезайти в игру</string>
     <string name="mode">Россия</string>
     <string name="multiplayer">Мультиплеер</string>
