@@ -329,8 +329,10 @@ class MenuActivity : AppCompatActivity(),
         private fun getInfoMessage(mode: String?): String? {
             //TODO
             return when (mode) {
-                "solo" -> "waefgrg"
-                "time" -> "ddd"
+                "solo" -> resources.getString(R.string.about_solo)
+                "time" -> resources.getString(R.string.about_time)
+                "fatal100" -> resources.getString(R.string.about_fatal)
+                "endless" -> resources.getString(R.string.about_immortal)
                 else -> null
             }
         }

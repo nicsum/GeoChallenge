@@ -17,7 +17,7 @@
 
         <item
             android:id="@+id/nav_immortal"
-            android:icon="@drawable/ic_menu_endless"
+            android:icon="@drawable/ic_menu_immortal"
             android:title="@string/immortal_title" />
 
         <item
