@@ -105,4 +105,7 @@
     <string name="about_main">A game for the development of your geographical intuition. Guess cities and attractions on the map of the whole world. Get competiton with your friends in leaderboard and various modes. Challenge yourself on the world map by guessing over 8,000 locations!</string>
     <string name="about_devs_text">Developers</string>
     <string name="about_devs" translatable="false">Rexedead and Danbi</string>
+    <string name="_1" translatable="false">1.</string>
+    <string name="_3" translatable="false">3.</string>
+    <string name="_2" translatable="false">2.</string>
 </resources>
