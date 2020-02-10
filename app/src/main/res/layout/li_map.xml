@@ -58,6 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:textSize="12sp"
         android:text="@string/_1"
         app:layout_constraintStart_toStartOf="@+id/card_bg_image"
         app:layout_constraintTop_toTopOf="@+id/card_bg_image" />
@@ -67,33 +68,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="..."
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:text="@string/dots"
         app:layout_constraintStart_toEndOf="@+id/firstPlace"
         app:layout_constraintTop_toTopOf="@+id/card_bg_image" />
-
-    <TextView
-        android:id="@+id/thirdPlace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="@string/_3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/secondPlace" />
 
     <TextView
         android:id="@+id/secondPlace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:textSize="12sp"
         android:text="@string/_2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/firstPlace" />
+
+
+    <TextView
+        android:id="@+id/thirdPlace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textSize="12sp"
+        android:text="@string/_3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/secondPlace" />
+
+
 
     <TextView
         android:id="@+id/thirdPlaceUserTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="..."
+        android:textSize="12sp"
+        android:text="@string/dots"
         app:layout_constraintStart_toEndOf="@+id/thirdPlace"
         app:layout_constraintTop_toBottomOf="@+id/secondPlaceUserTextView" />
 
@@ -101,7 +110,8 @@
         android:id="@+id/secondPlaceUserTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="..."
+        android:textSize="12sp"
+        android:text="@string/dots"
         app:layout_constraintStart_toEndOf="@+id/secondPlace"
         app:layout_constraintTop_toBottomOf="@+id/firstPlaceUserTextView" />
 

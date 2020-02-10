@@ -42,7 +42,7 @@ class GameMapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             itemView.findViewById<TextView>(R.id.secondPlace).visibility = View.VISIBLE
             itemView.findViewById<TextView>(R.id.thirdPlace).visibility = View.VISIBLE
             map.leaders?.forEachIndexed { i, leader ->
-                leadersViews[i].text = "${leader.username} ( ${leader.score})"
+                leadersViews[i].text = "${leader.username} (${leader.score})"
             }
             leaderboardBtn.setOnClickListener {
                 listener.onClickLeaderboard(map, lang)
