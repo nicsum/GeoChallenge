@@ -4,6 +4,8 @@ import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,6 +17,8 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
     private var currentUsername = ""
     private var currentEmail = ""
     private var currentPassword = ""
+
+    private var blocked = false
 
     val usernameError =
         MutableLiveData<AuthErrors>(AuthErrors.NONE)
@@ -104,32 +108,79 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
     }
 
     fun registration() {
+        if (blocked) return
         if (!registrationFieldsAreCorrect()) return
-
+        blocked = true
         loadingIsVisible.postValue(true)
         db.collection("usernames")
             .document(currentUsername)
             .get()
-            .addOnSuccessListener {
-                if (it.exists()) {
-                    loadingIsVisible.postValue(false)
-                    if (it.id == currentUsername)
-                        this.usernameError.postValue(AuthErrors.USERNAME_ALREADY_IN_USE)
+            .onSuccessTask {
+                if (it != null && it.exists()) {
+                    this.usernameError.postValue(AuthErrors.USERNAME_ALREADY_IN_USE)
+                    Tasks.forCanceled<Void>()
                 } else {
-                    this.usernameError.postValue(AuthErrors.NONE)
                     createUserWithEmailAndPasswordAndUsername()
                 }
-            }.addOnFailureListener {
+            }.addOnSuccessListener {
+                isSignIn.postValue(true)
+            }
+            .addOnFailureListener {
+                blocked = false
+//                loadingIsVisible.postValue(false)
                 resolveError(it)
+            }.addOnCompleteListener {
                 loadingIsVisible.postValue(false)
+            }.addOnCanceledListener {
+                blocked = false
             }
     }
 
+    private fun createUserWithEmailAndPasswordAndUsername(): Task<Void> {
+        return firebaseAuth
+            .createUserWithEmailAndPassword(currentEmail, currentPassword)
+            .onSuccessTask { authResult ->
+                addUser(currentUsername, authResult?.user?.uid!!)
+            }
+
+    }
+
+    private fun addUser(username: String, uid: String): Task<Void> {
+        return db.collection("usernames")
+            .document(username)
+            .set(mapOf("uid" to uid))
+            .onSuccessTask {
+                firebaseAuth.currentUser!!.updateProfile(
+                    UserProfileChangeRequest.Builder()
+                        .setDisplayName(username)
+                        .build()
+                )
+            }
+            .addOnFailureListener {
+                firebaseAuth.currentUser?.delete()
+                    ?.continueWithTask {
+                        db.collection("usernames").document("username")
+                            .delete()
+                    }
+            }
+            .addOnCanceledListener {
+                firebaseAuth.currentUser?.delete()
+                    ?.continueWithTask {
+                        db.collection("usernames").document("username")
+                            .delete()
+                    }
+            }
+    }
+
+
     fun authWithGoogle(acct: GoogleSignInAccount) {
+        if (blocked) return
+        blocked = true
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         loadingIsVisible.postValue(true)
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener { task ->
+                blocked = false
                 loadingIsVisible.postValue(false)
                 if (task.isSuccessful) {
                     isSignIn.postValue(true)
@@ -139,9 +190,10 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
             }
     }
 
-
     fun login() {
+        if (blocked) return
         if (!loginFieldsAreCorrect()) return
+        blocked = true
         loadingIsVisible.postValue(true)
         firebaseAuth.signInWithEmailAndPassword(currentEmail, currentPassword)
             .addOnSuccessListener {
@@ -150,12 +202,14 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
             .addOnFailureListener {
                 resolveError(it)
             }.addOnCompleteListener {
+                blocked = false
                 loadingIsVisible.postValue(false)
             }
     }
     fun sendPasswordResetEmail() {
+        if (blocked) return
         if (!forgotPasswordFieldsAreCorrect()) return
-
+        blocked = true
         loadingIsVisible.postValue(true)
         firebaseAuth.sendPasswordResetEmail(currentEmail)
             .addOnSuccessListener {
@@ -165,21 +219,14 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
                 resolveError(it)
             }.addOnCompleteListener {
                 loadingIsVisible.postValue(false)
+                blocked = false
+            }.addOnCanceledListener {
+                loadingIsVisible.postValue(false)
+                blocked = false
             }
 
     }
 
-    private fun createUserWithEmailAndPasswordAndUsername() {
-        firebaseAuth.createUserWithEmailAndPassword(currentEmail, currentPassword)
-            .addOnCompleteListener {
-                if (it.isSuccessful && it.result?.user != null) {
-                    addUser(currentUsername, it.result?.user?.uid!!)
-                } else {
-                    loadingIsVisible.postValue(false)
-                    resolveError(it.exception)
-                }
-            }
-    }
 
     private fun registrationFieldsAreCorrect(): Boolean {
         return validateUsername(currentUsername) &&
@@ -198,25 +245,6 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
     }
 
 
-    private fun addUser(username: String, uid: String) {
-
-        db.collection("usernames")
-            .document(username)
-            .set(mapOf("uid" to uid))
-            .addOnSuccessListener {
-                isSignIn.postValue(true)
-                firebaseAuth.currentUser?.updateProfile(
-                    UserProfileChangeRequest.Builder()
-                        .setDisplayName(username)
-                        .build()
-                )
-            }.addOnFailureListener {
-                firebaseAuth.currentUser?.delete()
-                resolveError(it)
-            }.addOnCompleteListener {
-                loadingIsVisible.postValue(false)
-            }
-    }
 
 
     private fun resolveError(e: Exception?) {

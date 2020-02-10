@@ -178,6 +178,7 @@ class AuthActivity : AppCompatActivity() {
     }
 
     fun showAuthError(error: AuthErrors) {
+        if (error == AuthErrors.NONE) return
         val message = when (error) {
             AuthErrors.CONNECTION_FAILED -> R.string.auth_error_connection
             AuthErrors.TO_MANY_REQUESTS -> R.string.auth_error_too_many_requests

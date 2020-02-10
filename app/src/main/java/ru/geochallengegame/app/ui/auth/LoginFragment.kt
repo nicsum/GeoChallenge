@@ -113,9 +113,6 @@ class LoginFragment : Fragment() {
                 when (it) {
                     AuthErrors.INVALID_USER -> emailInputLayout.error =
                         getString(R.string.invalid_user_warning)
-                    AuthErrors.TO_MANY_REQUESTS -> emailInputLayout.error =
-                        getString(R.string.to_many_requests_warning)
-                    AuthErrors.NONE -> emailInputLayout.error = null
                     else -> showErrorMessage(it)
                 }
             }

@@ -72,12 +72,14 @@ class GameMapFragment : SupportMapFragment(),
     }
 
     override fun onMapReady(map: GoogleMap?) {
+
         this.map = map
         val customStyle = gameMap.style
         this.map?.apply {
             setOnMapClickListener(this@GameMapFragment)
             setOnCameraMoveListener(this@GameMapFragment)
-            uiSettings.isMapToolbarEnabled = true
+            uiSettings.isZoomControlsEnabled = true
+            uiSettings.isMapToolbarEnabled = false
 
             if (customStyle == null) {
                 setMapStyle(
