@@ -56,7 +56,7 @@
     <string name="solo_subtitle">Игра на очки</string>
     <string name="solo_title">Соло</string>
     <string name="start_limit_distance_game">Играть на рекорд</string>
-    <string name="submit_new_password_link">Сгенерировать новую ссылку на пароль</string>
+    <string name="submit_new_password_link">Восстановить пароль</string>
     <string name="table_records">Рекорды</string>
     <string name="time_is_over">Время закончилось</string>
     <string name="time_subtitle">Игра на время</string>
