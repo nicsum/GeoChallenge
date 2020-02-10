@@ -227,7 +227,7 @@ class MenuActivity : AppCompatActivity(),
             .createGameComponent(gameInfo, map)
     }
 
-    private fun getCurrentMode(): String? {
+    fun getCurrentMode(): String? {
         return getCurrentMode(findNavController(R.id.nav_host_fragment).currentDestination)
     }
 

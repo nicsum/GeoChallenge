@@ -55,6 +55,7 @@ abstract class BaseMapsFragment : Fragment() {
         (context as MenuActivity).menuComponent?.inject(this)
 
         maps_rv.layoutManager = linearLayoutManager
+        adapterView.modeWithLeaderboard = (context as MenuActivity).getCurrentMode() != "immortal"
         maps_rv.adapter = adapterView
 
         viewModel.maps.observe(viewLifecycleOwner, Observer {

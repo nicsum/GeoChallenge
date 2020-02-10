@@ -19,7 +19,7 @@ class GameMapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private lateinit var langsRadioGroup: RadioGroup
     private lateinit var lang: String
 
-    fun bind(map: GameMap, listener: OnClickMapListener) {
+    fun bind(modeWithLeaderboard: Boolean, map: GameMap, listener: OnClickMapListener) {
         try {
             Picasso.with(itemView.context)
                 .load(map.imageUrl)
@@ -35,12 +35,27 @@ class GameMapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             itemView.findViewById(R.id.thirdPlaceUserTextView)
         )
 
-        map.leaders?.forEachIndexed { i, leader ->
-            leadersViews[i].text = "${leader.username} ( ${leader.score})"
-        }
+        val leaderboardBtn = itemView.findViewById<Button>(R.id.lbButton)
 
-        itemView.findViewById<Button>(R.id.lbButton).setOnClickListener {
-            listener.onClickLeaderboard(map, lang)
+        if (modeWithLeaderboard) {
+            itemView.findViewById<TextView>(R.id.firstPlace).visibility = View.VISIBLE
+            itemView.findViewById<TextView>(R.id.secondPlace).visibility = View.VISIBLE
+            itemView.findViewById<TextView>(R.id.thirdPlace).visibility = View.VISIBLE
+            map.leaders?.forEachIndexed { i, leader ->
+                leadersViews[i].text = "${leader.username} ( ${leader.score})"
+            }
+            leaderboardBtn.setOnClickListener {
+                listener.onClickLeaderboard(map, lang)
+            }
+
+        } else {
+            itemView.findViewById<TextView>(R.id.firstPlace).visibility = View.GONE
+            itemView.findViewById<TextView>(R.id.secondPlace).visibility = View.GONE
+            itemView.findViewById<TextView>(R.id.thirdPlace).visibility = View.GONE
+            leaderboardBtn.visibility = View.GONE
+            leadersViews.forEach {
+                it.visibility = View.GONE
+            }
         }
 
         this.map = map

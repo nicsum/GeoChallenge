@@ -53,7 +53,7 @@
         app:layout_constraintStart_toStartOf="@+id/card_bg_image" />
 
     <TextView
-        android:id="@+id/firstPlace_text"
+        android:id="@+id/firstPlace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="..."
-        app:layout_constraintStart_toEndOf="@+id/firstPlace_text"
+        app:layout_constraintStart_toEndOf="@+id/firstPlace"
         app:layout_constraintTop_toTopOf="@+id/card_bg_image" />
 
     <TextView
@@ -87,7 +87,7 @@
         android:layout_marginStart="10dp"
         android:text="@string/_2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstPlace_text" />
+        app:layout_constraintTop_toBottomOf="@+id/firstPlace" />
 
     <TextView
         android:id="@+id/thirdPlaceUserTextView"

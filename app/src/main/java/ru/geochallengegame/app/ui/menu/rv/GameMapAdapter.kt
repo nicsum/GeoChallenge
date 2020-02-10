@@ -13,6 +13,12 @@ class GameMapAdapter @Inject constructor(private val listener: OnClickMapListene
 
     private val maps = ArrayList<GameMap>()
 
+    var modeWithLeaderboard: Boolean = true
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameMapViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return GameMapViewHolder(
@@ -29,7 +35,7 @@ class GameMapAdapter @Inject constructor(private val listener: OnClickMapListene
     }
 
     override fun onBindViewHolder(holder: GameMapViewHolder, position: Int) {
-        holder.bind(maps[position], listener)
+        holder.bind(modeWithLeaderboard, maps[position], listener)
     }
 
     fun add(maps: List<GameMap>, refresh: Boolean) {
@@ -39,4 +45,6 @@ class GameMapAdapter @Inject constructor(private val listener: OnClickMapListene
         this.maps.addAll(maps)
         notifyDataSetChanged()
     }
+
+
 }
