@@ -1,10 +1,7 @@
 package ru.geochallengegame.app.ui.menu.rv
 
 import android.view.View
-import android.widget.ImageView
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
+import android.widget.*
 import androidx.core.view.isVisible
 import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +29,19 @@ class GameMapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         } catch (e: Exception) {
         }
 
+        val leadersViews = listOf<TextView>(
+            itemView.findViewById(R.id.firstPlaceUserTextView),
+            itemView.findViewById(R.id.secondPlaceUserTextView),
+            itemView.findViewById(R.id.thirdPlaceUserTextView)
+        )
+
+        map.leaders?.forEachIndexed { i, leader ->
+            leadersViews[i].text = "${leader.username} ( ${leader.score})"
+        }
+
+        itemView.findViewById<Button>(R.id.lbButton).setOnClickListener {
+            listener.onClickLeaderboard(map, lang)
+        }
 
         this.map = map
         val mapTv = itemView.findViewById<TextView>(R.id.mapText)

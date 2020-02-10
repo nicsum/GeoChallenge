@@ -10,7 +10,6 @@ import kotlinx.android.synthetic.main.fr_menu_maps.*
 import ru.geochallengegame.R
 import ru.geochallengegame.app.ui.menu.rv.GameMapAdapter
 import ru.geochallengegame.app.ui.menu.vm.MenuMapsViewModel
-
 import javax.inject.Inject
 
 abstract class BaseMapsFragment : Fragment() {
@@ -37,6 +36,7 @@ abstract class BaseMapsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         refreshLayout.setOnRefreshListener { viewModel.loadMaps() }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

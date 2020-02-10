@@ -43,7 +43,7 @@
         app:layout_constraintTop_toTopOf="@+id/card_bg_image" />
 
     <Button
-        android:id="@+id/lb_button"
+        android:id="@+id/lbButton"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,11 +63,11 @@
         app:layout_constraintTop_toTopOf="@+id/card_bg_image" />
 
     <TextView
-        android:id="@+id/firstPlace_user_textView"
+        android:id="@+id/firstPlaceUserTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="firstPlace"
+        android:text="..."
         app:layout_constraintStart_toEndOf="@+id/firstPlace_text"
         app:layout_constraintTop_toTopOf="@+id/card_bg_image" />
 
@@ -90,20 +90,20 @@
         app:layout_constraintTop_toBottomOf="@+id/firstPlace_text" />
 
     <TextView
-        android:id="@+id/thirdPlace_user_textView"
+        android:id="@+id/thirdPlaceUserTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="thirdPlace"
+        android:text="..."
         app:layout_constraintStart_toEndOf="@+id/thirdPlace"
-        app:layout_constraintTop_toBottomOf="@+id/secondPlace_user_textView" />
+        app:layout_constraintTop_toBottomOf="@+id/secondPlaceUserTextView" />
 
     <TextView
-        android:id="@+id/secondPlace_user_textView"
+        android:id="@+id/secondPlaceUserTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="secondPlace"
+        android:text="..."
         app:layout_constraintStart_toEndOf="@+id/secondPlace"
-        app:layout_constraintTop_toBottomOf="@+id/firstPlace_user_textView" />
+        app:layout_constraintTop_toBottomOf="@+id/firstPlaceUserTextView" />
 
     <RadioGroup
         android:id="@+id/langsRadioGroup"

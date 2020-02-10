@@ -33,6 +33,7 @@ import ru.geochallengegame.app.ui.game.hundred.HungredGameActivity
 import ru.geochallengegame.app.ui.game.immortal.ImmortalGameActivity
 import ru.geochallengegame.app.ui.game.time.TimeLimitGameActivity
 import ru.geochallengegame.app.ui.menu.vm.MenuMapsViewModel
+import ru.geochallengegame.app.ui.records.RecordsActivity
 import ru.geochallengegame.app.ui.splash.SplashActivity
 import javax.inject.Inject
 
@@ -179,7 +180,6 @@ class MenuActivity : AppCompatActivity(),
         viewModel.logout()
     }
 
-
     private fun exitFromProfile() {
         (application as AppDelegate).destroyUserComponent()
         splash()
@@ -197,6 +197,13 @@ class MenuActivity : AppCompatActivity(),
         startGame(map, mode, lang)
     }
 
+    override fun onClickLeaderboard(map: GameMap, lang: String) {
+        if (blocked) return
+        blocked = true
+        val mode = getCurrentMode() ?: return
+        startRecords(mode, map, lang)
+    }
+
     private fun startGame(map: GameMap, mode: String, lang: String) {
         val intent = when (mode) {
             "solo" -> Intent(this, ClassicGameActivity::class.java)
@@ -209,6 +216,10 @@ class MenuActivity : AppCompatActivity(),
         createGameComponent(mode, map, lang)
     }
 
+    private fun startRecords(mode: String, map: GameMap, lang: String) {
+        createGameComponent(mode, map, "en")
+        startActivity(Intent(this, RecordsActivity::class.java))
+    }
 
     private fun createGameComponent(mode: String, map: GameMap, lang: String) {
         val gameInfo = getGameInfo(mode, map.id, lang)

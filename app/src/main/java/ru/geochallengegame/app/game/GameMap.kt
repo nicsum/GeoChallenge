@@ -15,6 +15,6 @@ class GameMap(
     @SerializedName("zoom") var zoom: Double?,
     @SerializedName("distance") var distance: Double?,
     @SerializedName("image") var imageUrl: String?,
-    @SerializedName("style") var style: String?
-
+    @SerializedName("style") var style: String?,
+    @SerializedName("leaders") var leaders: List<Leader>?
 )
