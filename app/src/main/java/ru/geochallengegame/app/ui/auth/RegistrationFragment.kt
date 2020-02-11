@@ -124,6 +124,11 @@ class RegistrationFragment : Fragment() {
                             )
                     AuthErrors.FIELD_USERNAME_IS_EMPTY ->
                         usernameInput.error = getString(R.string.enter_your_username)
+                    AuthErrors.TOO_LONG_USERNAME ->
+                        usernameInput.error = getString(R.string.username_too_long_warning)
+                    AuthErrors.EXCEPTIONAL_CHARACTERS_FOR_USERNAME ->
+                        usernameInput.error =
+                            getString(R.string.exception_characters_for_username_warning)
                     AuthErrors.NONE -> usernameInput.error = null
                     else -> showErrorMessage(it)
                 }

@@ -79,6 +79,8 @@
     <string name="to_many_requests_warning">Too many requests. Try again later</string>
     <string name="email_already_in_use_warning">User with this Email already exist</string>
     <string name="username_already_in_use_warning">Nickname %1$s already exist</string>
+    <string name="username_too_long_warning">Nickname must be no longer than 30 characters</string>
+    <string name="exception_characters_for_username_warning">Nickname should not contain : \"/\\ \'</string>
 
     <!-- game errors-->
     <string name="game_error_connection">No connection. Check if internet available</string>
@@ -109,4 +111,6 @@
     <string name="_3" translatable="false">3.</string>
     <string name="_2" translatable="false">2.</string>
     <string name="dots" translatable="false">...</string>
+    <string name="translators" translatable="false">CZ - Bratr Doubek</string>
+    <string name="translators_text">Překladatelé</string>
 </resources>

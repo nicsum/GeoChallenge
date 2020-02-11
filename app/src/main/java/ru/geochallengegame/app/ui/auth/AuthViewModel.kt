@@ -69,6 +69,12 @@ class AuthViewModel(private val firebaseAuth: FirebaseAuth, private val db: Fire
         if (username.isEmpty()) {
             usernameError.postValue(AuthErrors.FIELD_USERNAME_IS_EMPTY)
             return false
+        } else if (username.length > 30) {
+            usernameError.postValue(AuthErrors.TOO_LONG_USERNAME)
+            return false
+        } else if (username.any { it in """'"\/""" }) {
+            usernameError.postValue(AuthErrors.EXCEPTIONAL_CHARACTERS_FOR_USERNAME)
+            return false
         }
         usernameError.postValue(AuthErrors.NONE)
         return true

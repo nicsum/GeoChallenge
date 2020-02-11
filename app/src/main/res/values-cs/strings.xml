@@ -6,6 +6,8 @@
     <string name="auth_error">Nemohu autorizovat, opakuj později</string>
     <string name="auth_error_connection">Nemohu se připojit, zkontroluj internetové připojení</string>
     <string name="auth_error_too_many_requests">Příliš mnoho žádostí, opakuj později</string>
+    <string name="username_too_long_warning">Přezdívka nesmí být delší než 30 znaků</string>
+    <string name="exception_characters_for_username_warning">Přezdívka by neměl obsahovat : \"/\\ \'</string>
 
     <string name="cancel">Cancel</string>
 
@@ -143,4 +145,5 @@
     <string name="about_fatal">"Hardcore mode.\n13 seconds to act, but if Your answer bigger than 100 km - instant game over "</string>
     <string name="about_immortal">Play any map in God Mode.\nNo time for answer, no leaderboard, no score.\nTest your skill and enjoy the ride.</string>
     <string name="hungred_title">Fatal 100</string>
+    <string name="translators_text">Translators</string>
 </resources>

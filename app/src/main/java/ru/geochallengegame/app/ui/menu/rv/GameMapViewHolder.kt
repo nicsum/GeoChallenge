@@ -41,9 +41,17 @@ class GameMapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             itemView.findViewById<TextView>(R.id.firstPlace).visibility = View.VISIBLE
             itemView.findViewById<TextView>(R.id.secondPlace).visibility = View.VISIBLE
             itemView.findViewById<TextView>(R.id.thirdPlace).visibility = View.VISIBLE
-            map.leaders?.forEachIndexed { i, leader ->
-                leadersViews[i].text = "${leader.username} (${leader.score})"
+            leadersViews.forEachIndexed { i, view ->
+                val leader = try {
+                    map.leaders?.get(i)
+                } catch (e: IndexOutOfBoundsException) {
+                    null
+                }
+                if (leader == null) view.text = "..."
+                else view.text = "${leader.username} (${leader.score})"
+
             }
+
             leaderboardBtn.setOnClickListener {
                 listener.onClickLeaderboard(map, lang)
             }
@@ -54,6 +62,7 @@ class GameMapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             itemView.findViewById<TextView>(R.id.thirdPlace).visibility = View.GONE
             leaderboardBtn.visibility = View.GONE
             leadersViews.forEach {
+                it.text = "..."
                 it.visibility = View.GONE
             }
         }
