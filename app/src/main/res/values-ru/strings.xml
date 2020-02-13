@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">GeoChallenge</string>
     <string name="about">Инфо</string>
-    <string name="about_main">Игра на развитие географической интуиции. Отгадывайте города и достопремичательности на карте всего мира. Соревнуйтесь с друзьями в рейтинговых таблицах и различных режимах. Бросьте вызов самому себе на карте мира, отгадав более 8000 локаций!</string>
+    <string name="about_main">Игра на развитие географической интуиции. Отгадывайте города и достопримечательности на карте всего мира. Соревнуйтесь с друзьями в рейтинговых таблицах и различных режимах. Бросьте вызов самому себе на карте мира, отгадав более 8000 локаций!</string>
     <string name="about_version">Версия приложения</string>
     <string name="answer_exit">Хотите выйти из игры?</string>
     <string name="are_already_registered">Вы уже зарегистрированы?</string>
@@ -50,7 +50,7 @@
     <string name="pref_lang_tasks_dialog_title">Установите язык названий географических точек</string>
     <string name="pref_lang_tasks_summary">Устанавливает язык названий географических точек</string>
     <string name="pref_lang_tasks_title">Язык географической точки</string>
-    <string name="register">Регистарция</string>
+    <string name="register">Регистрация</string>
     <string name="replay">Переиграть</string>
     <string name="result_game_message">Вы набрали %1$d очков.</string>
     <string name="result_game_message_with_congratulations">Поздравляем! Вы набрали %1$d очков. Это ваш лучший результат</string>

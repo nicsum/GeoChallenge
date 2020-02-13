@@ -191,4 +191,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="8dp">
+
+        <ImageButton
+            android:id="@+id/zoomBtb"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/zoom_btn"
+            android:contentDescription="@string/plus"
+            android:src="@drawable/ic_add_black_24dp"
+            android:textColor="#606060"
+            android:layout_marginBottom="4dp" />
+
+        <ImageButton
+            android:id="@+id/unZoomBtb"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/zoom_btn"
+            android:contentDescription="@string/plus"
+            android:src="@drawable/ic_remove_black_24dp"
+            android:textColor="#606060" />
+
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

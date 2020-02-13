@@ -24,6 +24,8 @@ abstract class BaseGameInfoFragment : Fragment() {
     private lateinit var errorView: View
     private lateinit var errorMessage: TextView
     private lateinit var updateBtn: ImageButton
+    private lateinit var zoomBtn: ImageButton
+    private lateinit var unZoomBtn: ImageButton
 
     lateinit var loadingView: View
 
@@ -38,6 +40,8 @@ abstract class BaseGameInfoFragment : Fragment() {
         errorView = view.findViewById(R.id.error_view)
         errorMessage = errorView.findViewById(R.id.error_message)
         updateBtn = errorView.findViewById(R.id.update_btn)
+        zoomBtn = view.findViewById(R.id.zoomBtb)
+        unZoomBtn = view.findViewById(R.id.unZoomBtb)
         loadingView = view.findViewById(R.id.loading_view)
         TextViewCompat.setAutoSizeTextTypeWithDefaults(
             cityNameTv,
