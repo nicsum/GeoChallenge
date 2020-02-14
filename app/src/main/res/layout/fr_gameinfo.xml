@@ -192,6 +192,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
+        android:id="@+id/zoomPanel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -199,24 +200,34 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="8dp">
 
-        <ImageButton
+        <Button
             android:id="@+id/zoomBtb"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@drawable/zoom_btn"
-            android:contentDescription="@string/plus"
-            android:src="@drawable/ic_add_black_24dp"
-            android:textColor="#606060"
-            android:layout_marginBottom="4dp" />
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:textAllCaps="true"
+            android:layout_marginBottom="6dp"
+            app:backgroundTint="#BFFFFFFF"
+            app:icon="@drawable/ic_add_black_24dp"
+            app:iconPadding="0dp"
+            app:iconGravity="textStart"
+            app:iconTint="#606060"
 
-        <ImageButton
+            />
+
+        <Button
             android:id="@+id/unZoomBtb"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@drawable/zoom_btn"
-            android:contentDescription="@string/plus"
-            android:src="@drawable/ic_remove_black_24dp"
-            android:textColor="#606060" />
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:textAllCaps="true"
+            app:backgroundTint="#BFFFFFFF"
+            app:icon="@drawable/ic_remove_black_24dp"
+            app:iconPadding="0dp"
+            app:iconGravity="textStart"
+            app:iconTint="#606060" />
 
     </LinearLayout>
 

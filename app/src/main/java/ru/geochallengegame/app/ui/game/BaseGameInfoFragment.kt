@@ -24,8 +24,8 @@ abstract class BaseGameInfoFragment : Fragment() {
     private lateinit var errorView: View
     private lateinit var errorMessage: TextView
     private lateinit var updateBtn: ImageButton
-    private lateinit var zoomBtn: ImageButton
-    private lateinit var unZoomBtn: ImageButton
+    private lateinit var zoomBtn: Button
+    private lateinit var unZoomBtn: Button
 
     lateinit var loadingView: View
 

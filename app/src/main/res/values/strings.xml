@@ -62,8 +62,8 @@
     <string name="replay">Restart</string>
     <string name="exit">Exit</string>
     <string name="pts" translatable="false">PTS</string>
-    <string name="plus" translatable="false">plus</string>
-    <string name="minus" translatable="false">minus</string>
+    <string name="plus" translatable="false">+</string>
+    <string name="minus" translatable="false">-</string>
 
     <string name="error">Error</string>
 
