@@ -36,7 +36,7 @@ class GameMapFragment : SupportMapFragment(),
         (activity as BaseGameMapActivity).activityComponent?.inject(this)
         viewModel = (activity as BaseGameMapActivity).getViewModel()
         viewModel.isDefaultMapState.observe(viewLifecycleOwner, Observer {
-            if(it){
+            if (it) {
                 map?.clear()
                 map?.setOnMapClickListener(this)
                 showStartPosition()
@@ -44,16 +44,16 @@ class GameMapFragment : SupportMapFragment(),
         })
         viewModel.clickedPosition.observe(
             viewLifecycleOwner,
-            Observer {it?.let { addMarks(LatLng(it.first, it.second) , viewModel.distance.value) }
+            Observer {
+                it?.let { addMarks(LatLng(it.first, it.second), viewModel.distance.value) }
             })
 
         viewModel.taskAnswer.observe(viewLifecycleOwner, Observer { answer ->
             if (answer != null) {
-                map?.setOnMarkerClickListener { false}
+                map?.setOnMarkerClickListener { false }
                 showAnswer(answer)
-            }
-            else {
-                map?.setOnMarkerClickListener { true}
+            } else {
+                map?.setOnMarkerClickListener { true }
             }
         })
 
@@ -74,6 +74,10 @@ class GameMapFragment : SupportMapFragment(),
     override fun onMapReady(map: GoogleMap?) {
 
         this.map = map
+
+//        val h = Resources.getSystem().getDisplayMetrics().heightPixels
+//        map?.setPadding(0, 0, h - h * 50 / 100, 0)
+
         val customStyle = gameMap.style
         this.map?.apply {
             setOnMapClickListener(this@GameMapFragment)
@@ -92,11 +96,12 @@ class GameMapFragment : SupportMapFragment(),
     }
 
     override fun onMapClick(position: LatLng?) {
-        if(position!=null){
+        if (position != null) {
             viewModel.clickedPosition(position.latitude, position.longitude)
             map?.setOnMapClickListener(null)
         }
     }
+
     override fun onCameraMove() {
 
         viewModel.cameraMoved()
@@ -105,10 +110,12 @@ class GameMapFragment : SupportMapFragment(),
     private fun addMarks(position: LatLng?, distance: Double?) {
         map?.addMarker(position?.let {
             MarkerOptions().position(it).title(distance.toString())
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_red))
         })
 
     }
-    private fun showStartPosition(){
+
+    private fun showStartPosition() {
         val defaultPosition = getStartPosition()
         val zoom = getDefaultZoom()
         val location = CameraUpdateFactory.newLatLngZoom(defaultPosition, zoom)
@@ -125,9 +132,9 @@ class GameMapFragment : SupportMapFragment(),
         val answerMarket = MarkerOptions()
             .position(answerPosition)
             .title(taskAnswer.task.name)
-            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+            .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_green))
 
-        map?.let{
+        map?.let {
             it.addMarker(answerMarket)
             zoomMarkets(
                 listOfNotNull(answerPosition, taskAnswer.answer) + (playersAnswers ?: ArrayList())
@@ -142,20 +149,20 @@ class GameMapFragment : SupportMapFragment(),
                 map?.addMarker(
                     MarkerOptions()
                         .position(LatLng(it.value!!.first, it.value!!.second))
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_red))
                 )
             }
     }
 
-    private fun zoomMarkets(positionsMarkets : List<LatLng>){
-        if(positionsMarkets.size == 1){
+    private fun zoomMarkets(positionsMarkets: List<LatLng>) {
+        if (positionsMarkets.size == 1) {
             val zoom = getDefaultZoom()
             map?.animateCamera(CameraUpdateFactory.newLatLngZoom(positionsMarkets[0], zoom))
-        }else{
+        } else {
             val builder = LatLngBounds.Builder()
-            positionsMarkets.forEach{ builder.include(it) }
+            positionsMarkets.forEach { builder.include(it) }
             val padding = 200
-            val cu =  CameraUpdateFactory.newLatLngBounds(builder.build(), padding)
+            val cu = CameraUpdateFactory.newLatLngBounds(builder.build(), padding)
             map?.animateCamera(cu)
         }
     }

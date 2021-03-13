@@ -6,7 +6,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -61,7 +60,6 @@ class MenuActivity : AppCompatActivity(),
         setContentView(R.layout.ac_menu)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        val coordinator: CoordinatorLayout = findViewById(R.id.coordinator)
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
@@ -95,23 +93,7 @@ class MenuActivity : AppCompatActivity(),
                 drawerLayout,
                 R.string.app_name,
                 R.string.app_name
-            ) {
-            private val scaleFactor = 6f
-            override fun onDrawerSlide(
-                drawerView: View,
-                slideOffset: Float
-            ) {
-                super.onDrawerSlide(drawerView, slideOffset)
-                val slideX = drawerView.width * slideOffset
-
-                coordinator.translationX = slideX
-                coordinator.scaleX = 1 - (slideOffset / scaleFactor)
-                coordinator.scaleY = 1 - (slideOffset / scaleFactor)
-                //                coordinator.rotationY = slideOffset * -90f
-                coordinator.rotationY = slideOffset * -20f
-                //                coordinator.rotationY = 0 - slideOffset *5
-            }
-        }
+            ) {}
 
         drawerLayout.setScrimColor(Color.TRANSPARENT)
         drawerLayout.drawerElevation = 0f
@@ -217,7 +199,7 @@ class MenuActivity : AppCompatActivity(),
     }
 
     private fun startRecords(mode: String, map: GameMap, lang: String) {
-        createGameComponent(mode, map, "en")
+        createGameComponent(mode, map, lang)
         startActivity(Intent(this, RecordsActivity::class.java))
     }
 
@@ -250,7 +232,7 @@ class MenuActivity : AppCompatActivity(),
                 (activity as? MenuActivity) ?: return super.onCreateDialog(savedInstanceState)
             val mode = context.getCurrentMode()
             val message = getInfoMessage(mode)
-            return AlertDialog.Builder(context)
+            return AlertDialog.Builder(context, R.style.DialogTheme)
                 .setMessage(message)
                 .setPositiveButton(R.string.ok) { _, _ ->
                     context.viewModel.iReadModeInfo()

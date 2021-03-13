@@ -57,13 +57,14 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
 
     private var networkCallback: NetworkCallback = @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     object : NetworkCallback() {
-        override fun onAvailable(network: Network?) {
+
+ /*       override fun onAvailable(network: Network?) {
             hideNetworkIsNotAvailableMessage()
         }
 
         override fun onLost(network: Network?) {
             showNetworkIsNotAvailableMessage()
-        }
+        }*/
 
         override fun onBlockedStatusChanged(network: Network, blocked: Boolean) {
             super.onBlockedStatusChanged(network, blocked)
@@ -219,7 +220,7 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
 
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
             val context = activity ?: return super.onCreateDialog(savedInstanceState)
-            val builder = AlertDialog.Builder(context)
+            val builder = AlertDialog.Builder(context, R.style.DialogTheme)
             builder
                 .setMessage(R.string.answer_exit)
                 .setPositiveButton(R.string.yes) { _, _ ->
@@ -246,7 +247,7 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
 
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
             val context = activity ?: return super.onCreateDialog(savedInstanceState)
-            return AlertDialog.Builder(context)
+            return AlertDialog.Builder(context, R.style.DialogTheme)
                 .setMessage(R.string.game_error_finish_game)
                 .setPositiveButton(R.string.try_again) { _, _ ->
                     listener?.onShowRecords()
@@ -289,7 +290,7 @@ abstract class BaseGameMapActivity : AppCompatActivity() {
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
             val context = activity ?: return super.onCreateDialog(savedInstanceState)
             val message = getMessage()
-            return AlertDialog.Builder(context)
+            return AlertDialog.Builder(context, R.style.DialogTheme)
                 .setMessage(message)
                 .setPositiveButton(R.string.leaderboard) { _, _ ->
                     if (!blocked) {

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:openDrawer="start"
-    android:background="@drawable/menu_bg_gradient">
+    android:background="@color/colorBg">
 
     <include
         layout="@layout/content_menu"
@@ -19,6 +19,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:menu="@menu/activity_menu_drawer"
-        android:background="@drawable/menu_bg_gradient" />
+        style="@style/GeoAuth" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

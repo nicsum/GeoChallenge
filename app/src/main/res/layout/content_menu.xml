@@ -10,18 +10,18 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/toolbar_bg" />
+        style="@style/CustomActionBar" />
 
     <fragment
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
         app:defaultNavHost="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="?attr/actionBarSize"
         app:navGraph="@navigation/menu_navigation"
         tools:ignore="FragmentTagUsage" />
 

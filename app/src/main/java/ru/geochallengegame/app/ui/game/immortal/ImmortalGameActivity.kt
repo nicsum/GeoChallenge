@@ -62,7 +62,7 @@ class ImmortalGameActivity : BaseGameMapActivity() {
 
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
             val context = activity as ImmortalGameActivity
-            return AlertDialog.Builder(context)
+            return AlertDialog.Builder(context, R.style.DialogTheme)
                 .setMessage(R.string.result_game_message_level_are_over)
                 .setPositiveButton(R.string.exit) { _, _ ->
                     (activity as ImmortalGameActivity).exit()

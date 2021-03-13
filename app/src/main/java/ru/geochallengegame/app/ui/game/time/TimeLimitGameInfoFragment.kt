@@ -41,7 +41,7 @@ class TimeLimitGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
             Observer {
                 val time = it.second - it.first
                 if (time >= 0) {
-                    progressBar.setProgress(it.first.toInt() * 100 / it.second.toInt())
+                    progressBarTime.setProgress((it.first.toInt() * 100 / it.second.toInt()))
                     timerTv.text = getString(R.string.timer_info, (time))
                 }
             })

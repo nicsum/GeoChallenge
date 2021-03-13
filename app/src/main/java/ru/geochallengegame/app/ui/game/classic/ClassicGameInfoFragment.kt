@@ -1,6 +1,5 @@
 package ru.geochallengegame.app.ui.game.classic
 
-import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,13 +13,9 @@ import javax.inject.Inject
 
 
 open class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment() {
-//    private lateinit var pointsTv: TextView
-//    private lateinit var timerTv: TextView
-//    private lateinit var progressBar: FillProgressLayout
-
     //    @Inject
 //    lateinit var viewModel: ClassicGameViewModel
-    var scoreAnimator: ValueAnimator? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,16 +39,21 @@ open class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment(
             }
         )
 
+
         viewModel.points.observe(
             viewLifecycleOwner,
             Observer {
                 addPoints(it ?: 0)
-        })
+                val curr: Double = it.toDouble()
+                val max: Double = ((viewModel.currentLevel.value!!) *5000).toDouble()
+                progressBarLevel.setProgress(((curr/max) *100).toInt())
+            })
+
 
         viewModel.secondsPassed.observe(
             viewLifecycleOwner,
             Observer {
-                progressBar.setProgress(it.toInt() * 100 / (13000 / 1000))
+                progressBarTime.setProgress(it.toInt() * 100 / (13000 / 1000))
                 timerTv.text = if (it == null) "" else
                     getString(
                         R.string.timer_info,
@@ -67,12 +67,6 @@ open class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment(
     }
 
 
-    override fun onDestroy() {
-        super.onDestroy()
-        scoreAnimator?.removeAllUpdateListeners()
-        scoreAnimator = null
-    }
-
     override fun getViewModel(): BaseGameViewModel {
         return (activity as ClassicGameActivity).viewModel
     }
@@ -85,14 +79,6 @@ open class ClassicGameInfoFragment @Inject constructor() : BaseGameInfoFragment(
         }
         if (oldValue == value) return
 
-        if (scoreAnimator != null) scoreAnimator?.removeAllUpdateListeners()
-        scoreAnimator = ValueAnimator.ofInt(oldValue, value)
-
-        scoreAnimator?.duration = 3000
-        scoreAnimator?.addUpdateListener { animation ->
-            pointsText.text = animation.animatedValue.toString()
-        }
-        scoreAnimator?.start()
     }
 
 }
