@@ -7,14 +7,11 @@ import ru.geochallengegame.app.AppDelegate
 import ru.geochallengegame.app.di.records.RecordsComponent
 
 
-class RecordsActivity : AppCompatActivity(){
-
+class RecordsActivity: AppCompatActivity() {
 
     lateinit var recordsComponent: RecordsComponent
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
-
         val gameComponent = (applicationContext as AppDelegate).gameComponent
         if (gameComponent == null) finish()
         else {
@@ -34,6 +31,4 @@ class RecordsActivity : AppCompatActivity(){
         super.onBackPressed()
         (applicationContext as AppDelegate).destroyGameComponent()
     }
-
-
 }
