@@ -28,7 +28,7 @@ class RecordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             itemView.setBackgroundColor(
                 ContextCompat.getColor(
                     itemView.context,
-                    R.color.colorAccentYellow
+                    R.color.colorPrimaryDark
                 )
             )
 

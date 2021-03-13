@@ -6,7 +6,7 @@
     <string name="multiplayer">Multiplayer</string>
     <string name="logout">Exit</string>
     <string name="settings">Settings</string>
-    <string name="level_d_text" translatable="false">%1$d,\u0020</string>
+    <string name="level_d_text" translatable="false">LEVEL: %1$d</string>
     <string name="task_counter_text" translatable="false">%1$d/</string>
     <string name="distance_info">Until city %1$s</string>
     <string name="timer_info">%d seconds left</string>
@@ -101,8 +101,8 @@
     <string name="submit_new_password_link">Submit New Password Link</string>
     <string name="time_is_over">Time is over</string>
     <string name="about">About</string>
-    <string name="about_solo">Score as many points as you can.\nFor the next level you need at least 2500 points.\nPoints count for speed and accuracy.\nMax points you can score at level: 5000.\n13 seconds to act.\nMax points at location for accuracy is: 800.\nMax points at location for speed is: 200.\nAnswer radius:\n-World: 1000 km\n-Capitals, USA, Russia: 800 km.\n-Germany, India, Japan, UK, Spain: 200 km.\n-Mexico: 250 km.\n-China, Brazil: 300 km.\n-Saint-Petersburg: 1 km.</string>
-    <string name="about_time">Try to guess as many location as you can for a limited time game.\nTime is added or subtrаcted based on your accuracy.\nStart limit is: 30 secs For accurate guessing location: +10 secs For incorrect guessing: -10 secs\nAnswer radius:\n-World: 1000 km\n-Capitals, USA, Russia: 800 km.\n-Germany, India, Japan, UK, Spain: 200 km.\n-Mexico: 250 km.\n-China, Brazil: 300 km.\n-Saint-Petersburg: 1 km.</string>
+    <string name="about_solo">Score as many points as you can.\nFor the next level you need at least 2500 points.\nPoints count for speed and accuracy.\nMax points you can score at level: 5000.\n13 seconds to act.\nMax points at location for accuracy is: 800.\nMax points at location for speed is: 200.\nAnswer radius:\n—World: 1000 km\n—Capitals, USA, Russia: 800 km.\n—Germany, India, Japan, UK, Spain: 200 km.\n—Mexico: 250 km.\n—China, Brazil: 300 km.\n—Saint-Petersburg: 1 km.</string>
+    <string name="about_time">Try to guess as many location as you can for a limited time game.\nTime is added or subtrаcted based on your accuracy.\nStart limit is: 30 secs For accurate guessing location: +10 secs For incorrect guessing: -10 secs\nAnswer radius:\n—World: 1000 km\n—Capitals, USA, Russia: 800 km.\n—Germany, India, Japan, UK, Spain: 200 km.\n—Mexico: 250 km.\n—China, Brazil: 300 km.\n—Saint-Petersburg: 1 km.</string>
     <string name="about_immortal">Play any map in God Mode.\nNo time for answer, no leaderboard, no score.\nTest your skill and enjoy the ride.</string>
     <string name="about_fatal">Hardcore mode.\n13 seconds to act, but if Your answer radius bigger than 100 km - instant game over</string>
     <string name="about_version">Application Version</string>

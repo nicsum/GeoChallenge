@@ -217,13 +217,13 @@ class FillProgressLayout : LinearLayout {
                 currentProgress = anm.animatedValue as Int
                 updateRect(rectF = progressRectF)
                 if (currentProgress >= 0) {
-                    setProgressBackgroundColor(R.color.colorAccent)
+                    setProgressBackgroundColor(R.color.colorBg)
                 }
                 if (currentProgress >= 50) {
-                    setProgressBackgroundColor(R.color.colorAccentYellow)
+                    setProgressBackgroundColor(R.color.colorAccentLight)
                 }
                 if (currentProgress >= 75) {
-                    setProgressBackgroundColor(R.color.colorMaterialRed500)
+                    setProgressBackgroundColor(R.color.colorRed)
                 }
                 ViewCompat.postInvalidateOnAnimation(this)
             }

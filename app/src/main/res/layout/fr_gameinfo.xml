@@ -5,66 +5,106 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp"
     android:orientation="horizontal">
 
     <include
         android:id="@+id/error_view"
         layout="@layout/v_error"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible" />
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/loading_view"
         layout="@layout/v_loading"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_gravity="center"
-        android:visibility="visible" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ru.geochallengegame.app.ui.game.FillProgressLayout
-            android:id="@+id/progressBar"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            app:fpl_backgroundColor="@color/colorAccent"
-            app:fpl_isRounded="false"
-            app:fpl_progressColor="@color/colorPrimary"
-            app:fpl_progressDirection="left_to_right"
-            app:fpl_shouldRestart="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+    <ru.geochallengegame.app.ui.game.FillProgressLayout
+        android:id="@+id/progressBarTime"
+        android:layout_width="8dp"
+        android:layout_height="match_parent"
+        app:fpl_backgroundColor="@color/colorGreen"
+        app:fpl_isRounded="false"
+        app:fpl_progressColor="@color/colorPrimary"
+        app:fpl_progressDirection="top_to_bottom"
+        app:fpl_shouldRestart="false"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
-        </ru.geochallengegame.app.ui.game.FillProgressLayout>
+    <ru.geochallengegame.app.ui.game.FillProgressLayout
+        android:id="@+id/progressBarLevel"
+        android:layout_width="8dp"
+        android:layout_height="match_parent"
+        app:fpl_backgroundColor="@color/colorGreen"
+        app:fpl_isRounded="false"
+        app:fpl_progressColor="@color/colorPrimary"
+        app:fpl_progressDirection="bottom_to_top"
+        app:fpl_shouldRestart="false"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <TextSwitcher
+        android:id="@+id/cityNameText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--        app:autoSizeMaxTextSize="28sp"-->
+        <!--        app:autoSizeMinTextSize="16sp"-->
+        <!--        app:autoSizeStepGranularity="2sp"-->
+        <!--        app:autoSizeTextType="uniform"-->
 
         <TextView
-            android:id="@+id/cityNameText"
+            style="@style/GeoSwitch"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:maxLines="1"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:textColor="#fff"
-            android:textStyle="bold"
-            app:autoSizeMaxTextSize="26sp"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeStepGranularity="2sp"
-            app:autoSizeTextType="uniform" />
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="24sp"
+            android:maxLines="3" />
+
+        <TextView
+            style="@style/GeoSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:maxLines="3" />
+
+    </TextSwitcher>
+
+    <!--    android:shadowColor="@color/colorRed"-->
+    <!--    android:shadowDx="0"-->
+    <!--    android:shadowDy="0"-->
+    <!--    android:shadowRadius="0"-->
+    <!--    app:autoSizeMaxTextSize="64sp"-->
+    <!--    app:autoSizeMinTextSize="40sp"-->
+    <!--    app:autoSizeStepGranularity="2sp"-->
+    <!--            android:rotation="270"-->
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <ru.geochallengegame.app.ui.customv.VerticalTextView
+        android:id="@+id/currentLevelTextVertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        android:paddingTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:text="@string/level_d_text"
+        android:textSize="52sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccentLight"
+        android:gravity="center" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/scoreTableLayout"
@@ -72,9 +112,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
+        android:visibility="invisible"
         app:cardBackgroundColor="#BFFFFFFF"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintTop_toBottomOf="parent"
         card_view:cardCornerRadius="4dp">
 
         <RelativeLayout
@@ -108,8 +149,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/of"
-                tools:text="5000"
-                android:textSize="@dimen/text_h5" />
+                android:textSize="@dimen/text_h5"
+                tools:text="5000" />
 
             <TextView
                 android:id="@+id/pts"
@@ -190,46 +231,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/zoomPanel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="8dp">
-
-        <Button
-            android:id="@+id/zoomBtb"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:textAllCaps="true"
-            android:layout_marginBottom="6dp"
-            app:backgroundTint="#BFFFFFFF"
-            app:icon="@drawable/ic_add_black_24dp"
-            app:iconPadding="0dp"
-            app:iconGravity="textStart"
-            app:iconTint="#606060"
-
-            />
-
-        <Button
-            android:id="@+id/unZoomBtb"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:textAllCaps="true"
-            app:backgroundTint="#BFFFFFFF"
-            app:icon="@drawable/ic_remove_black_24dp"
-            app:iconPadding="0dp"
-            app:iconGravity="textStart"
-            app:iconTint="#606060" />
-
-    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

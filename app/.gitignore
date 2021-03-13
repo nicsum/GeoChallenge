@@ -1,1 +1,12 @@
 /build
+*.iml
+.gradle
+/local.properties
+/.idea/
+.DS_Store
+/captures
+.externalNativeBuild
+.cxx
+.idea/
+app/google-services.json
+app/src/main/res/xml/network_security_config.xml

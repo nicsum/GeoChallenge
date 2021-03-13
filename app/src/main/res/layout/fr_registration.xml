@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:gravity="center"
+    style="@style/GeoAuth"
     android:layout_height="match_parent">
 
     <ImageView
@@ -17,7 +18,9 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        app:boxBackgroundColor="#F5F5F5"
+        style="@style/GeoAuthTextInputLayout"
+        app:errorIconDrawable="@null"
+        app:boxStrokeErrorColor="@color/colorAccentLight"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
@@ -26,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-
+            style="@style/GeoAuthTextInputEditText"
             android:hint="@string/username_hint" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -36,7 +39,9 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
-        app:boxBackgroundColor="#F5F5F5"
+        style="@style/GeoAuthTextInputLayout"
+        app:errorIconDrawable="@null"
+        app:boxStrokeErrorColor="@color/colorAccentLight"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
@@ -45,6 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
+            style="@style/GeoAuthTextInputEditText"
             android:hint="@string/e_mail" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -53,7 +59,9 @@
         android:id="@+id/passwordInput"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        app:boxBackgroundColor="#F5F5F5"
+        style="@style/GeoAuthTextInputLayout"
+        app:errorIconDrawable="@null"
+        app:boxStrokeErrorColor="@color/colorAccentLight"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
@@ -63,6 +71,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
+            style="@style/GeoAuthTextInputEditText"
             android:layout_marginTop="10dp"
             android:hint="@string/password" />
 
@@ -73,8 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="50dp"
-        android:textColor="#FFFF"
-        android:id="@+id/registrationBtn"
-        android:background="@color/colorAccent" />
+        style="@style/GeoButtonsAuth"
+        android:id="@+id/registrationBtn" />
 
 </LinearLayout>

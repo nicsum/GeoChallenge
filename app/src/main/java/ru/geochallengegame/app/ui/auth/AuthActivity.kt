@@ -202,7 +202,7 @@ class AuthActivity : AppCompatActivity() {
             val context = activity ?: return super.onCreateDialog(savedInstanceState)
 //            val authError = (context as? AuthActivity)?.viewModel?.authError?.value
 //
-            return AlertDialog.Builder(context)
+            return AlertDialog.Builder(context, R.style.DialogTheme)
                 .setMessage(message)
                 .setPositiveButton(R.string.ok) { _, _ ->
                     (context as? AuthActivity)?.viewModel?.iKnowAboutAuthError()

@@ -137,9 +137,9 @@
 
     <string name="about_main">Hra, která prověří tvoje geografické znalosti. Odhaluj města, či památky na mapě celého světa. Porovnávej své výsledky s přateli a utkej se s nimi v různých herních režimech. Otestuj své znalosti na více než 8000 lokací.</string>
 
-    <string name="about_time">Odhalte co nejvíce lokací v omezeném čase. Čas se přičítá, nebo odečítá, na základě vaší přesnosti.\nPočáteční limit: 30 secs\nZa přesnou lokaci: +10 secs\nZa nepřesnou lokaci: -10 secs\nAnswer radius:\n-World: 1000 km\n-Capitals, USA, Russia: 800 km.\n-Germany, India, Japan, UK, Spain: 200 km.\n-Mexico: 250 km.\n-China, Brazil: 300 km.\n-Saint-Petersburg: 1 km.</string>
+    <string name="about_time">Odhalte co nejvíce lokací v omezeném čase. Čas se přičítá, nebo odečítá, na základě vaší přesnosti.\nPočáteční limit: 30 secs\nZa přesnou lokaci: +10 secs\nZa nepřesnou lokaci: -10 secs\nAnswer radius:\n—World: 1000 km\n—Capitals, USA, Russia: 800 km.\n—Germany, India, Japan, UK, Spain: 200 km.\n—Mexico: 250 km.\n—China, Brazil: 300 km.\n—Saint-Petersburg: 1 km.</string>
 
-    <string name="about_solo">Získej co nejvíce bodů. Pro další level potřebuješ 2500 bodů.\nBody se přičítají za přesnost a rychlost.\nMAximum bodů, které můžeš dosáhnout za level: 5000.\nMaximum bodů za přesnost určení lokace: 800\nMaximum bodů za rychlost určení lokace: 200\nAnswer radius:\n-World: 1000 km\n-Capitals, USA, Russia: 800 km.\n-Germany, India, Japan, UK, Spain: 200 km.\n-Mexico: 250 km.\n-China, Brazil: 300 km.\n-Saint-Petersburg: 1 km.</string>
+    <string name="about_solo">Získej co nejvíce bodů. Pro další level potřebuješ 2500 bodů.\nBody se přičítají za přesnost a rychlost.\nMAximum bodů, které můžeš dosáhnout za level: 5000.\nMaximum bodů za přesnost určení lokace: 800\nMaximum bodů za rychlost určení lokace: 200\nAnswer radius:\n—World: 1000 km\n—Capitals, USA, Russia: 800 km.\n—Germany, India, Japan, UK, Spain: 200 km.\n—Mexico: 250 km.\n—China, Brazil: 300 km.\n—Saint-Petersburg: 1 km.</string>
 
     <string name="about_devs_text">Vývojáři</string>
     <string name="about_fatal">"Hardcore mode.\n13 seconds to act, but if Your answer bigger than 100 km - instant game over "</string>

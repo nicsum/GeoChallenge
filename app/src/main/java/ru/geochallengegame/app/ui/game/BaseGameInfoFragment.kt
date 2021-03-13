@@ -2,11 +2,8 @@ package ru.geochallengegame.app.ui.game
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.RelativeLayout
-import android.widget.TextView
-import androidx.core.widget.TextViewCompat
+import android.view.animation.AnimationUtils
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fr_gameinfo.*
@@ -17,7 +14,7 @@ abstract class BaseGameInfoFragment : Fragment() {
 
     protected lateinit var nextCityButton: Button
     protected lateinit var distance: TextView
-    private lateinit var cityNameTv: TextView
+    private lateinit var cityNameTv: TextSwitcher
     private lateinit var taskCounterTv: TextView
     private lateinit var currentLevelTv: TextView
     private lateinit var gameInfoView: RelativeLayout
@@ -34,25 +31,23 @@ abstract class BaseGameInfoFragment : Fragment() {
         distance = view.findViewById(R.id.distanceTv)
         cityNameTv = view.findViewById(R.id.cityNameText)
         taskCounterTv = view.findViewById(R.id.taskCounterText)
-        currentLevelTv = view.findViewById(R.id.currentLevelText)
+        currentLevelTv = view.findViewById(R.id.currentLevelTextVertical)
         gameInfoView = view.findViewById(R.id.gameInfoCard)
         nextCityButton = view.findViewById(R.id.nextCityBtn)
         errorView = view.findViewById(R.id.error_view)
         errorMessage = errorView.findViewById(R.id.error_message)
         updateBtn = errorView.findViewById(R.id.update_btn)
-        zoomBtn = view.findViewById(R.id.zoomBtb)
-        unZoomBtn = view.findViewById(R.id.unZoomBtb)
         loadingView = view.findViewById(R.id.loading_view)
-        TextViewCompat.setAutoSizeTextTypeWithDefaults(
-            cityNameTv,
-            TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM
-        )
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         val vm = getViewModel()
+        val animation = AnimationUtils.loadAnimation(context, R.anim.slide_top_to_bot)
+        cityNameTv.setInAnimation(context, R.anim.slide_left_to_right)
+        cityNameTv.setOutAnimation(context, R.anim.slide_right_to_left)
 
         updateBtn.setOnClickListener { vm.updateTasks() }
         vm.distance.observe(
@@ -63,7 +58,11 @@ abstract class BaseGameInfoFragment : Fragment() {
 
         vm.currentTask.observe(
             viewLifecycleOwner,
-            Observer { cityNameTv.text = if (it == null) "" else "${it.country}, ${it.name}" })
+
+            Observer {
+                val txt = if (it == null) "" else "${it.country}, ${it.name}"
+                cityNameTv.setText(txt)
+            })
 
         vm.maxCountTasksForLevel.observe(
             viewLifecycleOwner,
@@ -77,7 +76,12 @@ abstract class BaseGameInfoFragment : Fragment() {
 
         vm.currentLevel.observe(
             viewLifecycleOwner,
-            Observer { currentLevelTv.text = getString((R.string.level_d_text), it) })
+            Observer {
+                currentLevelTv.text = getString((R.string.level_d_text), it)
+                currentLevelTv.startAnimation(animation)
+            }
+        )
+
 
         vm.isLoadingVisible.observe(
             viewLifecycleOwner,
@@ -85,8 +89,7 @@ abstract class BaseGameInfoFragment : Fragment() {
                 if (it) {
                     loadingView.visibility = View.VISIBLE
                     nextCityButton.visibility = View.GONE
-                }
-                else loadingView.visibility = View.GONE
+                } else loadingView.visibility = View.GONE
             }
         )
 
@@ -96,8 +99,7 @@ abstract class BaseGameInfoFragment : Fragment() {
                 if (it) {
                     errorView.visibility = View.VISIBLE
                     nextCityButton.visibility = View.GONE
-                }
-                else errorView.visibility = View.GONE
+                } else errorView.visibility = View.GONE
             }
         )
         vm.error.observe(

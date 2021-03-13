@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/GeoAuth"
     android:gravity="center">
 
     <ImageView
@@ -32,7 +33,6 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textColor="@color/colorPrimary"
             android:text="@string/or" />
 
         <View
@@ -41,7 +41,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="36dp"
             android:layout_toStartOf="@id/tvText"
-            android:background="@android:color/darker_gray" />
+            android:background="@color/colorBgLight" />
 
         <View
             android:layout_width="match_parent"
@@ -49,7 +49,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="36dp"
             android:layout_toEndOf="@id/tvText"
-            android:background="@android:color/darker_gray" />
+            android:background="@color/colorBgLight" />
 
     </RelativeLayout>
 
@@ -58,11 +58,14 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        app:boxBackgroundColor="#F5F5F5"
+        style="@style/GeoAuthTextInputLayout"
+        app:errorIconDrawable="@null"
+        app:boxStrokeErrorColor="@color/colorAccentLight"
         android:layout_width="match_parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emailInputEditText"
+            style="@style/GeoAuthTextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -77,7 +80,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
-        app:boxBackgroundColor="#F5F5F5"
+        style="@style/GeoAuthTextInputLayout"
         android:id="@+id/passwordInput">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -86,6 +89,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
+            style="@style/GeoAuthTextInputEditText"
             android:hint="@string/password" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -99,23 +103,20 @@
 
         <Button
             android:id="@+id/loginBtn"
-            style="?android:attr/buttonBarButtonStyle"
+            style="@style/GeoButtonsAuth"
             android:layout_width="150dp"
             android:layout_height="45dp"
-            android:background="@color/colorAccent"
+            android:background="@color/colorGreen"
             android:text="@string/login"
-            android:textAllCaps="true"
-            android:textColor="#FFFF" />
+            android:textAllCaps="true" />
 
         <Button
             android:id="@+id/registerBtn"
-            style="?android:attr/buttonBarButtonStyle"
+            style="@style/GeoButtonsAuth"
             android:layout_width="150dp"
             android:layout_height="45dp"
             android:layout_marginStart="10dp"
-            android:background="@color/colorAccent"
-            android:text="@string/register"
-            android:textColor="#FFFF" />
+            android:text="@string/register" />
     </LinearLayout>
 
     <Button
@@ -124,8 +125,7 @@
         android:layout_height="wrap_content"
         android:textAllCaps="false"
         android:id="@+id/forgotPasswordBtn"
-        android:background="@null"
-        android:textColor="#FFFF"
+        style="@style/GeoButtonsAuth"
         android:layout_marginBottom="8dp" />
 
 

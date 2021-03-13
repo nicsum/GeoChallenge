@@ -1,11 +1,12 @@
 package ru.geochallengegame.app.ui.menu.rv
 
 import android.view.View
-import android.widget.*
+import android.widget.ImageButton
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.TextView
 import androidx.core.view.isVisible
-import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import ru.geochallengegame.R
 import ru.geochallengegame.app.AppDelegate
 import ru.geochallengegame.app.game.GameMap
@@ -20,51 +21,23 @@ class GameMapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private lateinit var lang: String
 
     fun bind(modeWithLeaderboard: Boolean, map: GameMap, listener: OnClickMapListener) {
-        try {
-            Picasso.with(itemView.context)
-                .load(map.imageUrl)
-                .placeholder(R.drawable.ic_world)
-                .error(R.drawable.ic_world)
-                .into(itemView.findViewById<ImageView>(R.id.card_bg_image))
-        } catch (e: Exception) {
-        }
+        /* try {
+             Picasso.with(itemView.context)
+                 .load(map.imageUrl)
+                 .placeholder(R.drawable.ic_world)
+                 .error(R.drawable.ic_world)
+                 .into(itemView.findViewById<ImageView>(R.id.card_bg_image))
+         } catch (e: Exception) {
+         }*/
 
-        val leadersViews = listOf<TextView>(
-            itemView.findViewById(R.id.firstPlaceUserTextView),
-            itemView.findViewById(R.id.secondPlaceUserTextView),
-            itemView.findViewById(R.id.thirdPlaceUserTextView)
-        )
-
-        val leaderboardBtn = itemView.findViewById<Button>(R.id.lbButton)
+        val leaderboardBtn = itemView.findViewById<ImageButton>(R.id.lbButton)
 
         if (modeWithLeaderboard) {
-            itemView.findViewById<TextView>(R.id.firstPlace).visibility = View.VISIBLE
-            itemView.findViewById<TextView>(R.id.secondPlace).visibility = View.VISIBLE
-            itemView.findViewById<TextView>(R.id.thirdPlace).visibility = View.VISIBLE
-            leadersViews.forEachIndexed { i, view ->
-                val leader = try {
-                    map.leaders?.get(i)
-                } catch (e: IndexOutOfBoundsException) {
-                    null
-                }
-                if (leader == null) view.text = "..."
-                else view.text = "${leader.username} (${leader.score})"
-
-            }
-
             leaderboardBtn.setOnClickListener {
                 listener.onClickLeaderboard(map, lang)
             }
-
         } else {
-            itemView.findViewById<TextView>(R.id.firstPlace).visibility = View.GONE
-            itemView.findViewById<TextView>(R.id.secondPlace).visibility = View.GONE
-            itemView.findViewById<TextView>(R.id.thirdPlace).visibility = View.GONE
-            leaderboardBtn.visibility = View.GONE
-            leadersViews.forEach {
-                it.text = "..."
-                it.visibility = View.GONE
-            }
+            leaderboardBtn.isVisible = false
         }
 
         this.map = map
@@ -95,10 +68,10 @@ class GameMapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val defaultLang = sm.getDefaultTaskLang()
 
-        TextViewCompat.setAutoSizeTextTypeWithDefaults(
+/*        TextViewCompat.setAutoSizeTextTypeWithDefaults(
             mapTv,
             TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM
-        )
+        )*/
 
         ruRadioButton.isVisible = map.langRu
         enRadioButton.isVisible = map.langEn
