@@ -1,12 +1,10 @@
 package ru.geochallengegame.app.ui.menu.rv
 
 import android.view.View
-import android.widget.ImageButton
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
+import android.widget.*
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import ru.geochallengegame.R
 import ru.geochallengegame.app.AppDelegate
 import ru.geochallengegame.app.game.GameMap
@@ -21,14 +19,14 @@ class GameMapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private lateinit var lang: String
 
     fun bind(modeWithLeaderboard: Boolean, map: GameMap, listener: OnClickMapListener) {
-        /* try {
+        try {
              Picasso.with(itemView.context)
                  .load(map.imageUrl)
                  .placeholder(R.drawable.ic_world)
                  .error(R.drawable.ic_world)
                  .into(itemView.findViewById<ImageView>(R.id.card_bg_image))
          } catch (e: Exception) {
-         }*/
+         }
 
         val leaderboardBtn = itemView.findViewById<ImageButton>(R.id.lbButton)
 

@@ -17,7 +17,6 @@
         android:contentDescription="@string/map_image_desc"
         android:scaleType="centerInside"
         android:src="@drawable/ic_world"
-        android:tint="@color/colorGreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
