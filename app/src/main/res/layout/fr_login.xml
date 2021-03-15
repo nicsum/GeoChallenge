@@ -101,14 +101,14 @@
         android:gravity="center"
         android:orientation="horizontal">
 
+
         <Button
             android:id="@+id/loginBtn"
             style="@style/GeoButtonsAuth"
             android:layout_width="150dp"
             android:layout_height="45dp"
-            android:background="@color/colorGreen"
-            android:text="@string/login"
-            android:textAllCaps="true" />
+            android:layout_marginStart="10dp"
+            android:text="@string/login" />
 
         <Button
             android:id="@+id/registerBtn"
