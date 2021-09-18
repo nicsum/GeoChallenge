@@ -7,7 +7,7 @@
     <string name="answer_exit">Хотите выйти из игры?</string>
     <string name="are_already_registered">Вы уже зарегистрированы?</string>
     <string name="auth_error">Не удалось вас авторизировать. Попробуйте позже</string>
-    <string name="auth_error_connection">Не удается установить соединение. Проверьте наличие Интернета</string>
+    <string name="auth_error_connection">Не удается установить соединение. Проверьте наличие интернета</string>
     <string name="auth_error_too_many_requests">Слишком много запросов. Попробуйте позже</string>
     <string name="cancel">Отмена</string>
     <string name="about_solo">Наберите, как можно больше очков.\nДля перехода на следующий уровень вам потребуется преодолеть определенный порог (2500 очков).\nОчки засчитываются за точность и скорость отгадывания.\nВремя на угадывание: 13 секунд.\nПри максимальной точности угадывания, можно заработать 800 очков.\nПри максимальной скорости угадывания, можно заработать 200 очков.\nРадиус ответа, при котором засчитываются очки:\n—Мир: 1000 км\n—Столицы, США, Россия: 800 км.\n—Германия, Индия, Япония, Великобритания, Испания: 200 км.\n—Мексика: 250 км.\n—Китай, Бразилия: 300 км.\n—Санкт-Петербург: 1 км.
@@ -26,8 +26,8 @@
     <string name="error">Ошибка</string>
     <string name="exit">Выйти</string>
     <string name="game_error_any">Извините, что-то пошло не так.\nПопробуйте обновить или перезайти в игру</string>
-    <string name="game_error_connection">Не удается установить соединение.\nПроверьте наличие Интернета</string>
-    <string name="game_error_finish_game">Не удалось сохранить ваш результат.\nПроверьте Интернет</string>
+    <string name="game_error_connection">Не удается установить соединение.\nПроверьте наличие интернета</string>
+    <string name="game_error_finish_game">Не удалось сохранить ваш результат.\nПроверьте интернет</string>
     <string name="game_error_server">Не удается установить соединение.\nПопробуйте обновить</string>
     <string name="game_is_finished">Игра окончена</string>
     <string name="game_warning_internet_is_not_available">Интернет недоступен.\nПроверьте соединение</string>
@@ -40,7 +40,7 @@
     <string name="level">Уровень:</string>
     <string name="login">Войти</string>
     <string name="logout">Выйти</string>
-    <string name="menu_error">Не удалось загрузить карты.\nПроверьте Интеренет и попробуйте обновить или перезайти в игру</string>
+    <string name="menu_error">Не удалось загрузить карты.\nПроверьте интернет и попробуйте обновить или перезайти в игру</string>
     <string name="mode">Россия</string>
     <string name="multiplayer">Мультиплеер</string>
     <string name="next">Далее</string>
