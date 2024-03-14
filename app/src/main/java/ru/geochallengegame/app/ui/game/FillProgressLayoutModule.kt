@@ -166,7 +166,7 @@ class FillProgressLayout : LinearLayout {
     }
 
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         if (isRounded) {
             drawRoundedProgress(canvas)
         } else {
@@ -200,9 +200,9 @@ class FillProgressLayout : LinearLayout {
         super.onDetachedFromWindow()
     }
 
-    override fun dispatchDraw(canvas: Canvas?) { // child clipping done here
+    override fun dispatchDraw(canvas: Canvas) { // child clipping done here
         if (isRounded)
-            canvas?.clipPath(clipPath)
+            canvas.clipPath(clipPath)
         super.dispatchDraw(canvas)
     }
 
