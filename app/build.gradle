@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 35
 
     compileOptions {
         sourceCompatibility = 1.8
@@ -20,7 +20,7 @@ android {
     defaultConfig {
         applicationId "ru.geochallengegame"
         minSdkVersion 21
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode 7
         versionName "1.30"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -43,6 +43,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'ru.geochallengegame'
 }
 
 dependencies {
